@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="02fbb116275548d3bd34368a5b7e8c3d" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="CHK_InventoryModel.Company" Width="1.5" PointX="0.75" PointY="11.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.CompanyLocation" Width="1.5" PointX="3" PointY="11.25" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.ErrorLog" Width="1.5" PointX="7.75" PointY="5.375" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Item" Width="1.5" PointX="6" PointY="0.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.LoginHistory" Width="1.5" PointX="0.75" PointY="2.375" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Product" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Role" Width="1.5" PointX="3" PointY="17.125" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.StockInItem" Width="1.5" PointX="8.25" PointY="11.5" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.StockInProduct" Width="1.5" PointX="5.25" PointY="17.5" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.StockOut" Width="1.5" PointX="5.25" PointY="5.5" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.User" Width="1.5" PointX="5.25" PointY="11.25" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Vendor" Width="1.5" PointX="6" PointY="23.25" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_CompanyLocation_Company" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_User_Company" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockIn_Location" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockIn_LocationFrom" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Location" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_Location" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_LocationTo" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_User_LocationId" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Item" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockIn_Product" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_Product" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_User_Role" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Vendor" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.C__MigrationHistory" Width="1.5" PointX="10.375" PointY="6.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.AspNetRole" Width="1.5" PointX="10.375" PointY="2.5" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.AspNetUserClaim" Width="1.5" PointX="14.875" PointY="1" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.AspNetUserLogin" Width="1.5" PointX="14.875" PointY="3.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.AspNetUser" Width="1.5" PointX="12.625" PointY="1.375" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
+        <AssociationConnector Association="CHK_InventoryModel.AspNetUserRoles" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

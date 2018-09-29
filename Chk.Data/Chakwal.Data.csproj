@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E4AACEAF-62AC-4E90-868D-80B6EF5389D7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Chakwal.Data</RootNamespace>
+    <AssemblyName>Chakwal.Data</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.Helpers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Chakwal\bin\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Chakwal\bin\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Chakwal\bin\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Chakwal\bin\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\AspNetRole.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUser.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUserClaim.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\AspNetUserLogin.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ChakwalModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChakwalModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ChakwalModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ChakwalModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ChakwalModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Company.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\CompanyLocation.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\C__MigrationHistory.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ErrorLog.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Item.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\LoginHistory.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Product.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Role.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StockInItem.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StockInProduct.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\StockOut.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\User.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Vendor.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\CacheHelper.cs" />
+    <Compile Include="Helpers\CommonHelper.cs" />
+    <Compile Include="Helpers\CSVHelper.cs" />
+    <Compile Include="Helpers\DateTimeExtensions.cs" />
+    <Compile Include="Helpers\DistanceAlgorithm.cs" />
+    <Compile Include="Helpers\EmailHelper.cs" />
+    <Compile Include="Helpers\EnumColleaction.cs" />
+    <Compile Include="Helpers\ExcelHelper.cs" />
+    <Compile Include="Helpers\Extensions.cs" />
+    <Compile Include="Helpers\GeoCodeHelper.cs" />
+    <Compile Include="Helpers\SecurityHelper.cs" />
+    <Compile Include="MemberShip\ChakwalContext.cs" />
+    <Compile Include="MemberShip\FormsAuthenticationService.cs" />
+    <Compile Include="MemberShip\MemberShip.cs" />
+    <Compile Include="MemberShip\PermissionProvider.cs" />
+    <Compile Include="MemberShip\PermissionService.cs" />
+    <Compile Include="MemberShip\Utility.cs" />
+    <Compile Include="MemberShip\ValidateForgeryToken.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="Data\ChakwalModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ChakwalModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="Data\ChakwalModel.edmx.diagram">
+      <DependentUpon>ChakwalModel.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Data\ChakwalModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ChakwalModel.Context.cs</LastGenOutput>
+      <DependentUpon>ChakwalModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Data\ChakwalModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ChakwalModel.edmx</DependentUpon>
+      <LastGenOutput>ChakwalModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
