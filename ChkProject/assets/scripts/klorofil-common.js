@@ -223,3 +223,25 @@ $.fn.clickToggle = function( f1, f2 ) {
 }
 
 
+function logout() {
+    debugger;
+    //var request = { CustomerName: customerName };
+    $.ajax({
+        type: "POST",
+        contentType: "application/json, charset=utf-8",
+        url: baseURL + "Account/LogOff",
+        //data: JSON.stringify(request),
+        success: function (msg) {
+            var data;
+            if (msg.hasOwnProperty("d")) {
+                data = msg.d;
+            } else
+                data = msg;
+            if (data.success) {
+            }
+        },
+        error: function () {
+           
+        }
+    });
+}

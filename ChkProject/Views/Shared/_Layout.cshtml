@@ -1,4 +1,5 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNet.Identity
+<!doctype html>
 <html lang="en">
 <head>
     <title>Dashboard</title>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="~/assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/assets/vendor/linearicons/style.css">
     <link rel="stylesheet" href="~/assets/vendor/chartist/css/chartist-custom.css">
+    <link href="~/Content/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <!-- MAIN CSS -->
     <link rel="stylesheet" href="~/assets/css/main.css">
     <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
@@ -19,6 +21,7 @@
     <!-- ICONS -->
     <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="~/assets/img/favicon.png">
+    
 </head>
 <body>
     <div id="wrapper">
@@ -70,7 +73,19 @@
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+                                
+                                @if (Request.IsAuthenticated)
+                                {
+                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm"}))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <li style="margin-left: 22px;">
+                                            <a style="line-height: 3;" href="javascript:document.getElementById('logoutForm').submit()"><i class="lnr lnr-exit"></i> <span style="margin-left: 5px;">Logout</span></a>
+                                        </li>
+                                    }
+                                }
+                                       
                             </ul>
                         </li>
                         <!-- <li>
@@ -128,8 +143,15 @@
     <script src="~/assets/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="~/assets/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
     <script src="~/assets/vendor/chartist/js/chartist.min.js"></script>
+    <script type="text/javascript">
+        var baseURL = '@Url.Content("~/")';
+    </script>
     <script src="~/assets/scripts/klorofil-common.js"></script>
     @RenderSection("scripts", required: false)
-
+    <script>
+        $(document).ready(function () {
+            
+        });
+    </script>
 </body>
 </html>
