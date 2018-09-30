@@ -18,6 +18,6 @@ namespace Chakwal.Data.Data
         public Nullable<int> UserId { get; set; }
         public Nullable<System.DateTime> LoginTime { get; set; }
         public System.DateTime CreatedDate { get; set; }
-        public int CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
     }
 }
