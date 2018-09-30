@@ -25,22 +25,21 @@ namespace Chakwal.Data.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public DbSet<AspNetRole> AspNetRoles { get; set; }
+        public DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public DbSet<AspNetUser> AspNetUsers { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<CompanyLocation> CompanyLocations { get; set; }
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<LoginHistory> LoginHistories { get; set; }
         public DbSet<Product> Products { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<StockInItem> StockInItems { get; set; }
         public DbSet<StockInProduct> StockInProducts { get; set; }
         public DbSet<StockOut> StockOuts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
-        public DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public DbSet<AspNetRole> AspNetRoles { get; set; }
-        public DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public DbSet<AspNetUser> AspNetUsers { get; set; }
     }
 }

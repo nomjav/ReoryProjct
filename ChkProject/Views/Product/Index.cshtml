@@ -1,4 +1,5 @@
-﻿
+﻿@using ChkProject.Models
+@model ProductModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -21,31 +22,31 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="email">Product Name:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="email" placeholder="Enter Product Name" name="email">
+                                    <input type="text" class="form-control" id="@Model.ProductName" placeholder="Enter Product Name" name="@Model.ProductName">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="pwd">Unit Price:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="pwd" placeholder="Enter Price" name="pwd">
+                                    <input type="number" class="form-control" id="@Model.UnitPrice" placeholder="Enter Price" name="@Model.UnitPrice">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="pwd">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="pwd" placeholder="Enter password" name="pwd">
+                                    <input type="number" class="form-control" id="@Model.CurrentQuantity" placeholder="Enter password" name="@Model.CurrentQuantity">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="pwd">Description:</label>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write Product Description here..."></textarea>
+                                    <textarea class="form-control z-depth-1" id="@Model.Description" rows="3" placeholder="Write Product Description here..." name="@Model.Description"></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <div class="checkbox">
-                                        <label><input type="checkbox" name="remember"> Active</label>
+                                        <label><input type="checkbox" name="@Model.IsActive" id="@Model.IsActive"> Active</label>
                                     </div>
                                 </div>
                             </div>

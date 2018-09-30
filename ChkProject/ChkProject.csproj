@@ -178,8 +178,18 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\CompanyLocationModel.cs" />
+    <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProductModel.cs" />
+    <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\StockInItemModel.cs" />
+    <Compile Include="Models\StockInProductModel.cs" />
+    <Compile Include="Models\StockOutModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\VendorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>

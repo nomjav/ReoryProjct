@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ChkProject.Models;
 
 namespace ChkProject.Controllers
 {
@@ -11,7 +12,8 @@ namespace ChkProject.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            return View();
+            ProductModel _ProductModel = new ProductModel();
+            return View(_ProductModel);
         }
     }
 }

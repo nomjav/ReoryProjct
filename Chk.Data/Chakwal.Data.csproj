@@ -117,9 +117,6 @@
     <Compile Include="Data\Product.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Data\Role.cs">
-      <DependentUpon>ChakwalModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\StockInItem.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
