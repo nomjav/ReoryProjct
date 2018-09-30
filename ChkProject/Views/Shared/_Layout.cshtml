@@ -72,7 +72,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
                                 <li><a href="#"><i class="lnr lnr-envelope"></i> <span>Message</span></a></li>
-                                <li><a href="#"><i class="lnr lnr-cog"></i> <span>Settings</span></a></li>
+                                <li><a href="/Account/Register"><i class="lnr lnr-cog"></i> <span>Register</span></a></li>
                                 
                                 @if (Request.IsAuthenticated)
                                 {
@@ -101,12 +101,14 @@
             <div class="sidebar-scroll">
                 <nav>
                     <ul class="nav">
-                        <li><a id="dashboard" href="~/Home/Index" class=""><i class="lnr lnr-home"></i> <span>Dashboard</span></a></li>
-                        <li><a id="product" href="~/Product/Index" class=""><i class="lnr lnr-cart"></i> <span>Products</span></a></li>
+                        <li><a id="dashboard" href="~/Home/Index" class=""><i class="glyphicon glyphicon-home"></i> <span>Dashboard</span></a></li>
+                        <li><a id="product" href="~/Product/Index" class=""><i class="glyphicon glyphicon-shopping-cart"></i> <span>Products</span></a></li>
                         <li><a id="stockIn" href="~/StockIn/Index" class=""><i class="lnr lnr-indent-increase"></i> <span>Stock In</span></a></li>
                         <li><a id="stockOut" href="~/StockOut/Index" class=""><i class="lnr lnr-indent-decrease"></i> <span>Stock Out</span></a></li>
-                        <li><a id="material" href="~/Material/Index" class=""><i class="lnr lnr-indent-decrease"></i> <span>Materials</span></a></li>
-                        <li><a id="report" href="~/Report/Index" class=""><i class="lnr lnr-indent-decrease"></i> <span>Reports</span></a></li>
+                        <li><a id="material" href="~/Material/Index" class=""><i class="glyphicon glyphicon-oil"></i> <span>Materials</span></a></li>
+                        <li><a id="report" href="~/Report/Index" class=""><i class="glyphicon glyphicon-copy"></i> <span>Reports</span></a></li>
+                        <li><a id="user" href="~/User/Index" class=""><i class="glyphicon glyphicon-user"></i> <span>Users</span></a></li>
+                        <li><a id="company" href="~/Company/Index" class=""><i class="glyphicon glyphicon-briefcase"></i> <span>Company</span></a></li>
                         @*<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>*@
                         @*<li>
                             <a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>
@@ -131,7 +133,7 @@
             <div class="clearfix"></div>
             <footer>
                 <div class="container-fluid">
-                    <p class="copyright">&copy; 2017 <a href="https://www.themeineed.com" target="_blank">Theme I Need</a>. All Rights Reserved.</p>
+                    <p class="copyright">&copy; 2018 <a href="">ENM</a>. All Rights Reserved.</p>
                 </div>
             </footer>
         </div>

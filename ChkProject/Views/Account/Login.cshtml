@@ -39,7 +39,7 @@
                                 <p class="lead">Login to your account</p>
                             </div>
                             @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
-            {
+                            {
                                 <div id="loginContainer" class="loginPage">
                                     <div class="well" style="background-color: rgba(255, 255, 255, 0.7); margin: 0px;">
                                         @Html.AntiForgeryToken()
