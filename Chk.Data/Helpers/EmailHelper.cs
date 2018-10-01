@@ -20,49 +20,6 @@ namespace Chakwal.Data.Helpers.EmailHelper
     public class EmailHelper
     {
 
-        public string sendForgottenEmailToUser(string email, string id = "")
-        {
-            UnitOfWork _unitOfWork = new UnitOfWork();
-            try
-            {
-                var user = new User();
-                if (!String.IsNullOrEmpty(id))
-                {
-                    var usrId = Convert.ToInt32(id);
-                    user = _unitOfWork.UserRepository.GetSingle(x => x.UserId == usrId && x.Email.Equals(email));
-                }
-                else
-                {
-                    user = _unitOfWork.UserRepository.GetSingle(x => x.Email.Equals(email));
-                }
-
-                if (user == null)
-                {
-                    return "1";
-                }
-
-                var password = user.Password;
-                if (SecurityHelper.IsEncrypted(password))
-                {
-                    password = SecurityHelper.Decrypt(password);
-                }
-
-
-                string emailBody = "Dear " + user.FirstName + " " + user.LastName + ",<br /> Your password is: " + password + "<br />";
-                const string subject = "ALS Password Reminder";
-                if (!String.IsNullOrEmpty(email))
-                {
-                    //Utility.SendEmail(subject, emailBody, new MailAddress(email), null);
-                }
-                //LogEmails(null, null, null, subject, emailBody, email, null);
-                return "2";
-            }
-            catch (Exception exception)
-            {
-                //Logger.Logger.LogException(exception.Message, exception);
-                return exception.Message;
-            }
-        }
 
         public string GetTimeAMPM(string time)
         {

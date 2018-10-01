@@ -18,27 +18,27 @@ namespace AcademyLockSmith.Data.MemberShip
     {
         //private static readonly UnitOfWork unitOfWork = new UnitOfWork();
 
-        public static bool UserNameAvailable(string userName)
-        {
-            UnitOfWork unitOfWork = new UnitOfWork();
-            List<User> users = unitOfWork.UserRepository.Get(x => x.UserName.Equals(userName));
-            if (!users.Any())
-            {
-                return true;
-            }
-            return false;
-        }
+        //public static bool UserNameAvailable(string userName)
+        //{
+        //    UnitOfWork unitOfWork = new UnitOfWork();
+        //    List<User> users = unitOfWork.UserRepository.Get(x => x.UserName.Equals(userName));
+        //    if (!users.Any())
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public static bool EmailAvailable(string userEmail)
-        {
-            UnitOfWork unitOfWork = new UnitOfWork();
-            List<User> users = unitOfWork.UserRepository.Get(x => x.Email.Equals(userEmail));
-            if (!users.Any())
-            {
-                return true;
-            }
-            return false;
-        }
+        //public static bool EmailAvailable(string userEmail)
+        //{
+        //    UnitOfWork unitOfWork = new UnitOfWork();
+        //    List<User> users = unitOfWork.UserRepository.Get(x => x.Email.Equals(userEmail));
+        //    if (!users.Any())
+        //    {
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
         //public async Task SendEmailAsync(string subject, string message, MailAddress toAddress, string filePath, bool isLateLetter = false, bool isCustomerUpdate = false, List<string> ccList = null, List<string> bccList = null)
         //{
@@ -213,7 +213,7 @@ namespace AcademyLockSmith.Data.MemberShip
         //                        attach = new Attachment(HttpContext.Current.Server.MapPath(filePath));
         //                    else
         //                        attach = new Attachment(HostingEnvironment.MapPath(filePath));
-                            
+
         //                    message1.Attachments.Add(attach);
         //                }
         //                var smtpClient = new SmtpClient();

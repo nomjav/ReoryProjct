@@ -6,8 +6,6 @@
 }
 
 
-
-
 <div class="main">
     <!-- MAIN CONTENT -->
     <div class="main-content">
@@ -18,52 +16,100 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form class="form-horizontal" action="/action_page.php">
+                        @using (Html.BeginForm("AddProduct", "Product", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                        {
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="email">Product Name:</label>
+                                <label class="control-label col-sm-2" for="ProductName" id="ProductName">Product Name:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="@Model.ProductName" placeholder="Enter Product Name" name="@Model.ProductName">
+                                    <input type="text" class="form-control" id="ProductName" placeholder="Enter Product Name" name="ProductName">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Unit Price:</label>
+                                <label class="control-label col-sm-2" for="UnitPrice" id="UnitPrice">Unit Price:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="@Model.UnitPrice" placeholder="Enter Price" name="@Model.UnitPrice">
+                                    <input type="number" class="form-control" id="UnitPrice" placeholder="Enter Price" name="UnitPrice">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Quantity:</label>
+                                <label class="control-label col-sm-2" for="CurrentQuantity" id="Quantity">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="@Model.CurrentQuantity" placeholder="Enter password" name="@Model.CurrentQuantity">
+                                    <input type="number" class="form-control" id="CurrentQuantity" placeholder="Enter password" name="CurrentQuantity">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Description:</label>
+                                <label class="control-label col-sm-2" for="Description">Description:</label>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control z-depth-1" id="@Model.Description" rows="3" placeholder="Write Product Description here..." name="@Model.Description"></textarea>
+                                    <textarea class="form-control z-depth-1" id="Description" rows="3" name="Description" placeholder="Write Product Description here..."></textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <div class="checkbox">
-                                        <label><input type="checkbox" name="@Model.IsActive" id="@Model.IsActive"> Active</label>
+                                        <label><input type="checkbox" name="IsActive" id="IsActive"> Active</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
-                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="submit" class="btn btn-default">Add Product</button>
                                 </div>
                             </div>
-                        </form>
+                        }
                     </div>
                 </div>
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Products</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table id="productTable">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.productList!=null && Model.productList.Count>0)
+                                {
+                                    foreach (var item in Model.productList)
+                                    {
+                                        <tr>
+                                            <td id="Productname_"@item.ProductId>@item.ProductName</td>
+                                            <td id="quantity_"@item.ProductId>@item.CurrentQuantity</td>
+                                            <td id="Price_"@item.ProductId>@item.UnitPrice</td>
+                                            <td id="Description_"@item.ProductId>@item.Description</td>
+                                            <td><button id="edit_"@item.ProductId>Edit</button></td>
+                                            <td><button id="delete_" @item.ProductId>Delete</button></td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
     <!-- END MAIN CONTENT -->
 </div>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#productTable').DataTable();
+        });
+
+    </script>
+}
 
 
 

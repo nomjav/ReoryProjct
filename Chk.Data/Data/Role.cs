@@ -12,16 +12,15 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Role
     {
-        public int UserId { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string UserName { get; set; }
-        public string Password { get; set; }
-        public int CompanyId { get; set; }
+        public Role()
+        {
+            this.Users = new HashSet<User>();
+        }
+    
         public int RoleId { get; set; }
-        public int LocationId { get; set; }
+        public string RoleType { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -30,10 +29,7 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
-        public string Email { get; set; }
     
-        public virtual Company Company { get; set; }
-        public virtual CompanyLocation CompanyLocation { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

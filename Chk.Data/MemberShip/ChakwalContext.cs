@@ -5,7 +5,7 @@ using System.Web;
 using Chakwal.Data.Data;
 using Chakwal.Data.Repository;
 
-namespace AcademyLockSmith.Data.MemberShip
+namespace Chakwal.Data.MemberShip
 {
     public class ChakwalContext
     {
@@ -20,8 +20,8 @@ namespace AcademyLockSmith.Data.MemberShip
                 {
                     UnitOfWork unitOfWork = new UnitOfWork();
 
-                    User user = unitOfWork.UserRepository.GetSingle(t => t.UserName == HttpContext.Current.User.Identity.Name && t.IsActive);
-                    if (user != null && user.UserId > 0)
+                    var user = unitOfWork.UserRepository.GetSingle(t => t.UserName == HttpContext.Current.User.Identity.Name);
+                    if (user != null && user.Id != null)
                     {
                         User = user;
                     }
@@ -107,7 +107,7 @@ namespace AcademyLockSmith.Data.MemberShip
             }
         }
 
-        public User User { get; set; }
+        public AspNetUser User { get; set; }
 
 
         /// <summary>

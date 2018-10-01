@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 namespace Chakwal.Data.Repository
 {
 
-     public class UnitOfWork : IDisposable
-     {
+    public class UnitOfWork : IDisposable
+    {
 
         private CHK_InventoryEntities context = new CHK_InventoryEntities();
 
-        private GenericRepository<User> _UserRepository;
+        private GenericRepository<AspNetUser> _UserRepository;
         private GenericRepository<Product> _ProductRepository;
-        public GenericRepository<User> UserRepository
+        public GenericRepository<AspNetUser> UserRepository
         {
             get
             {
                 if (this._UserRepository == null)
                 {
-                    this._UserRepository = new GenericRepository<User>(context);
+                    this._UserRepository = new GenericRepository<AspNetUser>(context);
                 }
                 return _UserRepository;
             }
@@ -63,5 +63,5 @@ namespace Chakwal.Data.Repository
         }
     }
 
-    
+
 }

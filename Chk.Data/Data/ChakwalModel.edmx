@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="CHK_InventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CHK_InventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -590,6 +590,18 @@
           <EntitySet Name="AspNetUserClaims" EntityType="CHK_InventoryModel.AspNetUserClaim" />
           <EntitySet Name="AspNetUserLogins" EntityType="CHK_InventoryModel.AspNetUserLogin" />
           <EntitySet Name="AspNetUsers" EntityType="CHK_InventoryModel.AspNetUser" />
+          <EntitySet Name="Companies" EntityType="CHK_InventoryModel.Company" />
+          <EntitySet Name="CompanyLocations" EntityType="CHK_InventoryModel.CompanyLocation" />
+          <EntitySet Name="ErrorLogs" EntityType="CHK_InventoryModel.ErrorLog" />
+          <EntitySet Name="Items" EntityType="CHK_InventoryModel.Item" />
+          <EntitySet Name="LoginHistories" EntityType="CHK_InventoryModel.LoginHistory" />
+          <EntitySet Name="Products" EntityType="CHK_InventoryModel.Product" />
+          <EntitySet Name="Roles" EntityType="CHK_InventoryModel.Role" />
+          <EntitySet Name="StockInItems" EntityType="CHK_InventoryModel.StockInItem" />
+          <EntitySet Name="StockInProducts" EntityType="CHK_InventoryModel.StockInProduct" />
+          <EntitySet Name="StockOuts" EntityType="CHK_InventoryModel.StockOut" />
+          <EntitySet Name="Users" EntityType="CHK_InventoryModel.User" />
+          <EntitySet Name="Vendors" EntityType="CHK_InventoryModel.Vendor" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="CHK_InventoryModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
@@ -598,21 +610,6 @@
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
             <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="CHK_InventoryModel.AspNetUserRoles">
-            <End Role="AspNetRole" EntitySet="AspNetRoles" />
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <EntitySet Name="Companies" EntityType="CHK_InventoryModel.Company" />
-          <EntitySet Name="CompanyLocations" EntityType="CHK_InventoryModel.CompanyLocation" />
-          <EntitySet Name="ErrorLogs" EntityType="CHK_InventoryModel.ErrorLog" />
-          <EntitySet Name="Items" EntityType="CHK_InventoryModel.Item" />
-          <EntitySet Name="LoginHistories" EntityType="CHK_InventoryModel.LoginHistory" />
-          <EntitySet Name="Products" EntityType="CHK_InventoryModel.Product" />
-          <EntitySet Name="StockInItems" EntityType="CHK_InventoryModel.StockInItem" />
-          <EntitySet Name="StockInProducts" EntityType="CHK_InventoryModel.StockInProduct" />
-          <EntitySet Name="StockOuts" EntityType="CHK_InventoryModel.StockOut" />
-          <EntitySet Name="Users" EntityType="CHK_InventoryModel.User" />
-          <EntitySet Name="Vendors" EntityType="CHK_InventoryModel.Vendor" />
           <AssociationSet Name="FK_CompanyLocation_Company" Association="CHK_InventoryModel.FK_CompanyLocation_Company">
             <End Role="Company" EntitySet="Companies" />
             <End Role="CompanyLocation" EntitySet="CompanyLocations" />
@@ -657,9 +654,17 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="StockOut" EntitySet="StockOuts" />
           </AssociationSet>
+          <AssociationSet Name="FK_User_Role" Association="CHK_InventoryModel.FK_User_Role">
+            <End Role="Role" EntitySet="Roles" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
           <AssociationSet Name="FK_StockInItem_Vendor" Association="CHK_InventoryModel.FK_StockInItem_Vendor">
             <End Role="Vendor" EntitySet="Vendors" />
             <End Role="StockInItem" EntitySet="StockInItems" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserRoles" Association="CHK_InventoryModel.AspNetUserRoles">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
@@ -721,38 +726,6 @@
           <NavigationProperty Name="AspNetUserLogins" Relationship="CHK_InventoryModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
           <NavigationProperty Name="AspNetRoles" Relationship="CHK_InventoryModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
         </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="CHK_InventoryModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaim">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="CHK_InventoryModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUser">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogin">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="CHK_InventoryModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
-          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
-        </Association>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -865,6 +838,22 @@
           <NavigationProperty Name="StockInProducts" Relationship="CHK_InventoryModel.FK_StockIn_Product" FromRole="Product" ToRole="StockInProduct" />
           <NavigationProperty Name="StockOuts" Relationship="CHK_InventoryModel.FK_StockOut_Product" FromRole="Product" ToRole="StockOut" />
         </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Users" Relationship="CHK_InventoryModel.FK_User_Role" FromRole="Role" ToRole="User" />
+        </EntityType>
         <EntityType Name="StockInItem">
           <Key>
             <PropertyRef Name="StockInItemId" />
@@ -957,6 +946,7 @@
           <Property Name="Email" Type="String" MaxLength="300" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Company" Relationship="CHK_InventoryModel.FK_User_Company" FromRole="User" ToRole="Company" />
           <NavigationProperty Name="CompanyLocation" Relationship="CHK_InventoryModel.FK_User_LocationId" FromRole="User" ToRole="CompanyLocation" />
+          <NavigationProperty Name="Role" Relationship="CHK_InventoryModel.FK_User_Role" FromRole="User" ToRole="Role" />
         </EntityType>
         <EntityType Name="Vendor">
           <Key>
@@ -976,6 +966,34 @@
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="StockInItems" Relationship="CHK_InventoryModel.FK_StockInItem_Vendor" FromRole="Vendor" ToRole="StockInItem" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CHK_InventoryModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaim">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="CHK_InventoryModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogin">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CompanyLocation_Company">
           <End Type="CHK_InventoryModel.Company" Role="Company" Multiplicity="1" />
           <End Type="CHK_InventoryModel.CompanyLocation" Role="CompanyLocation" Multiplicity="*" />
@@ -1108,6 +1126,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_User_Role">
+          <End Type="CHK_InventoryModel.Role" Role="Role" Multiplicity="1" />
+          <End Type="CHK_InventoryModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StockInItem_Vendor">
           <End Type="CHK_InventoryModel.Vendor" Role="Vendor" Multiplicity="0..1" />
           <End Type="CHK_InventoryModel.StockInItem" Role="StockInItem" Multiplicity="*" />
@@ -1120,7 +1150,11 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="AspNetUserRoles">
+          <End Type="CHK_InventoryModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+          <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -1181,14 +1215,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="CHK_InventoryModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUser">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRole">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="Companies">
             <EntityTypeMapping TypeName="CHK_InventoryModel.Company">
               <MappingFragment StoreEntitySet="Company">
@@ -1292,6 +1318,22 @@
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
                 <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="CHK_InventoryModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1399,6 +1441,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="CHK_InventoryModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetUser">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+            <EndProperty Name="AspNetRole">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -1415,7 +1465,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>
