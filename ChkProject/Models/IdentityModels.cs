@@ -21,7 +21,7 @@ namespace ChkProject.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("data source=.\\sqlexpress;initial catalog=CHK_Inventory;user id=sa;password=sa;", throwIfV1Schema: false)
+            : base("data source=.\\NomanPC;initial catalog=CHK_Inventory;user id=sa;password=sa;", throwIfV1Schema: false)
         {
         }
 
