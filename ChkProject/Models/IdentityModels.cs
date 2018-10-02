@@ -22,7 +22,6 @@ namespace ChkProject.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-       // string connStr = ConfigurationManager.ConnectionStrings["CHK_InventoryEntities"].ConnectionString;
         public ApplicationDbContext()
             : base(ConfigurationManager.ConnectionStrings["CHK_Inventory"].ConnectionString, throwIfV1Schema: false)
         {

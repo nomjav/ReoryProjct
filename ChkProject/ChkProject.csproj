@@ -271,6 +271,7 @@
     <Content Include="assets\vendor\linearicons\fonts\Linearicons-Free.ttf" />
     <Content Include="assets\vendor\linearicons\fonts\Linearicons-Free.woff" />
     <Content Include="assets\vendor\linearicons\fonts\Linearicons-Free.woff2" />
+    <None Include="Properties\PublishProfiles\Published.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
