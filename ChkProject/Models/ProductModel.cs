@@ -10,7 +10,6 @@ namespace ChkProject.Models
       public ProductModel()
         {
             productList = new List<ProductModel>();
-
         }
         public int ProductId { get; set; }
         public string ProductName { get; set; }
@@ -25,6 +24,7 @@ namespace ChkProject.Models
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public DateTime DeletedDate { get; set; }
+        public bool Update { get; set; }
         public List<ProductModel> productList { get; set; }
     }
 }

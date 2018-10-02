@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
+using System.Configuration;
+
 
 namespace ChkProject.Models
 {
@@ -20,8 +22,9 @@ namespace ChkProject.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+       // string connStr = ConfigurationManager.ConnectionStrings["CHK_InventoryEntities"].ConnectionString;
         public ApplicationDbContext()
-            : base("data source=.\\sqlexpress;initial catalog=CHK_Inventory;user id=sa;password=sa;", throwIfV1Schema: false)
+            : base(ConfigurationManager.ConnectionStrings["CHK_Inventory"].ConnectionString, throwIfV1Schema: false)
         {
         }
 

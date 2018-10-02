@@ -18,7 +18,7 @@ namespace ChkProject.Controllers
         // GET: Product
         public ActionResult Index()
         {
-            var products = _unitOfWork.ProductRepository.Get();
+            var products = _unitOfWork.ProductRepository.context.Products.Where(x => x.IsDeleted == false).ToList();
             ProductModel pm = new ProductModel();
             foreach (var item in products)
             {
@@ -40,24 +40,54 @@ namespace ChkProject.Controllers
         [HttpPost]
         public ActionResult AddProduct(ProductModel model)
         {
-            Product p = new Product();
-            p.ProductName = model.ProductName;
-            p.UnitPrice = model.UnitPrice;
-            p.CurrentQuantity = model.CurrentQuantity;
-            p.Description = model.Description;
-            p.CreatedDate = DateTime.Now;
-            var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
-            if (user != null)
+            if (model.Update == true)
             {
-                p.CreatedBy = user.Id;
+
+                var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == model.ProductId);
+                Product _product = new Product();
+                _product.ProductId = pro.ProductId;
+                _product.ProductName = model.ProductName;
+                _product.UnitPrice = model.UnitPrice;
+                _product.CurrentQuantity = model.CurrentQuantity;
+                _product.Description = model.Description;
+                _product.ModifiedDate = DateTime.Now;
+                _product.CreatedBy = pro.CreatedBy;
+                _product.CreatedDate = pro.CreatedDate;
+
+                var _user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                if (_user != null)
+                {
+                    _product.ModifiedBy = _user.Id;
+                }
+
+                if (model.IsDeleted == true)
+                {
+                    _product.DeletedBy = _user.Id;
+                    _product.DeletedDate = DateTime.Now;
+                 
+                }
+                _unitOfWork.ProductRepository.Update(_product);
+                _unitOfWork.Save();
+
             }
+            else {
+                Product p = new Product();
+                p.ProductName = model.ProductName;
+                p.UnitPrice = model.UnitPrice;
+                p.CurrentQuantity = model.CurrentQuantity;
+                p.Description = model.Description;
+                p.CreatedDate = DateTime.Now;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    p.CreatedBy = user.Id;
+                }
+                _unitOfWork.ProductRepository.Insert(p);
+                _unitOfWork.Save();
+            }
+           
 
-            p.IsActive = model.IsActive;
-            //p.IsActive = model.IsActive;
-            _unitOfWork.ProductRepository.Insert(p);
-            _unitOfWork.Save();
-
-            var products = _unitOfWork.ProductRepository.Get();
+            var products = _unitOfWork.ProductRepository.context.Products.Where(x=>x.IsDeleted==false).ToList();
 
             ProductModel pm = new ProductModel();
             foreach (var item in products)
