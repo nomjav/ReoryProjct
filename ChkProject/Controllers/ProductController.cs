@@ -37,40 +37,57 @@ namespace ChkProject.Controllers
             return View(pm);
         }
 
-        [HttpPost]
-        public ActionResult AddProduct(ProductModel model)
+
+        
+             [HttpPost]
+        public JsonResult CheckDuplication(string fieldvalue)
         {
-            if (model.Update == true)
-            {
-
+            var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductName == fieldvalue);
+            return Json(pro, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateProduct(ProductModel model)
+        {
+            try {
                 var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == model.ProductId);
-                Product _product = new Product();
-                _product.ProductId = pro.ProductId;
-                _product.ProductName = model.ProductName;
-                _product.UnitPrice = model.UnitPrice;
-                _product.CurrentQuantity = model.CurrentQuantity;
-                _product.Description = model.Description;
-                _product.ModifiedDate = DateTime.Now;
-                _product.CreatedBy = pro.CreatedBy;
-                _product.CreatedDate = pro.CreatedDate;
-
                 var _user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                 if (_user != null)
                 {
-                    _product.ModifiedBy = _user.Id;
+                    pro.ModifiedBy = _user.Id;
                 }
 
                 if (model.IsDeleted == true)
                 {
-                    _product.DeletedBy = _user.Id;
-                    _product.DeletedDate = DateTime.Now;
-                 
-                }
-                _unitOfWork.ProductRepository.Update(_product);
-                _unitOfWork.Save();
+                    pro.IsDeleted = true;
+                    pro.DeletedBy = _user.Id;
+                    pro.DeletedDate = DateTime.Now;
 
+                }
+                else
+                {
+                    pro.ProductName = model.ProductName;
+                    pro.UnitPrice = model.UnitPrice;
+                    pro.CurrentQuantity = model.CurrentQuantity;
+                    pro.Description = model.Description;
+                    pro.ModifiedDate = DateTime.Now;
+                }
+              
+                
+                _unitOfWork.ProductRepository.Update(pro);
+                _unitOfWork.Save();
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
-            else {
+            catch {
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+           
+        }
+
+        [HttpPost]
+        public ActionResult AddProduct(ProductModel model)
+
+        {
+
                 Product p = new Product();
                 p.ProductName = model.ProductName;
                 p.UnitPrice = model.UnitPrice;
@@ -84,28 +101,7 @@ namespace ChkProject.Controllers
                 }
                 _unitOfWork.ProductRepository.Insert(p);
                 _unitOfWork.Save();
-            }
-           
-
-            var products = _unitOfWork.ProductRepository.context.Products.Where(x=>x.IsDeleted==false).ToList();
-
-            ProductModel pm = new ProductModel();
-            foreach (var item in products)
-            {
-                ProductModel product = new ProductModel();
-                product.ProductId = item.ProductId;
-                product.ProductName = item.ProductName;
-                product.UnitPrice = item.UnitPrice;
-                product.CurrentQuantity = item.CurrentQuantity;
-                product.Description = item.Description;
-                product.CreatedDate = item.CreatedDate;
-                product.CreatedBy = item.CreatedBy;
-               
-                pm.productList.Add(product);
-            }
-
-
-            return View("Index", pm);
+          return   RedirectToAction("Index");
         }
     }
 }

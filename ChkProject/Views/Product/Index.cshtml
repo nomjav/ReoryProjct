@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="ProductName" id="lbl_ProductName">Product Name:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="ProductName" placeholder="Enter Product Name" name="ProductName">
+                                    <input type="text" class="form-control" id="ProductName" placeholder="Enter Product Name" name="ProductName" onblur="checkunique('ProductName');">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -37,7 +37,7 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="CurrentQuantity" id="lbl_Quantity">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="CurrentQuantity" placeholder="Enter password" name="CurrentQuantity">
+                                    <input type="number" class="form-control" id="CurrentQuantity" value="0" name="CurrentQuantity" readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -55,7 +55,8 @@
                             </div>*@
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
-                                    <button type="submit" class="btn btn-default" id="btn_AddUpdate">Add Product</button>
+                                    <button type="submit" class="btn btn-default" id="btn_Add">Add Product</button>
+                                    <button type="button"class="btn btn-default" id="btn_Update" style="display:none;" onclick="UpdateProduct()">Update Product</button>
                                 </div>
                             </div>
                         }
@@ -117,31 +118,81 @@
 
         function EditProduct(id)
         {
-           debugger;
-           $("#ProductName").val($("#Productname_"+id).text()); 
+          
+           $("#ProductName").val($("#Productname_"+id).text());
            $("#UnitPrice").val( $("#quantity_"+id).text());
-           $("#CurrentQuantity").val($("#Price_" + id).text()); 
-           $("#Description").val($("#Description_" + id).text()); 
+           $("#CurrentQuantity").val($("#Price_" + id).text());
+           $("#Description").val($("#Description_" + id).text());
             // $("#Description").val(); $("#Status_" + id).val();
-           $("#btn_AddUpdate").text("Update Product");
-           $("#hdnupdate").val(true);
+           $("#btn_Add").hide();
+           $("#btn_Update").show();
+         //  $("#hdnupdate").val(true);
            $("#hdnproductid").val(id);
 
-        
+
         }
-        function DeleteProduct()
+
+        function UpdateProduct(check)
         {
-            $("#hdnupdate").val(true);
+            debugger;
+            var product = new Object();
+            product.ProductId = $("#hdnproductid").val();
+            product.ProductName = $("#ProductName").val();
+            product.UnitPrice = $("#UnitPrice").val();
+            product.CurrentQuantity = $("#CurrentQuantity").val();
+            product.Description = $("#Description").val();
+            if (check == "Delete")
+            {
+                product.IsDeleted = true;
+            }
+
+            $.ajax({
+                url: "@Url.Action("UpdateProduct", "Product")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ model: product }),
+            success: function (data) {
+                if (data)
+                {
+                    alert("Data Update Successfully!");
+                }
+            }
+        });
+            
+            
+
+        }
+        function DeleteProduct(id)
+        {
+            debugger;
             $("#hdnproductid").val(id);
-            $("#hdnisdeleted").val(true);
-            $("#btn_AddUpdate").click();
+            UpdateProduct("Delete");
+          
 
 
         }
 
 
-        function checkunique()
+        function checkunique(id)
         {
+            debugger;
+      
+            var fieldvalue = $("#"+id).val();
+
+            $.ajax({
+                url: "@Url.Action("CheckDuplication", "Product")",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ fieldname: fieldname, fieldvalue: fieldvalue }),
+                success: function (data) {
+                    if (data)
+                    {
+                        $("#" + id).val('');
+                    }
+                }
+            });
 
         }
 
