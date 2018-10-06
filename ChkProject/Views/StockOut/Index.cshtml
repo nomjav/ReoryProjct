@@ -185,7 +185,8 @@
                 $("#ddl_company").val($("#LocationId_" + id).text());
                 $("#Quantity").val($("#quantity_" + id).text());
                 $("#Description").val($("#Description_" + id).text());
-                $("#date_out").val($("#date_" + id).text());
+                //$("#date_out").val($("#date_" + id).text());
+                $('#date_out').data("DateTimePicker").date(new Date($("#date_" + id).text()));
                 $("#btn_Add").hide();
                 $("#btn_Update").show();
                 //  $("#hdnupdate").val(true);

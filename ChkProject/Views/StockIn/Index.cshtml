@@ -208,12 +208,13 @@
 
 
             function EditStockIn(id) {
-
+                debugger;
                 $("#ddlproduct").val($("#ProductId_" + id).text());
                 $("#ddl_company").val($("#LocationId_" + id).text());
                 $("#Quantity").val($("#quantity_" + id).text());
                 $("#Description").val($("#Description_" + id).text());
-                $("#date_in").val($("#date_" + id).text());
+                //$("#date_in").text($("#date_" + id).text());
+                $('#date_in').data("DateTimePicker").date(new Date($("#date_" + id).text()));
                 $("#btn_Add").hide();
                 $("#btn_Update").show();
                 //  $("#hdnupdate").val(true);
