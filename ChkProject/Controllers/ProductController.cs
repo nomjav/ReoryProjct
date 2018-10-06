@@ -46,6 +46,27 @@ namespace ChkProject.Controllers
             return Json(pro, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
+        public JsonResult RefreshProductGrid()
+        {
+            var products = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
+            ProductModel pm = new ProductModel();
+            foreach (var item in products)
+            {
+                ProductModel product = new ProductModel();
+                product.ProductId = item.ProductId;
+                product.ProductName = item.ProductName;
+                product.UnitPrice = item.UnitPrice;
+                product.CurrentQuantity = item.CurrentQuantity;
+                product.Description = item.Description;
+                product.CreatedBy = item.CreatedBy;
+                product.CreatedDate = item.CreatedDate;
+
+
+                pm.productList.Add(product);
+            }
+            return Json(pm, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
         public JsonResult UpdateProduct(ProductModel model)
         {
             try {

@@ -7,6 +7,13 @@ namespace ChkProject.Models
 {
     public class StockOutModel
     {
+
+        public StockOutModel()
+        {
+            StockOutList = new List<StockOutModel>();
+            DDLProduct = new List<DDLProducts>();
+            DDLCompanyLocation = new List<DDLCompanyLocation>();
+        }
         public long StockOutId { get; set; }
         public int ProductId { get; set; }
         public System.DateTime DateOut { get; set; }
@@ -22,5 +29,13 @@ namespace ChkProject.Models
         public Nullable<int> ModifiedBy { get; set; }
         public Nullable<int> DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+        public List<DDLProducts> DDLProduct { get; set; }
+        public List<DDLCompanyLocation> DDLCompanyLocation { get; set; }
+        public List<StockOutModel> StockOutList { get; set; }
+
+        public string ProductName { get; set; }
+        public string LocationName { get; set; }
     }
+
+
 }

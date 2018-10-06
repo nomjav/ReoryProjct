@@ -15,6 +15,15 @@ namespace Chakwal.Data.Repository
 
         private GenericRepository<AspNetUser> _UserRepository;
         private GenericRepository<Product> _ProductRepository;
+        private GenericRepository<Item> _ItemRepository;
+        private GenericRepository<Company> _CompanyRepository;
+        private GenericRepository<CompanyLocation> _CompanyLocationRepository;
+        private GenericRepository<Vendor> _VendorRepository;
+        private GenericRepository<Role> _RoleRepository;
+        private GenericRepository<StockInProduct> _StockInProductRepository;
+        private GenericRepository<StockOut> _StockOutRepository;
+        private GenericRepository<LoginHistory> _LoginHistoryRepository;
+        private GenericRepository<ErrorLog> _ErrorLogRepository;
         public GenericRepository<AspNetUser> UserRepository
         {
             get
@@ -37,6 +46,116 @@ namespace Chakwal.Data.Repository
                     this._ProductRepository = new GenericRepository<Product>(context);
                 }
                 return _ProductRepository;
+            }
+
+        }
+
+        public GenericRepository<Item> ItemRepository
+        {
+            get
+            {
+                if (this._ItemRepository == null)
+                {
+                    this._ItemRepository = new GenericRepository<Item>(context);
+                }
+                return _ItemRepository;
+            }
+
+        }
+        public GenericRepository<Company> CompanyRepository
+        {
+            get
+            {
+                if (this._CompanyRepository == null)
+                {
+                    this._CompanyRepository = new GenericRepository<Company>(context);
+                }
+                return _CompanyRepository;
+            }
+
+        }
+        public GenericRepository<CompanyLocation> CompanyLocationRepository
+        {
+            get
+            {
+                if (this._CompanyLocationRepository == null)
+                {
+                    this._CompanyLocationRepository = new GenericRepository<CompanyLocation>(context);
+                }
+                return _CompanyLocationRepository;
+            }
+
+        }
+        public GenericRepository<Vendor> VendorRepository
+        {
+            get
+            {
+                if (this._VendorRepository == null)
+                {
+                    this._VendorRepository = new GenericRepository<Vendor>(context);
+                }
+                return _VendorRepository;
+            }
+
+        }
+        public GenericRepository<Role> RoleRepository
+        {
+            get
+            {
+                if (this._RoleRepository == null)
+                {
+                    this._RoleRepository = new GenericRepository<Role>(context);
+                }
+                return _RoleRepository;
+            }
+
+        }
+        public GenericRepository<StockInProduct> StockInProductRepository
+        {
+            get
+            {
+                if (this._StockInProductRepository == null)
+                {
+                    this._StockInProductRepository = new GenericRepository<StockInProduct>(context);
+                }
+                return _StockInProductRepository;
+            }
+
+        }
+        public GenericRepository<StockOut> StockOutRepository
+        {
+            get
+            {
+                if (this._StockOutRepository == null)
+                {
+                    this._StockOutRepository = new GenericRepository<StockOut>(context);
+                }
+                return _StockOutRepository;
+            }
+
+        }
+        public GenericRepository<LoginHistory> LoginHistoryRepository
+        {
+            get
+            {
+                if (this._LoginHistoryRepository == null)
+                {
+                    this._LoginHistoryRepository = new GenericRepository<LoginHistory>(context);
+                }
+                return _LoginHistoryRepository;
+            }
+
+        }
+
+        public GenericRepository<ErrorLog> ErrorLogRepository
+        {
+            get
+            {
+                if (this._ErrorLogRepository == null)
+                {
+                    this._ErrorLogRepository = new GenericRepository<ErrorLog>(context);
+                }
+                return _ErrorLogRepository;
             }
 
         }

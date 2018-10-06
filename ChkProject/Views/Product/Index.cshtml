@@ -113,15 +113,15 @@
     <script>
         $(document).ready(function () {
             $('#productTable').DataTable();
-            var update = true;
+           // var update = true;
         });
 
         function EditProduct(id)
         {
           
            $("#ProductName").val($("#Productname_"+id).text());
-           $("#UnitPrice").val( $("#quantity_"+id).text());
-           $("#CurrentQuantity").val($("#Price_" + id).text());
+           $("#UnitPrice").val($("#Price_" + id).text());
+           $("#CurrentQuantity").val($("#quantity_" + id).text());
            $("#Description").val($("#Description_" + id).text());
             // $("#Description").val(); $("#Status_" + id).val();
            $("#btn_Add").hide();
@@ -168,6 +168,7 @@
             debugger;
             $("#hdnproductid").val(id);
             UpdateProduct("Delete");
+            $('#productTable').DataTable();
           
 
 
@@ -196,6 +197,25 @@
 
         }
 
+
+        function RefreshProductGrid()
+        {
+            debugger;
+            $.ajax({
+                url: "@Url.Action("RefreshProductGrid", "Product")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+          //  data: JSON.stringify({}),
+            success: function (data) {
+                if (data)
+                
+                    debugger;
+                    $('#productTable').DataTable();
+                }
+        });
+
+        }
 
 
 
