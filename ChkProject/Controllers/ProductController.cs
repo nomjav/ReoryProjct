@@ -17,7 +17,7 @@ namespace ChkProject.Controllers
 
         // GET: Product
         public ActionResult Index()
-        {
+       {
             var products = _unitOfWork.ProductRepository.context.Products.Where(x => x.IsDeleted == false).ToList();
             ProductModel pm = new ProductModel();
             foreach (var item in products)
