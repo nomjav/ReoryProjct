@@ -10,6 +10,7 @@ using Chakwal.Data.MemberShip;
 
 namespace ChkProject.Controllers
 {
+    [Authorize]
     public class StockOutController : Controller
     {
         private UnitOfWork _unitOfWork = new UnitOfWork();

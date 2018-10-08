@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ChkProject.Controllers
 {
+    [Authorize]
     public class MaterialController : Controller
     {
         // GET: Item

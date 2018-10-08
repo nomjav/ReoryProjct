@@ -11,6 +11,7 @@ using Chakwal.Data.MemberShip;
 
 namespace ChkProject.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private UnitOfWork _unitOfWork = new UnitOfWork();
