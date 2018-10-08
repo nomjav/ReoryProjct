@@ -3,88 +3,85 @@
     ViewBag.Title = "Register";
 }
 
-
-<!doctype html>
-<html lang="en" class="fullscreen-bg">
-<head>
-    <title>Login | Phelwan</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-    <!-- VENDOR CSS -->
-    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="~/assets/vendor/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="~/assets/vendor/linearicons/style.css">
-    <!-- MAIN CSS -->
-    <link rel="stylesheet" href="~/assets/css/main.css">
-    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
-    <link rel="stylesheet" href="~/assets/css/demo.css">
-    <!-- GOOGLE FONTS -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
-    <!-- ICONS -->
-    <link rel="apple-touch-icon" sizes="76x76" href="~/assets/img/apple-icon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="~/assets/img/favicon.png">
-</head>
-<body>
-    <!-- WRAPPER -->
-    <div id="wrapper">
-        <div class="vertical-align-wrap">
-            <div class="vertical-align-middle">
-                <div class="auth-box ">
-                    <div class="left">
-                        <div class="content">
-                            <div class="header">
-                                @*<div class="logo text-center"><img style="width:335px;" src="~/assets/img/logo-dark.png" alt="Klorofil Logo"></div>*@
-                                <p class="lead">Register a new account</p>
-                            </div>
-                           @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                           {
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Register new User</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
                             @Html.AntiForgeryToken()
                             <h4>Create a new account.</h4>
                             <hr />
                             @Html.ValidationSummary("", new { @class = "text-danger" })
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-12">
-                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                            <div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.CompanyId, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.CompanyId, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(m => m.LocationId, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.LocationId, new { @class = "form-control" })
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-12">
-                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                <div class="col-md-offset-5 col-md-12">
+                                    <input type="submit" class="btn btn-primary" value="Register" />
                                 </div>
                             </div>
-                            <div class="form-group">
-                                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-                                <div class="col-md-12">
-                                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-md-offset-2 col-md-12">
-                                    <input type="submit" class="btn btn-default" value="Register" />
-                                </div>
-                            </div>
-                           }
-                        </div>
+                        }
                     </div>
-                    @*<div class="right">
-                        <div class="overlay"></div>
-                        <div class="content text">
-                            <h3>We Believe in Quality.</h3>
-                            <p>Pehlwan Rewari is oldest Rarity Gift of Chakwal.<br />Pehlwan Rewari from Chakwal comes in an attractive Packet specially designed for special occasions.</p>
-                        </div>
-                    </div>*@
-                    <div class="clearfix"></div>
                 </div>
+
             </div>
         </div>
     </div>
-    <!-- END WRAPPER -->
-</body>
-</html>
-
+</div>
 
 
 @section Scripts {

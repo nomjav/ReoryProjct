@@ -79,6 +79,15 @@ namespace ChkProject.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [Display(Name = "Company")]
+        public int CompanyId { get; set; }
+        [Display(Name = "Role")]
+        public int RoleId { get; set; }
+        [Display(Name = "Location")]
+        public int LocationId { get; set; }
     }
 
     public class ResetPasswordViewModel
