@@ -1,4 +1,5 @@
-﻿
+﻿@using ChkProject.Models
+@model ItemModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,61 +15,102 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <form class="form-horizontal" action="/action_page.php">
+                       @using (Html.BeginForm("AddMaterial", "Material", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                       {
+                        @Html.HiddenFor(x => Model.ItemId, new { @id = "hdnitemid" })
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="email">Material Name:</label>
+                                <label class="control-label col-sm-2" for="ItemName">Material Name:</label>
                                 <div class="col-sm-6">
-                                    <input type="text" class="form-control" id="email" placeholder="Enter Product Name" name="email">
+                                    <input type="text" class="form-control" id="ItemName" placeholder="Enter Material Name" name="ItemName" onblur="checkunique();">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Unit Price:</label>
+                                <label class="control-label col-sm-2" for="UnitPrice">Unit Price:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="pwd" placeholder="Enter Price" name="pwd">
+                                    <input type="number" class="form-control" id="UnitPrice" placeholder="Enter Unit Price" name="UnitPrice">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Measure Unit:</label>
+                                <label class="control-label col-sm-2">Measure Unit:</label>
                                 <div class='col-sm-6'>
                                     <div class="form-group" style="margin: 0px;">
-                                        <select id="productList" class="form-control">
-                                            <option>Unit 1</option>
-                                            <option>Unit 2</option>
-                                            <option>Unit 3</option>
-                                            <option>Unit 4</option>
-                                            <option>Unit 5</option>
-                                            <option>Unit 6</option>
-                                            <option>Unit 7</option>
-                                            <option>Unit 8</option>
+                                        <select id="MeasureUnit" class="form-control">
+                                            <option>--Select--</option>
+                                            <option value="1">Kg</option>
+                                            <option value="2">Liter</option>
+                                            <option value="3">Meter</option>
+                                            <option value="4">Other</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Quantity:</label>
+                                <label class="control-label col-sm-2" for="QuantityPresent">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="pwd" placeholder="Enter Quantity" name="pwd">
+                                    <input type="number" class="form-control" id="QuantityPresent" placeholder="Enter Quantity" name="QuantityPresent">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-2" for="pwd">Description:</label>
+                                <label class="control-label col-sm-2" for="Description">Description:</label>
                                 <div class="col-sm-6">
-                                    <textarea class="form-control z-depth-1" id="exampleFormControlTextarea6" rows="3" placeholder="Write Product Description here..."></textarea>
+                                    <textarea class="form-control z-depth-1" id="Description" name ="Description" rows="3" placeholder="Write Material Description here..."></textarea>
                                 </div>
                             </div>
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
                                     <div class="checkbox">
                                         <label><input type="checkbox" name="remember"> Active</label>
                                     </div>
                                 </div>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
-                                    <button type="submit" class="btn btn-default">Submit</button>
+                                    <button type="submit" class="btn btn-default" id="btn_Add">Add Material</button>
+                                    <button type="button" class="btn btn-default" id="btn_Update" style="display:none;" onclick="UpdateItem()">Update Material</button>
                                 </div>
                             </div>
-                        </form>
+                       }
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Materials</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table id="MaterialTable">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Measure Unit</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.ItemList != null && Model.ItemList.Count > 0)
+                                {
+                                    foreach (var item in Model.ItemList)
+                                    {
+                                        <tr>
+                                            <td id="Itemname_@item.ItemId">@item.ItemName</td>
+                                            <td id="quantity_@item.ItemId">@item.QuantityPresent</td>
+                                            <td id="Price_@item.ItemId">@item.UnitPrice</td>
+                                            <td id="Measureunit_@item.ItemId">@item.MeasureUnit</td>
+                                            @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
+                                    <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
+                                            <td>
+                                                <a id="edit_@item.ItemId" onclick="EditItem(@item.ItemId)"><i class="glyphicon glyphicon-edit"></i></a>
+                                                <a id="delete_@item.ItemId" onclick="DeleteItem(@item.ItemId)"><i class="glyphicon glyphicon-remove"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -76,3 +118,100 @@
     </div>
     <!-- END MAIN CONTENT -->
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#MaterialTable').DataTable();
+           // var update = true;
+        });
+
+        function EditItem(id)
+        {
+            debugger;
+            $("#ItemName").val($("#Itemname_" + id).text());
+            $("#UnitPrice").val($("#Price_" + id).text());
+            $("#QuantityPresent").val($("#quantity_" + id).text());
+            //$("#MeasureUnit option[text=" + $("#Measureunit_" + id).text() + "]").attr("selected", "selected");
+            //   $("#MeasureUnit").text($("#Measureunit_" + id).text());
+            $("#MeasureUnit").find("option:contains(" + $("#Measureunit_" + id).text() + ")").each(function () {
+                if ($(this).text() == $("#Measureunit_" + id).text()) {
+                    $(this).attr("selected", "selected");
+                }
+            });
+            // $("#Description").val(); $("#Status_" + id).val();
+           $("#btn_Add").hide();
+           $("#btn_Update").show();
+         //  $("#hdnupdate").val(true);
+           $("#hdnitemid").val(id);
+
+
+        }
+
+        function UpdateItem(check)
+        {
+            debugger;
+            var item = new Object();
+            item.ItemId = $("#hdnitemid").val();
+            item.ItemName = $("#ItemName").val();
+            item.UnitPrice = $("#UnitPrice").val();
+            item.QuantityPresent = $("#QuantityPresent").val();
+           // item.Description = $("#Description").val();
+            if (check == "Delete")
+            {
+                item.IsDeleted = true;
+            }
+
+            $.ajax({
+                url: "@Url.Action("UpdateMaterial", "Material")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ model: item }),
+            success: function (data) {
+                if (data)
+                {
+                    alert("Data Update Successfully!");
+                }
+            }
+        });
+
+
+
+        }
+        function DeleteItem(id)
+        {
+            debugger;
+            $("#hdnitemid").val(id);
+            UpdateItem("Delete");
+
+
+
+        }
+
+
+        function checkunique()
+        {
+            debugger;
+
+
+            $.ajax({
+                url: "@Url.Action("CheckDuplication", "Material")",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ItemName: $("#ItemName").val() }),
+                success: function (data) {
+                    if (data)
+                    {
+                        $("#ItemName").val('');
+                    }
+                }
+            });
+
+        }
+
+    </script>
+}
+
+

@@ -220,6 +220,7 @@
                 //  $("#hdnupdate").val(true);
                 $("#hdnproductid").val($("#ddlproduct").val());
                 $("#hdnstockinlocation").val($("#ddl_company").val());
+                $("#hdnstockinid").val(id)
            
 
 
@@ -232,7 +233,7 @@
                 stockin.StockInId = $("#hdnstockinid").val();
                 stockin.ProductId = $("#hdnproductid").val();
                 stockin.StockInLocation = $("#hdnstockinlocation").val();
-                stockin.DateIn = $("#date_in").val();
+                stockin.DateIn = $('#date_in').datetimepicker('date');
                 stockin.Quantity = $("#Quantity").val();
                 stockin.Description = $("#Description").val();
                 if (check == "Delete") {

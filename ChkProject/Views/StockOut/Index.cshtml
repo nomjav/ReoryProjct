@@ -192,6 +192,7 @@
                 //  $("#hdnupdate").val(true);
                 $("#hdnproductid").val($("#ddlproduct").val());
                 $("#hdnstockoutlocation").val($("#ddl_company").val());
+                $("#hdnstockoutid").val(id);
            
 
 
@@ -204,7 +205,7 @@
                 stockout.StockOutId = $("#hdnstockoutid").val();
                 stockout.ProductId = $("#hdnproductid").val();
                 stockout.StockOutLocation = $("#hdnstockoutlocation").val();
-                stockout.DateOut = $("#date_out").val();
+                stockout.DateOut = $("#date_out").datetimepicker('date');
                 stockout.Quantity = $("#Quantity").val();
                 stockout.Description = $("#Description").val();
                 if (check == "Delete") {
