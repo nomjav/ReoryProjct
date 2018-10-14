@@ -113,12 +113,20 @@
     <script>
         $(document).ready(function () {
             $('#productTable').DataTable();
+
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Product Added');
+            }
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Product updated');
+            }
+
            // var update = true;
         });
 
         function EditProduct(id)
         {
-          
+
            $("#ProductName").val($("#Productname_"+id).text());
            $("#UnitPrice").val($("#Price_" + id).text());
            $("#CurrentQuantity").val($("#quantity_" + id).text());
@@ -128,8 +136,6 @@
            $("#btn_Update").show();
          //  $("#hdnupdate").val(true);
            $("#hdnproductid").val(id);
-
-
         }
 
         function UpdateProduct(check)
@@ -155,12 +161,13 @@
             success: function (data) {
                 if (data)
                 {
-                    alert("Data Update Successfully!");
+                    location.reload();
+                    //alert("Data Update Successfully!");
                 }
             }
         });
-            
-            
+
+
 
         }
         function DeleteProduct(id)
@@ -169,7 +176,7 @@
             $("#hdnproductid").val(id);
             UpdateProduct("Delete");
             $('#productTable').DataTable();
-          
+
 
 
         }
@@ -178,7 +185,7 @@
         function checkunique(id)
         {
             debugger;
-      
+
             var fieldvalue = $("#"+id).val();
 
             $.ajax({
@@ -209,7 +216,7 @@
           //  data: JSON.stringify({}),
             success: function (data) {
                 if (data)
-                
+
                     debugger;
                     $('#productTable').DataTable();
                 }

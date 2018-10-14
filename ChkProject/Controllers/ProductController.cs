@@ -31,7 +31,7 @@ namespace ChkProject.Controllers
                 product.Description = item.Description;
                 product.CreatedBy = item.CreatedBy;
                 product.CreatedDate = item.CreatedDate;
-             
+
 
                 pm.productList.Add(product);
             }
@@ -39,8 +39,8 @@ namespace ChkProject.Controllers
         }
 
 
-        
-             [HttpPost]
+
+        [HttpPost]
         public JsonResult CheckDuplication(string fieldvalue)
         {
             var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductName == fieldvalue);
@@ -70,7 +70,8 @@ namespace ChkProject.Controllers
         [HttpPost]
         public JsonResult UpdateProduct(ProductModel model)
         {
-            try {
+            try
+            {
                 var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == model.ProductId);
                 var _user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                 if (_user != null)
@@ -93,16 +94,17 @@ namespace ChkProject.Controllers
                     pro.Description = model.Description;
                     pro.ModifiedDate = DateTime.Now;
                 }
-              
-                
+
+                TempData["message"] = "updated";
                 _unitOfWork.ProductRepository.Update(pro);
                 _unitOfWork.Save();
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            catch {
+            catch
+            {
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-           
+
         }
 
         [HttpPost]
@@ -110,20 +112,21 @@ namespace ChkProject.Controllers
 
         {
 
-                Product p = new Product();
-                p.ProductName = model.ProductName;
-                p.UnitPrice = model.UnitPrice;
-                p.CurrentQuantity = model.CurrentQuantity;
-                p.Description = model.Description;
-                p.CreatedDate = DateTime.Now;
-                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
-                if (user != null)
-                {
-                    p.CreatedBy = user.Id;
-                }
-                _unitOfWork.ProductRepository.Insert(p);
-                _unitOfWork.Save();
-          return   RedirectToAction("Index");
+            Product p = new Product();
+            p.ProductName = model.ProductName;
+            p.UnitPrice = model.UnitPrice;
+            p.CurrentQuantity = model.CurrentQuantity;
+            p.Description = model.Description;
+            p.CreatedDate = DateTime.Now;
+            var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+            if (user != null)
+            {
+                p.CreatedBy = user.Id;
+            }
+            _unitOfWork.ProductRepository.Insert(p);
+            _unitOfWork.Save();
+            TempData["message"] = "success";
+            return RedirectToAction("Index");
         }
     }
 }

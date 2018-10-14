@@ -105,7 +105,6 @@ namespace ChkProject.Controllers
                     stockin.IsDeleted = true;
                     stockin.DeletedBy = _user.Id;
                     stockin.DeletedDate = DateTime.Now;
-
                 }
                 else
                 {
@@ -115,10 +114,9 @@ namespace ChkProject.Controllers
                     stockin.Description = model.Description;
                     stockin.ModifiedDate = DateTime.Now;
                 }
-
-
                 _unitOfWork.StockInProductRepository.Update(stockin);
                 _unitOfWork.Save();
+                TempData["message"] = "updated";
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -127,11 +125,6 @@ namespace ChkProject.Controllers
             }
 
         }
-
-
-
-
-
 
     }
 }

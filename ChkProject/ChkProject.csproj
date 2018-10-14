@@ -182,6 +182,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyLocationModel.cs" />
     <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ItemModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />

@@ -123,6 +123,13 @@
     <script>
         $(document).ready(function () {
             $('#MaterialTable').DataTable();
+
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Material Added');
+            }
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Material updated');
+            }
            // var update = true;
         });
 
@@ -171,7 +178,8 @@
             success: function (data) {
                 if (data)
                 {
-                    alert("Data Update Successfully!");
+                    location.reload();
+                    //alert("Data Update Successfully!");
                 }
             }
         });
