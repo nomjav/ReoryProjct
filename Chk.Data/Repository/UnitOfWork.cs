@@ -14,6 +14,7 @@ namespace Chakwal.Data.Repository
         private CHK_InventoryEntities context = new CHK_InventoryEntities();
 
         private GenericRepository<AspNetUser> _UserRepository;
+        private GenericRepository<User> _LocalUserRepository;
         private GenericRepository<Product> _ProductRepository;
         private GenericRepository<Item> _ItemRepository;
         private GenericRepository<Company> _CompanyRepository;
@@ -33,6 +34,19 @@ namespace Chakwal.Data.Repository
                     this._UserRepository = new GenericRepository<AspNetUser>(context);
                 }
                 return _UserRepository;
+            }
+
+        }
+
+        public GenericRepository<User> LocalUserRepository
+        {
+            get
+            {
+                if (this._LocalUserRepository == null)
+                {
+                    this._LocalUserRepository = new GenericRepository<User>(context);
+                }
+                return _LocalUserRepository;
             }
 
         }

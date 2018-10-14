@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using ChkProject.Models;
+using Chakwal.Data.Repository;
 
 namespace ChkProject.Controllers
 {
@@ -17,6 +18,7 @@ namespace ChkProject.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private UnitOfWork _unitOfWork = new UnitOfWork();
 
         public AccountController()
         {
@@ -152,19 +154,41 @@ namespace ChkProject.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                Chakwal.Data.Data.User u = new Chakwal.Data.Data.User();
+                u.CompanyId = model.CompanyId;
+                u.LocationId = model.LocationId;
+                u.FirstName = model.FirstName;
+                u.UserName = model.Email;
+                u.LastName = model.LastName;
+                u.CreatedDate = DateTime.Now;
+                u.CreatedBy = User.Identity.GetUserId();
+                u.Email = model.Email;
+                u.Password = model.Password;
+                u.RoleId = model.RoleId;
+                u.IsActive = true;
+                u.IsDeleted = false;
+                
+                try
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    _unitOfWork.LocalUserRepository.Insert(u);
+                    _unitOfWork.Save();
                 }
+                catch(Exception ex)
+                {
+                    throw;
+                }
+                var result = await UserManager.CreateAsync(user, model.Password);
+                //if (result.Succeeded)
+                //{
+                //    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+
+                //    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
+                //    // Send an email with this link
+                //    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                //    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                //    return RedirectToAction("Index", "Home");
+                //}
                 AddErrors(result);
             }
 

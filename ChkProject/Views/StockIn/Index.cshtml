@@ -15,13 +15,13 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                       @using (Html.BeginForm("AddStockIn", "StockIn", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
-                       {
-                        @Html.HiddenFor(x => Model.StockInId, new { @id = "hdnstockinid" })
-                        @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
-                        @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
-                        @Html.HiddenFor(x => Model.StockInLocation, new { @id = "hdnstockinlocation" })
-                        @*@Html.HiddenFor(x => Model.DateIn, new { @id = "hdnDatein" })*@
+                        @using (Html.BeginForm("AddStockIn", "StockIn", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                        {
+                            @Html.HiddenFor(x => Model.StockInId, new { @id = "hdnstockinid" })
+                            @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
+                            @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
+                            @Html.HiddenFor(x => Model.StockInLocation, new { @id = "hdnstockinlocation" })
+                            @*@Html.HiddenFor(x => Model.DateIn, new { @id = "hdnDatein" })*@
 
                             <div class="form-group required">
                                 <label class="control-label col-sm-2">Select Product:</label>
@@ -31,20 +31,20 @@
                                             <option>--Select--</option>
                                             @foreach (var item in Model.DDLProduct)
                                             {
-                                                
+
                                                 <option value="@item.ProductId">@item.ProductName</option>
                                             }
                                         </select>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="form-group required">
                                 <label class="control-label col-sm-2">Stock In Date:</label>
                                 <div class='col-sm-6'>
                                     <div class="form-group" style="width:72%">
-                                        <div class='input-group date'  id='date_in'>
-                                            <input required type='text' class="form-control" name="DateIn"  id='@Model.DateIn' onchange="dateinchange()" />
+                                        <div class='input-group date' id='date_in'>
+                                            <input required type='text' class="form-control" name="DateIn" id='@Model.DateIn' onchange="dateinchange()" />
                                             <span class="input-group-addon">
                                                 <span class="glyphicon glyphicon-calendar"></span>
                                             </span>
@@ -60,41 +60,41 @@
                                             <option>--Select--</option>
                                             @foreach (var item in Model.DDLCompanyLocation)
                                             {
-                                               
+
                                                 <option value="@item.CompanyLocationId">@item.LocationName</option>
                                             }
-                                        </select>   
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Quantity" id="lbl_Quantity">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" /> 
+                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Description" id="lbl_Description">Description:</label>
-                                <div class="col-sm-6"style ="padding:0px;">
-                                    <textarea style ="width : 100%"class="form-control z-depth-1" id="Description" rows="3"  name="Description"  placeholder="Write StockIn Description here..."></textarea>
+                                <div class="col-sm-6" style="padding:0px;">
+                                    <textarea style="width : 100%" class="form-control z-depth-1" id="Description" rows="3" name="Description" placeholder="Write StockIn Description here..."></textarea>
                                 </div>
                             </div>
                             @*<div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-6">
-                                    <div class="checkbox">
-                                        <label><input type="checkbox" name="remember" checked> Active</label>
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="remember" checked> Active</label>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-6">
-                                    <button type="submit" class="btn btn-primary"  id="btn_Add">Add StockIn</button>
+                                    <button type="submit" class="btn btn-primary" id="btn_Add">Add StockIn</button>
                                     <button type="button" class="btn btn-primary" id="btn_Update" style="display:none;" onclick="UpdateStockIn()">Update StockIn</button>
                                 </div>
                             </div>
-                       }
+                        }
                     </div>
-                    </div>
+                </div>
 
 
                 <div class="panel-heading">
@@ -102,7 +102,7 @@
                 </div>
                 <div class="panel-body">
                     <div class="row">
-                        <table id="tbl_stockin">
+                        <table id="tblstockin">
                             <thead>
                                 <tr>
 
@@ -112,6 +112,8 @@
                                     <th>Company</th>
                                     <th>Description</th>
                                     <th>Action</th>
+                                    <th style="display:none;"></th>
+                                    <th style="display:none;"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,7 +128,7 @@
                                             <td id="location_@item.StockInId">@item.LocationName</td>
                                             <td id="Description_@item.StockInId">@item.Description</td>
                                             @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
-                                    <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
+                                                <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
                                             <td>
                                                 <a style="cursor:pointer;" id="edit_@item.StockInId" onclick="EditStockIn(@item.StockInId)"><i class="glyphicon glyphicon-edit text-primary"></i></a>&nbsp;&nbsp;&nbsp;
                                                 <a style="cursor:pointer;" id="delete_@item.StockInId" onclick="DeleteStockIn(@item.StockInId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>
@@ -136,132 +138,126 @@
                                         </tr>
                                     }
                                 }
-
-
                             </tbody>
                         </table>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
     </div>
-    <!-- END MAIN CONTENT -->
+</div>
+<!-- END MAIN CONTENT -->
 
 @section scripts{
-<script type="text/javascript">
-    $(function () {
+    <script type="text/javascript">
 
-        $('#date_in').datetimepicker();
-        //   $("#hdnDatein").val($('#datein').val());
-    });
+        $(document).ready(function () {
+            $('#tblstockin').DataTable();
+
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Product stocked in');
+            }
+            else {
+                //toastr.error('Error! Please try again');
+            }
+
+            $("#hdnproductid").val($("#ddlproduct").val());
+            $("#hdnstockinlocation").val($("#ddl_company").val());
+            $('#date_in').on('dp.change', function (e) {
+                debugger;
+                $("#hdnDatein").val($('#datein').val());
+            })
+
+            
+          
 
 
-    $(document).ready(function () {
-        $('#tbl_stockin').DataTable();
+        });
+        $(function () {
 
-        
-        $("#hdnproductid").val($("#ddlproduct").val());
-        $("#hdnstockinlocation").val($("#ddl_company").val());
-        $('#date_in').on('dp.change', function (e) {
-            debugger;
-            $("#hdnDatein").val($('#datein').val());
-        })
-        $('#date_in').onchange('dp.change', function (e) {
-            debugger;
-            $("#hdnDatein").val($('#datein').val());
-        })
-        $('.datepicker').datepicker()
-      .on(picker_event, function (e) {
-          debugger
-          // `e` here contains the extra attributes
-      });
-
-        $(document).on('dp.change', 'input.datepicker', function () {
-            alert('changed');
+            $('#date_in').datetimepicker();
+            //   $("#hdnDatein").val($('#datein').val());
         });
 
 
-    });
-
-    //$(function () {
-    //    debugger;
-    //            $('#datein').datetimepicker();
-    //          //  $("#hdnDatein").val($('#datein').val());
-    //        });
 
 
-            function ddlcompanychange()
-    {
-                debugger;
-               
-                $("#hdnstockinlocation").val($("#ddl_company").val());
+        //$(function () {
+        //    debugger;
+        //            $('#datein').datetimepicker();
+        //          //  $("#hdnDatein").val($('#datein').val());
+        //        });
+
+
+        function ddlcompanychange() {
+            debugger;
+
+            $("#hdnstockinlocation").val($("#ddl_company").val());
+        }
+
+
+        function ddlproductchange() {
+            debugger;
+            $("#hdnproductid").val($("#ddlproduct").val());
+        }
+
+
+
+        function EditStockIn(id) {
+            debugger;
+            $("#ddlproduct").val($("#ProductId_" + id).text());
+            $("#ddl_company").val($("#LocationId_" + id).text());
+            $("#Quantity").val($("#quantity_" + id).text());
+            $("#Description").val($("#Description_" + id).text());
+            //$("#date_in").text($("#date_" + id).text());
+            $('#date_in').data("DateTimePicker").date(new Date($("#date_" + id).text()));
+            $("#btn_Add").hide();
+            $("#btn_Update").show();
+            //  $("#hdnupdate").val(true);
+            $("#hdnproductid").val($("#ddlproduct").val());
+            $("#hdnstockinlocation").val($("#ddl_company").val());
+            $("#hdnstockinid").val(id)
+
+
+
+        }
+
+
+        function UpdateStockIn(check) {
+            debugger;
+            var stockin = new Object();
+            stockin.StockInId = $("#hdnstockinid").val();
+            stockin.ProductId = $("#hdnproductid").val();
+            stockin.StockInLocation = $("#hdnstockinlocation").val();
+            stockin.DateIn = $('#date_in').datetimepicker('date');
+            stockin.Quantity = $("#Quantity").val();
+            stockin.Description = $("#Description").val();
+            if (check == "Delete") {
+                stockin.IsDeleted = true;
             }
 
-
-            function ddlproductchange()
-            {
-                debugger;
-                $("#hdnproductid").val($("#ddlproduct").val());
-            }
-
-
-
-            function EditStockIn(id) {
-                debugger;
-                $("#ddlproduct").val($("#ProductId_" + id).text());
-                $("#ddl_company").val($("#LocationId_" + id).text());
-                $("#Quantity").val($("#quantity_" + id).text());
-                $("#Description").val($("#Description_" + id).text());
-                //$("#date_in").text($("#date_" + id).text());
-                $('#date_in').data("DateTimePicker").date(new Date($("#date_" + id).text()));
-                $("#btn_Add").hide();
-                $("#btn_Update").show();
-                //  $("#hdnupdate").val(true);
-                $("#hdnproductid").val($("#ddlproduct").val());
-                $("#hdnstockinlocation").val($("#ddl_company").val());
-                $("#hdnstockinid").val(id)
-           
-
-
-            }
-
-    
-            function UpdateStockIn(check) {
-                debugger;
-                var stockin = new Object();
-                stockin.StockInId = $("#hdnstockinid").val();
-                stockin.ProductId = $("#hdnproductid").val();
-                stockin.StockInLocation = $("#hdnstockinlocation").val();
-                stockin.DateIn = $('#date_in').datetimepicker('date');
-                stockin.Quantity = $("#Quantity").val();
-                stockin.Description = $("#Description").val();
-                if (check == "Delete") {
-                    stockin.IsDeleted = true;
-                }
-
-                $.ajax({
-                    url: "@Url.Action("UpdateStockIn", "StockIn")",
-                    type: "POST",
-                    contentType: "application/json",
-                    dataType: "json",
-                    data: JSON.stringify({ model: stockin }),
-                    success: function (data) {
-                        if (data) {
-                            alert("Data Update Successfully!");
-                        }
+            $.ajax({
+                url: "@Url.Action("UpdateStockIn", "StockIn")",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ model: stockin }),
+                success: function (data) {
+                    if (data) {
+                        toastr.success("Data Update Successfully!");
                     }
-                });
+                }
+            });
 
-            }
+        }
 
-    function DeleteStockIn(id) {
-        debugger;
-        $("#hdnstockinid").val(id);
-        UpdateStockIn("Delete");
+        function DeleteStockIn(id) {
+            debugger;
+            $("#hdnstockinid").val(id);
+            UpdateStockIn("Delete");
 
-    }
+        }
 
 
-</script>
+    </script>
 }

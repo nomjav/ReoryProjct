@@ -61,22 +61,30 @@ namespace ChkProject.Controllers
         public ActionResult AddStockIn(StockInProductModel model)
 
         {
-
-            StockInProduct _StockInProduct = new StockInProduct();
-            _StockInProduct.StockInLocation = model.StockInLocation;
-            _StockInProduct.Quantity = model.Quantity;
-            _StockInProduct.ProductId = model.ProductId;
-            _StockInProduct.Description = model.Description;
-            _StockInProduct.DateIn = model.DateIn;
-            _StockInProduct.CreatedDate = DateTime.Now;
-            var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
-            if (user != null)
+            try
             {
-                _StockInProduct.CreatedBy = user.Id;
+                StockInProduct _StockInProduct = new StockInProduct();
+                _StockInProduct.StockInLocation = model.StockInLocation;
+                _StockInProduct.Quantity = model.Quantity;
+                _StockInProduct.ProductId = model.ProductId;
+                _StockInProduct.Description = model.Description;
+                _StockInProduct.DateIn = model.DateIn;
+                _StockInProduct.CreatedDate = DateTime.Now;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    _StockInProduct.CreatedBy = user.Id;
+                }
+                _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
+                _unitOfWork.Save();
+                TempData["message"] = "success";
             }
-            _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
-            _unitOfWork.Save();
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+            }
             return RedirectToAction("Index");
+
         }
 
 
