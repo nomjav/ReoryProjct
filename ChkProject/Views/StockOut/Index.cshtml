@@ -113,6 +113,8 @@
                                 <th>Company</th>
                                 <th>Description</th>
                                 <th>Action</th>
+                                <th style="display:none;"></th>
+                                <th style="display:none;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,6 +163,13 @@
 
             $(document).ready(function () {
                 $('#tbl_stockout').DataTable();
+
+                if ('@TempData["message"]' == "success") {
+                    toastr.success('Success! Product stocked in');
+                }
+                else if ('@TempData["message"]' == "updated") {
+                    toastr.success('Success! Product updated');
+                }
             });
 
             function ddlcompanychange()
@@ -220,7 +229,8 @@
                 data: JSON.stringify({ model: stockout }),
                 success: function (data) {
                     if (data) {
-                        alert("Data Update Successfully!");
+                        //alert("Data Update Successfully!");
+                        location.reload();
                     }
                 }
             });

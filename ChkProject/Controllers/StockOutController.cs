@@ -78,6 +78,7 @@ namespace ChkProject.Controllers
             }
             _unitOfWork.StockOutRepository.Insert(_StockOut);
             _unitOfWork.Save();
+            TempData["message"] = "success";
             return RedirectToAction("Index");
         }
 
@@ -113,6 +114,7 @@ namespace ChkProject.Controllers
 
                 _unitOfWork.StockOutRepository.Update(stockout);
                 _unitOfWork.Save();
+                TempData["message"] = "updated";
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch

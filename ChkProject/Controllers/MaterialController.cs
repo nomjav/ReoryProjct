@@ -77,6 +77,7 @@ namespace ChkProject.Controllers
 
                 _unitOfWork.ItemRepository.Update(_item);
                 _unitOfWork.Save();
+                TempData["message"] = "updated";
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch
@@ -126,6 +127,7 @@ namespace ChkProject.Controllers
 
             _unitOfWork.ItemRepository.Insert(_Item);
             _unitOfWork.Save();
+            TempData["message"] = "success";
             return RedirectToAction("Index");
         }
 

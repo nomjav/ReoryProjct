@@ -153,12 +153,12 @@
 
         $(document).ready(function () {
             $('#tblstockin').DataTable();
-
+            var table = $('#tblstockin').DataTable();
             if ('@TempData["message"]' == "success") {
                 toastr.success('Success! Product stocked in');
             }
-            else {
-                //toastr.error('Error! Please try again');
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Product updated');
             }
 
             $("#hdnproductid").val($("#ddlproduct").val());
@@ -216,10 +216,7 @@
             //  $("#hdnupdate").val(true);
             $("#hdnproductid").val($("#ddlproduct").val());
             $("#hdnstockinlocation").val($("#ddl_company").val());
-            $("#hdnstockinid").val(id)
-
-
-
+            $("#hdnstockinid").val(id);
         }
 
 
@@ -243,19 +240,21 @@
                 dataType: "json",
                 data: JSON.stringify({ model: stockin }),
                 success: function (data) {
+                    debugger;
                     if (data) {
-                        toastr.success("Data Update Successfully!");
+                        //toastr.success("Data Updated Successfully!");
+                        //$('#tblstockin').DataTable().ajax.reload();
+                        location.reload();
+                        //$('#tblstockin').dataTable().api().ajax.reload();
                     }
                 }
             });
-
         }
 
         function DeleteStockIn(id) {
             debugger;
             $("#hdnstockinid").val(id);
             UpdateStockIn("Delete");
-
         }
 
 
