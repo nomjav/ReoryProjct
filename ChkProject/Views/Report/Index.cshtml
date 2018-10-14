@@ -1,0 +1,107 @@
+﻿@using ChkProject.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<title>Reports</title>
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+
+            
+            <h2 class="widget" style="background:#4a8bc2; height:40px; color:white;vertical-align: middle;line-height: 35px; padding-left:5px">Reports</h2>
+
+            <div id="mainouterdiv" style="width:100%;display: inline-block;box-sizing: border-box;">
+
+                <div id="list2">
+
+                    <h2>Accounting</h2>
+                    <ol>
+                        <li><p><em><a id="reciept" title="" href="@Url.Content("~/Receipt/")">StockIn</a></em>View a list of all the jobs that have payables - most recent first.  You can click on a link to view each payable.</p></li>
+                        <li><p><em><a id="invoice" title="" href="@Url.Content("~/Invoice/")">StockOut</a></em>Displays a summary of the last month's worth of invoices.  Allows users to see the actual invoice, as well.</p></li>
+                        
+                    </ol>
+
+                </div>
+            </div>
+
+        </div>
+            </div>
+        </div>
+   
+    <!-- END MAIN CONTENT -->
+
+
+
+
+
+
+
+
+
+
+    <style>
+
+        ul li {
+            font-size: 20px;
+        }
+
+        #list2 {
+            width: 50%;
+            float: left;
+        }
+
+            #list2 h2 {
+                margin-left: 15px;
+                margin-bottom: 0px;
+            }
+
+            #list2 ol {
+                margin-top: 0px;
+                margin-bottom: 30px;
+                font-style: italic;
+                font-family: Georgia, Times, serif;
+                font-size: 20px;
+                color: blue;
+            }
+
+                #list2 ol li {
+                }
+
+                    #list2 ol li p {
+                        padding: 8px;
+                        font-style: normal;
+                        font-family: Arial;
+                        font-size: 12px;
+                        color: black;
+                        border-left: 1px solid #999;
+                    }
+
+                        #list2 ol li p em {
+                            display: block;
+                            color: black;
+                            font-size: 16px;
+                        }
+
+                #list2 ol a {
+                    display: inline-block;
+                    color: blue;
+                    font-size: 16px;
+                }
+
+       
+
+
+        .ui-tooltip {
+            max-width: 80%;
+            background-color: #4f97d4;
+            border-color: #4f97d4;
+        }
+
+        img {
+            max-width: 100%;
+            margin-right: 0 !important;
+        }
+    </style>
+
