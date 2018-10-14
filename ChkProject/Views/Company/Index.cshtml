@@ -1,0 +1,214 @@
+﻿@using ChkProject.Models
+@model CompanyModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Enter Product</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Html.BeginForm("AddCompany", "Company", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                        {
+                            @Html.HiddenFor(x => Model.CompanyId, new { @id = "hdncompanyid" })
+                            @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="CompanyName" id="lbl_CompanyName">Company Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="CompanyName" placeholder="Enter Company Name" name="CompanyName" onblur="checkunique('CompanyName');">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="CompanyOwner" id="lbl_CompanyOwner">Owner Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="CompanyOwner" placeholder="Enter Company Owner" name="CompanyOwner">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="CompanyAddress" id="lbl_CompanyAddress">Company Address:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="CompanyAddress" placeholder="Enter Company Address" name="CompanyAddress">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="LocationName" id="lbl_LocationName"> Location Name:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="LocationName" placeholder="Enter Location Name" name="LocationName">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="LocationAddress" id="lbl_LocationAddress">Location Address:</label>
+                                <div class="col-sm-6">
+                                    <input type="text" class="form-control" id="LocationAddress" placeholder="Enter Location Address" name="LocationAddress">
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="IsActive" id="IsActive"> Active</label>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-6">
+                                    <button type="submit" class="btn btn-primary" id="btn_Add">Add Company</button>
+                                    <button type="button" class="btn btn-primary" id="btn_Update" style="display:none;" onclick="UpdateCompany()">Update Company</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <div class="panel-heading">
+                    <h3 class="panel-title">Company Locations</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table id="companylocationTable">
+                            <thead>
+                                <tr>
+
+                                    <th>Company Location Name</th>
+                                    <th>Address</th>
+                                    <th>Company Name</th>
+                                    <th>Company Address</th>
+                                    <th>Company Owner</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.CompanylocationList != null && Model.CompanylocationList.Count > 0)
+                                {
+                                    foreach (var item in Model.CompanylocationList)
+                                    {
+                                        <tr>
+                                            <td id="LocationName_@item.LocationId">@item.LocationName</td>
+                                            <td id="LocationAddress_@item.LocationId">@item.LocationAddress</td>
+                                            <td id="CompanyName_@item.LocationId">@item.CompanyName</td>
+                                            <td id="CompanyAddress_@item.LocationId">@item.CompanyAddress</td>
+                                            <td id="CompanyOwner_@item.LocationId">@item.CompanyOwner</td>
+                                            @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
+                                                <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
+                                            <td>
+                                                <a style="cursor:pointer;" id="edit_@item.LocationId" onclick="EditLocation(@item.LocationId)"><i class="glyphicon glyphicon-edit text-primary"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a style="cursor:pointer;" id="delete_@item.LocationId" onclick="DeleteLocation(@item.LocationId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#companylocationTable').DataTable();
+           // var update = true;
+        });
+
+        function EditLocation(id)
+        {
+            debugger;
+
+           $("#CompanyName").val($("#CompanyName_" + id).text());
+           $("#CompanyOwner").val($("#CompanyOwner_" + id).text());
+           $("#CompanyAddress").val($("#CompanyAddress_" + id).text());
+           $("#LocationName").val($("#LocationName_" + id).text());
+           $("#LocationAddress").val($("#LocationAddress_" + id).text());
+            // $("#Description").val(); $("#Status_" + id).val();
+           $("#btn_Add").hide();
+           $("#btn_Update").show();
+         //  $("#hdnupdate").val(true);
+           $("#hdncompanyid").val(id);
+
+
+        }
+
+        function UpdateCompany(check)
+        {
+            debugger;
+            var company = new Object();
+            company.CompanyId = $("#hdncompanyid").val();
+            company.CompanyName = $("#CompanyName").val();
+            company.CompanyOwner = $("#CompanyOwner").val();
+            company.CompanyAddress = $("#CompanyAddress").val();
+            company.LocationName = $("#LocationName").val();
+            company.LocationAddress = $("#LocationAddress").val();
+            if (check == "Delete")
+            {
+                company.IsDeleted = true;
+            }
+
+            $.ajax({
+                url: "@Url.Action("UpdateCompany", "Company")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ model: company }),
+            success: function (data) {
+                if (data)
+                {
+                    alert("Data Update Successfully!");
+                }
+            }
+        });
+
+
+
+        }
+        function DeleteLocation(id)
+        {
+            debugger;
+            $("#hdncompanyid").val(id);
+            UpdateCompany("Delete");
+
+
+
+        }
+
+
+        function checkunique()
+        {
+            debugger;
+
+            var fieldvalue = $("#"+id).val();
+
+            $.ajax({
+                url: "@Url.Action("CheckDuplication", "Company")",
+                type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({CompanyName: $("#CompanyName").val() }),
+                success: function (data) {
+                    if (data)
+                    {
+                        $("#CompanyName").val('');
+                    }
+                }
+            });
+
+        }
+
+    </script>
+}
+
+
+
+

@@ -113,6 +113,8 @@
                                 <th>Company</th>
                                 <th>Description</th>
                                 <th>Action</th>
+                                <th style="display:none;"></th>
+                                <th style="display:none;"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -132,8 +134,8 @@
                                             <a style="cursor:pointer;" id="edit_@item.StockOutId" onclick="EditStockOut(@item.StockOutId)"><i class="glyphicon glyphicon-edit text-primary"></i></a> &nbsp;&nbsp;&nbsp;
                                             <a style="cursor:pointer;" id="delete_@item.StockOutId" onclick="DeleteStockOut(@item.StockOutId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>
                                         </td>
-                                        <td id="ProductId_@item.StockOutId" style="display:none;">@item.ProductId</td>
-                                        <td id="LocationId_@item.StockOutId" style="display:none;">@item.StockOutLocation</td>
+                                        <td id="ProductId_@item.StockOutId">@item.ProductId</td>
+                                        <td id="LocationId_@item.StockOutId">@item.StockOutLocation</td>
                                     </tr>
                                 }
                             }
