@@ -156,6 +156,8 @@
 
 @section scripts{
     <script type="text/javascript">
+        var listProducts =[];
+
             $(function () {
                 $('#date_out').datetimepicker();
             });
@@ -170,6 +172,12 @@
                 else if ('@TempData["message"]' == "updated") {
                     toastr.success('Success! Product updated');
                 }
+
+
+                 listProducts = @Html.Raw(Json.Encode(@Model.DDLProduct));
+
+
+
             });
 
             function ddlcompanychange()

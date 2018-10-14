@@ -28,6 +28,9 @@ namespace ChkProject.Controllers
                 DDLProducts ddlproduct = new DDLProducts();
                 ddlproduct.ProductId = item.ProductId;
                 ddlproduct.ProductName = item.ProductName;
+                ddlproduct.UnitPrice = item.UnitPrice;
+                ddlproduct.CurrentQuantity = item.CurrentQuantity;
+
                 _StockOutModel.DDLProduct.Add(ddlproduct);
             }
             foreach (var item in companylocationlist)
@@ -77,6 +80,62 @@ namespace ChkProject.Controllers
                 _StockOut.CreatedBy = user.Id;
             }
             _unitOfWork.StockOutRepository.Insert(_StockOut);
+            var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == model.ProductId);
+            if (pro != null)
+            {
+                if (pro.CurrentQuantity > model.Quantity)
+                {
+                    pro.CurrentQuantity = pro.CurrentQuantity - model.Quantity;
+
+                    _unitOfWork.ProductRepository.Update(pro);
+                }
+              
+
+            }
+
+
+            _unitOfWork.Save();
+            TempData["message"] = "success";
+            return RedirectToAction("Index");
+        }
+
+
+
+        [HttpPost]
+        public ActionResult AddStockOutList(List<StockOutModel> model)
+
+        {
+            foreach (var stk in model)
+            {
+                StockOut _StockOut = new StockOut();
+                _StockOut.StockOutLocation = stk.StockOutLocation;
+                _StockOut.Quantity = stk.Quantity;
+                _StockOut.ProductId = stk.ProductId;
+                _StockOut.Description = stk.Description;
+                _StockOut.DateOut = stk.DateOut;
+                _StockOut.CreatedDate = DateTime.Now;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    _StockOut.CreatedBy = user.Id;
+                }
+                _unitOfWork.StockOutRepository.Insert(_StockOut);
+                var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == stk.ProductId);
+                if (pro != null)
+                {
+                    if (pro.CurrentQuantity > stk.Quantity)
+                    {
+                        pro.CurrentQuantity = pro.CurrentQuantity - stk.Quantity;
+
+                        _unitOfWork.ProductRepository.Update(pro);
+                    }
+
+
+                }
+            }
+
+          
+          
             _unitOfWork.Save();
             TempData["message"] = "success";
             return RedirectToAction("Index");
