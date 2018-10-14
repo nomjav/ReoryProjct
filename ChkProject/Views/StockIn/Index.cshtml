@@ -14,6 +14,7 @@
                     <h3 class="panel-title">StockIn Product</h3>
                 </div>
                 <div class="panel-body">
+
                     <div class="row">
                         @using (Html.BeginForm("AddStockIn", "StockIn", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
                         {
@@ -22,80 +23,49 @@
                             @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
                             @Html.HiddenFor(x => Model.StockInLocation, new { @id = "hdnstockinlocation" })
                             @*@Html.HiddenFor(x => Model.DateIn, new { @id = "hdnDatein" })*@
+                            <div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
 
-                            <div class="form-group required">
-                                <label class="control-label col-sm-2">Select Product:</label>
-                                <div class='col-sm-6'>
-                                    <div class="form-group">
-                                        <select id="ddlproduct" class="form-control" onchange="ddlproductchange()">
-                                            <option>--Select--</option>
-                                            @foreach (var item in Model.DDLProduct)
-                                            {
+                            <div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                                <div class="col-md-3">
+                                    <img width="172" src="~/assets/img/login-bg.jpg" />
+                                    <input type="text" class="form-control" />
+                                </div>
+                            </div>
 
-                                                <option value="@item.ProductId">@item.ProductName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
 
-                            </div>
-                            <div class="form-group required">
-                                <label class="control-label col-sm-2">Stock In Date:</label>
-                                <div class='col-sm-6'>
-                                    <div class="form-group" style="width:72%">
-                                        <div class='input-group date' id='date_in'>
-                                            <input required type='text' class="form-control" name="DateIn" id='@Model.DateIn' onchange="dateinchange()" />
-                                            <span class="input-group-addon">
-                                                <span class="glyphicon glyphicon-calendar"></span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group required">
-                                <label class="control-label col-sm-2">Company :</label>
-                                <div class='col-sm-6'>
-                                    <div class="form-group">
-                                        <select id="ddl_company" class="form-control" onchange="ddlcompanychange()">
-                                            <option>--Select--</option>
-                                            @foreach (var item in Model.DDLCompanyLocation)
-                                            {
 
-                                                <option value="@item.CompanyLocationId">@item.LocationName</option>
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="Quantity" id="lbl_Quantity">Quantity:</label>
-                                <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" />
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="control-label col-sm-2" for="Description" id="lbl_Description">Description:</label>
-                                <div class="col-sm-6" style="padding:0px;">
-                                    <textarea style="width : 100%" class="form-control z-depth-1" id="Description" rows="3" name="Description" placeholder="Write StockIn Description here..."></textarea>
-                                </div>
-                            </div>
-                            @*<div class="form-group">
-                                    <div class="col-sm-offset-2 col-sm-6">
-                                        <div class="checkbox">
-                                            <label><input type="checkbox" name="remember" checked> Active</label>
-                                        </div>
-                                    </div>
-                                </div>*@
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-6">
-                                    <button type="submit" class="btn btn-primary" id="btn_Add">Add StockIn</button>
-                                    <button type="button" class="btn btn-primary" id="btn_Update" style="display:none;" onclick="UpdateStockIn()">Update StockIn</button>
-                                </div>
-                            </div>
                         }
                     </div>
                 </div>
-
 
                 <div class="panel-heading">
                     <h3 class="panel-title">Stock-IN</h3>
@@ -168,8 +138,8 @@
                 $("#hdnDatein").val($('#datein').val());
             })
 
-            
-          
+
+
 
 
         });
