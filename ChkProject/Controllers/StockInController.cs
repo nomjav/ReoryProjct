@@ -92,6 +92,17 @@ namespace ChkProject.Controllers
         {
             try
             {
+
+                var q = from x in Info
+                        group x by x into g
+                        let count = g.Count()
+                        orderby count descending
+                        select new { Value = g.Key, Count = count };
+                foreach (var x in q)
+                {
+                    Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
+                }
+
                 StockInProduct _StockInProduct = new StockInProduct();
                 //var product = _unitOfWork.ProductRepository.GetSingle(x => x.ProductName == model.Description);
                 //if (product != null)
