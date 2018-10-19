@@ -22,6 +22,7 @@ namespace Chakwal.Data.Data
             this.StockOuts = new HashSet<StockOut>();
             this.StockOuts1 = new HashSet<StockOut>();
             this.Users = new HashSet<User>();
+            this.Teams = new HashSet<Team>();
         }
     
         public int LocationId { get; set; }
@@ -45,5 +46,6 @@ namespace Chakwal.Data.Data
         public virtual ICollection<StockOut> StockOuts { get; set; }
         public virtual ICollection<StockOut> StockOuts1 { get; set; }
         public virtual ICollection<User> Users { get; set; }
+        public virtual ICollection<Team> Teams { get; set; }
     }
 }

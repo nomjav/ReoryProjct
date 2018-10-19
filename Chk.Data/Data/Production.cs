@@ -12,14 +12,17 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class StockOut
+    public partial class Production
     {
-        public long StockOutId { get; set; }
-        public int ProductId { get; set; }
-        public System.DateTime DateOut { get; set; }
-        public int StockOutLocation { get; set; }
-        public Nullable<int> LocationTo { get; set; }
-        public decimal Quantity { get; set; }
+        public Production()
+        {
+            this.ItemUseds = new HashSet<ItemUsed>();
+            this.ProductMades = new HashSet<ProductMade>();
+        }
+    
+        public long ProductionId { get; set; }
+        public Nullable<System.DateTime> ProductionDate { get; set; }
+        public Nullable<int> TeamId { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
@@ -29,10 +32,9 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
-        public Nullable<decimal> SoldUnitPrice { get; set; }
     
-        public virtual CompanyLocation CompanyLocation { get; set; }
-        public virtual CompanyLocation CompanyLocation1 { get; set; }
-        public virtual Product Product { get; set; }
+        public virtual ICollection<ItemUsed> ItemUseds { get; set; }
+        public virtual Team Team { get; set; }
+        public virtual ICollection<ProductMade> ProductMades { get; set; }
     }
 }

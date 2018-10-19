@@ -114,10 +114,19 @@
     <Compile Include="Data\Item.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\ItemUsed.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\LoginHistory.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Product.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Production.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ProductMade.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Role.cs">
@@ -130,6 +139,9 @@
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\StockOut.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Team.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\User.cs">

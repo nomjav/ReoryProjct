@@ -77,6 +77,7 @@
                                     <th>Price</th>
                                     <th>Description</th>
                                     <th>Action</th>
+                                    <th>Barcode</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -92,7 +93,10 @@
                                             @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
                                             <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
                                             <td><a style="cursor:pointer;" id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)"><i class="glyphicon glyphicon-edit text-primary"></i></a> &nbsp;&nbsp;&nbsp;
-                                            <a style="cursor:pointer;" id="delete_@item.ProductId"  onclick="DeleteProduct(@item.ProductId)"><i class="glyphicon glyphicon-remove text-danger"></i></a></td>
+                                            <a style="cursor:pointer;" id="delete_@item.ProductId"  onclick="DeleteProduct(@item.ProductId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>  &nbsp;&nbsp;&nbsp;
+                                            
+                                            </td>
+                                            <td><img width="220" height="100" border="0" align="center" src="\@item.BarCodeImage" /></td>
                                         </tr>
                                     }
                                 }
@@ -100,6 +104,7 @@
 
                             </tbody>
                         </table>
+
                     </div>
                 </div>
 
@@ -138,6 +143,8 @@
            $("#hdnproductid").val(id);
         }
 
+      
+
         function UpdateProduct(check)
         {
             debugger;
@@ -161,7 +168,7 @@
             success: function (data) {
                 if (data)
                 {
-                    location.reload();
+                    //location.reload();
                     //alert("Data Update Successfully!");
                 }
             }

@@ -35,12 +35,16 @@ namespace Chakwal.Data.Data
         public DbSet<ErrorLog> ErrorLogs { get; set; }
         public DbSet<Item> Items { get; set; }
         public DbSet<LoginHistory> LoginHistories { get; set; }
-        public DbSet<Product> Products { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<StockInItem> StockInItems { get; set; }
         public DbSet<StockInProduct> StockInProducts { get; set; }
         public DbSet<StockOut> StockOuts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<ItemUsed> ItemUseds { get; set; }
+        public DbSet<Production> Productions { get; set; }
+        public DbSet<ProductMade> ProductMades { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

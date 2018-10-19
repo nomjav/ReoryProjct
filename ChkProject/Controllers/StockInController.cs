@@ -21,7 +21,7 @@ namespace ChkProject.Controllers
             StockInProductModel _StockInProductModel = new StockInProductModel();
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
-            var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false);
+            var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false).OrderByDescending(x=>x.StockInId);
             foreach (var item in productslist)
             {
                 DDLProducts ddlproduct = new DDLProducts();
@@ -59,7 +59,6 @@ namespace ChkProject.Controllers
 
         [HttpPost]
         public ActionResult AddStockIn(StockInProductModel model)
-
         {
             try
             {
@@ -87,6 +86,45 @@ namespace ChkProject.Controllers
 
         }
 
+
+        [HttpPost]
+        public JsonResult AddStockInWithBarcode(List<string> Info)
+        {
+            try
+            {
+                StockInProduct _StockInProduct = new StockInProduct();
+                //var product = _unitOfWork.ProductRepository.GetSingle(x => x.ProductName == model.Description);
+                //if (product != null)
+                //{
+                    
+                //    _StockInProduct.Quantity = 1;
+                //    _StockInProduct.ProductId = product.ProductId;
+                //    _StockInProduct.Description = product.Description;
+                //    _StockInProduct.DateIn = product.CreatedDate;
+                //    _StockInProduct.CreatedDate = DateTime.Now;
+                //    var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                //    var localUSer = _unitOfWork.LocalUserRepository.GetSingle(x => x.UserName == User.Identity.Name);
+                //    _StockInProduct.StockInLocation = 1;
+                //    if (user != null)
+                //    {
+                //        _StockInProduct.CreatedBy = user.Id;
+                //    }
+                //    _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
+                //    _unitOfWork.Save();
+                //    TempData["message"] = "success";
+                    
+                //}
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+          
+
+        }
 
         [HttpPost]
         public JsonResult UpdateStockIn(StockInProductModel model)

@@ -16,6 +16,7 @@ namespace Chakwal.Data.Data
     {
         public Product()
         {
+            this.ProductMades = new HashSet<ProductMade>();
             this.StockInProducts = new HashSet<StockInProduct>();
             this.StockOuts = new HashSet<StockOut>();
         }
@@ -33,7 +34,10 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+        public string BarCodeId { get; set; }
+        public string BarCodeImage { get; set; }
     
+        public virtual ICollection<ProductMade> ProductMades { get; set; }
         public virtual ICollection<StockInProduct> StockInProducts { get; set; }
         public virtual ICollection<StockOut> StockOuts { get; set; }
     }
