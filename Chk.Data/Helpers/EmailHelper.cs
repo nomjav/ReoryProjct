@@ -7,11 +7,11 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
+//using System.Web.Mvc;
 using System.Web;
 using System.Globalization;
 using System.Web.Hosting;
-using System.Data.Entity.Validation;
+//using System.Data.Entity.Validation;
 using Chakwal.Data.Repository;
 using Chakwal.Data.Data;
 

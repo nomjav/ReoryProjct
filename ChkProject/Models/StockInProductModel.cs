@@ -42,6 +42,8 @@ namespace ChkProject.Models
     {
         public int ProductId { get; set; }
         public string ProductName { get; set; }
+        public decimal UnitPrice { get; set; }
+        public decimal CurrentQuantity { get; set; }
     }
 
     public class DDLCompanyLocation

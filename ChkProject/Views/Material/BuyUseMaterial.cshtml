@@ -1,0 +1,216 @@
+﻿@using ChkProject.Models
+@model ItemUsedModel
+@{
+    ViewBag.Title = "BuyUseMaterial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Use Material</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Html.BeginForm("UseMaterial", "Material", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                        {
+                            @Html.HiddenFor(x => Model.ItemUsedId, new { @id = "hdnitemusedid" })
+                            @Html.HiddenFor(x => Model.ItemId, new { @id = "hdnitemid" })
+                            <div class="form-group required">
+                                <label class="control-label col-sm-2">Select Material:</label>
+                                <div class='col-sm-6'>
+                                    <div class="form-group">
+                                        <select id="ddlitem" class="form-control" onchange="ddlitemchange()">
+                                            <option>--Select--</option>
+                                            @foreach (var item in Model.DDLItems)
+                                            {
+
+                                                <option value="@item.ItemId">@item.ItemName</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="QuantityUsed">Quantity Used:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="QuantityUsed" placeholder="Enter Quantity" name="QuantityUsed" value="0">
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label col-sm-2">Used Date:</label>
+                                <div class='col-sm-6'>
+                                    <div class="form-group" style="width:72%">
+                                        <div class='input-group date' id='useDate'>
+                                            <input required type='text' class="form-control" name="UseDate" id='@Model.UseDate' />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="remember"> Active</label>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-6">
+                                    <button type="submit" class="btn btn-primary" id="btn_Add">Save</button>
+                                    <button type="button" class="btn btn-primary" id="btn_Update" style="display:none;" onclick="UpdateUsedItem()">Update</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Used Materials</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table id="UsedMaterialTable">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Measure Unit</th>
+                                    <th>Action</th>
+                                    <th style="display:none;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.ListItemUsed != null && Model.ListItemUsed.Count > 0)
+                                {
+                                    foreach (var item in Model.ListItemUsed)
+                                    {
+                                        <tr>
+                                            <td id="Itemname_@item.ItemUsedId">@item.ItemName</td>
+                                            <td id="quantity_@item.ItemUsedId">@item.QuantityUsed</td>
+                                            <td id="usedate_@item.ItemUsedId">@item.UseDate</td>
+                                            <td id="Measureunit_@item.ItemUsedId">@item.MeasureUnit</td>
+                                            @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
+                                                <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
+                                            <td>
+                                                <a style="cursor:pointer;" id="edit_@item.ItemUsedId" onclick="EditItemUsed(@item.ItemUsedId)"><i class="glyphicon glyphicon-edit text-primary"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a style="cursor:pointer;" id="delete_@item.ItemUsedId" onclick="DeleteItemUsed(@item.ItemUsedId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>
+                                            </td>
+                                            <td id="ItemId_@item.ItemUsedId">@item.ItemId</td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#useDate').datetimepicker();
+        });
+        $(document).ready(function () {
+            $('#UsedMaterialTable').DataTable();
+
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Material Added');
+            }
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Material updated');
+            }
+            // var update = true;
+           // $('#useDate').data("DateTimePicker").date();
+            $("#useDate").data("DateTimePicker").date(new Date());
+        });
+
+
+
+        function ddlitemchange()
+        {
+
+            $("#hdnitemid").val($("#ddlitem").val())
+
+
+
+        }
+        function EditItemUsed(id)
+        {
+            debugger;
+            $("#ddlitem").val($("#ItemId_" + id).text());
+            $('#useDate').data("DateTimePicker").date(new Date($("#usedate_" + id).text()));
+            $("#QuantityUsed").val($("#quantity_" + id).text());
+           
+           $("#btn_Add").hide();
+           $("#btn_Update").show();
+           $("#hdnitemusedid").val(id);
+
+
+        }
+
+        function UpdateUsedItem(check)
+        {
+            debugger;
+            var item = new Object();
+            item.ItemId = $("#ddlitem").val();
+            item.ItemUsedId = $("#hdnitemusedid").val();
+            item.UseDate = $("#useDate").datetimepicker('date');
+            item.QuantityUsed = $("#QuantityUsed").val();
+            if (check == "Delete")
+            {
+                item.IsDeleted = true;
+                item.ItemId = $("#hdnitemid").val();
+            }
+
+            $.ajax({
+                url: "@Url.Action("UpdateBuy_UseMaterial", "Material")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ model: item }),
+            success: function (data) {
+                if (data)
+                {
+                    location.reload();
+                    //alert("Data Update Successfully!");
+                }
+            }
+        });
+
+
+
+        }
+        function DeleteItemUsed(id)
+        {
+            debugger;
+            $("#hdnitemusedid").val(id);
+            $("#hdnitemid").val($("#ItemId_" + id).text());
+            UpdateUsedItem("Delete");
+
+
+
+        }
+
+
+
+    </script>
+}
+
+
+
+

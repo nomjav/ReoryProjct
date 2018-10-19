@@ -14,11 +14,6 @@ namespace Chakwal.Data.Data
     
     public partial class Team
     {
-        public Team()
-        {
-            this.Productions = new HashSet<Production>();
-        }
-    
         public int TeamId { get; set; }
         public string TeamName { get; set; }
         public Nullable<System.TimeSpan> ShiftStartTime { get; set; }
@@ -35,6 +30,5 @@ namespace Chakwal.Data.Data
         public Nullable<System.DateTime> DeletedDate { get; set; }
     
         public virtual CompanyLocation CompanyLocation { get; set; }
-        public virtual ICollection<Production> Productions { get; set; }
     }
 }

@@ -75,9 +75,64 @@ namespace ChkProject.Controllers
                     _StockInProduct.CreatedBy = user.Id;
                 }
                 _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
-                _unitOfWork.Save();
-                TempData["message"] = "success";
+                var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == model.ProductId);
+                if (pro != null)
+                {
+                        pro.CurrentQuantity = pro.CurrentQuantity + model.Quantity;
+
+                        _unitOfWork.ProductRepository.Update(pro);
+                    _unitOfWork.Save();
+                    TempData["message"] = "success";
+                }
             }
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+            }
+            return RedirectToAction("Index");
+
+        }
+
+
+        [HttpPost]
+        public ActionResult AddStockInList(List<StockInProductModel> model)
+
+        {
+            try
+            {
+                foreach (var st_in in model)
+                {
+                    StockInProduct _StockInProduct = new StockInProduct();
+                    _StockInProduct.StockInLocation = st_in.StockInLocation;
+                    _StockInProduct.Quantity = st_in.Quantity;
+                    _StockInProduct.ProductId = st_in.ProductId;
+                    _StockInProduct.Description = st_in.Description;
+                    _StockInProduct.DateIn = st_in.DateIn;
+                    _StockInProduct.CreatedDate = DateTime.Now;
+                    var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                    if (user != null)
+                    {
+                        _StockInProduct.CreatedBy = user.Id;
+                    }
+                    _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
+                    var pro = _unitOfWork.ProductRepository.GetSingle(t => t.ProductId == st_in.ProductId);
+                    if (pro != null)
+                    {
+                        if (pro.CurrentQuantity > st_in.Quantity)
+                        {
+                            pro.CurrentQuantity = pro.CurrentQuantity + st_in.Quantity;
+
+                            _unitOfWork.ProductRepository.Update(pro);
+                        }
+
+
+                    }
+
+                    _unitOfWork.Save();
+                    TempData["message"] = "success";
+                }
+            }
+
             catch (Exception ex)
             {
                 TempData["message"] = "error";

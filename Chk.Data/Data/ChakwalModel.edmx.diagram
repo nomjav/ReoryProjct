@@ -15,6 +15,7 @@
         <EntityTypeShape EntityType="CHK_InventoryModel.ErrorLog" Width="1.5" PointX="7.75" PointY="7.375" />
         <EntityTypeShape EntityType="CHK_InventoryModel.Item" Width="1.5" PointX="3" PointY="18" />
         <EntityTypeShape EntityType="CHK_InventoryModel.LoginHistory" Width="1.5" PointX="9.75" PointY="8.375" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Product" Width="1.5" PointX="6" PointY="0.75" />
         <EntityTypeShape EntityType="CHK_InventoryModel.Role" Width="1.5" PointX="3" PointY="23.125" />
         <EntityTypeShape EntityType="CHK_InventoryModel.StockInItem" Width="1.5" PointX="5.25" PointY="5.5" />
         <EntityTypeShape EntityType="CHK_InventoryModel.StockInProduct" Width="1.5" PointX="8.25" PointY="11.5" />
@@ -32,21 +33,15 @@
         <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_LocationTo" />
         <AssociationConnector Association="CHK_InventoryModel.FK_User_LocationId" />
         <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Item" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockIn_Product" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_Product" />
         <AssociationConnector Association="CHK_InventoryModel.FK_User_Role" />
         <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Vendor" />
         <AssociationConnector Association="CHK_InventoryModel.AspNetUserRoles" />
-        <EntityTypeShape EntityType="CHK_InventoryModel.ItemUsed" Width="1.5" PointX="9.75" PointY="28.625" />
-        <EntityTypeShape EntityType="CHK_InventoryModel.Production" Width="1.5" PointX="7.5" PointY="23.875" />
-        <EntityTypeShape EntityType="CHK_InventoryModel.ProductMade" Width="1.5" PointX="10.75" PointY="12.25" />
-        <EntityTypeShape EntityType="CHK_InventoryModel.Team" Width="1.5" PointX="5.25" PointY="23.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Team" Width="1.5" PointX="5.25" PointY="23.875" />
         <AssociationConnector Association="CHK_InventoryModel.FK_Team_CompanyLocation" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_ItemUsed_Production" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_Production_Team" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_ProductMade_Production" />
-        <EntityTypeShape EntityType="CHK_InventoryModel.Product" Width="1.5" PointX="0.75" PointY="16.75" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_ProductMade_Product" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_StockIn_Product" />
-        <AssociationConnector Association="CHK_InventoryModel.FK_StockOut_Product" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.ItemUsed" Width="1.5" PointX="10.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.ItemBuy" Width="1.5" PointX="12.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

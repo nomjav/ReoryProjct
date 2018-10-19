@@ -138,6 +138,25 @@
           <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="ItemBuy">
+          <Key>
+            <PropertyRef Name="ItemBuyId" />
+          </Key>
+          <Property Name="ItemBuyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionId" Type="bigint" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="QuantityBuy" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BuyDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="ItemUsed">
           <Key>
             <PropertyRef Name="ItemUsedId" />
@@ -146,6 +165,7 @@
           <Property Name="ProductionId" Type="bigint" />
           <Property Name="ItemId" Type="int" />
           <Property Name="QuantityUsed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UseDate" Type="datetime" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -638,6 +658,7 @@
           <EntitySet Name="CompanyLocation" EntityType="Self.CompanyLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemBuy" EntityType="Self.ItemBuy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemUsed" EntityType="Self.ItemUsed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistory" EntityType="Self.LoginHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
@@ -849,6 +870,13 @@
             <End Role="Product" EntitySet="Products" />
             <End Role="StockOut" EntitySet="StockOuts" />
           </AssociationSet>
+          <EntitySet Name="Teams" EntityType="CHK_InventoryModel.Team" />
+          <AssociationSet Name="FK_Team_CompanyLocation" Association="CHK_InventoryModel.FK_Team_CompanyLocation">
+            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <EntitySet Name="ItemUseds" EntityType="CHK_InventoryModel.ItemUsed" />
+          <EntitySet Name="ItemBuys" EntityType="CHK_InventoryModel.ItemBuy" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -1087,6 +1115,7 @@
           <NavigationProperty Name="CompanyLocation1" Relationship="CHK_InventoryModel.FK_StockOut_LocationTo" FromRole="StockOut" ToRole="CompanyLocation" />
           <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
           <NavigationProperty Name="Product" Relationship="CHK_InventoryModel.FK_StockOut_Product" FromRole="StockOut" ToRole="Product" />
+          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="User">
           <Key>
