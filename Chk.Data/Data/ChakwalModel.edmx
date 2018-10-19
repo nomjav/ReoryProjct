@@ -138,6 +138,44 @@
           <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
           <Property Name="DeletedDate" Type="datetime" />
         </EntityType>
+        <EntityType Name="ItemBuy">
+          <Key>
+            <PropertyRef Name="ItemBuyId" />
+          </Key>
+          <Property Name="ItemBuyId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionId" Type="bigint" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="QuantityBuy" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BuyDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ItemUsed">
+          <Key>
+            <PropertyRef Name="ItemUsedId" />
+          </Key>
+          <Property Name="ItemUsedId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionId" Type="bigint" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="QuantityUsed" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UseDate" Type="datetime" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="LoginHistory">
           <Key>
             <PropertyRef Name="LoginId" />
@@ -231,6 +269,26 @@
           <Property Name="StockOutLocation" Type="int" Nullable="false" />
           <Property Name="LocationTo" Type="int" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SoldUnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="100" />
+          <Property Name="ShiftStartTime" Type="time" Precision="7" />
+          <Property Name="ShiftEndTime" Type="time" Precision="7" />
+          <Property Name="CompanyLocationId" Type="int" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -456,6 +514,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Team_CompanyLocation">
+          <End Role="CompanyLocation" Type="Self.CompanyLocation" Multiplicity="0..1" />
+          <End Role="Team" Type="Self.Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyLocation">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="CompanyLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Company">
           <End Role="Company" Type="Self.Company" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -503,12 +573,15 @@
           <EntitySet Name="CompanyLocation" EntityType="Self.CompanyLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemBuy" EntityType="Self.ItemBuy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ItemUsed" EntityType="Self.ItemUsed" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="LoginHistory" EntityType="Self.LoginHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockInItem" EntityType="Self.StockInItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockInProduct" EntityType="Self.StockInProduct" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StockOut" EntityType="Self.StockOut" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vendor" EntityType="Self.Vendor" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CompanyLocation_Company" Association="Self.FK_CompanyLocation_Company">
@@ -566,6 +639,10 @@
           <AssociationSet Name="FK_StockOut_Product" Association="Self.FK_StockOut_Product">
             <End Role="Product" EntitySet="Product" />
             <End Role="StockOut" EntitySet="StockOut" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Team_CompanyLocation" Association="Self.FK_Team_CompanyLocation">
+            <End Role="CompanyLocation" EntitySet="CompanyLocation" />
+            <End Role="Team" EntitySet="Team" />
           </AssociationSet>
           <AssociationSet Name="FK_User_Company" Association="Self.FK_User_Company">
             <End Role="Company" EntitySet="Company" />
@@ -666,6 +743,13 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="Teams" EntityType="CHK_InventoryModel.Team" />
+          <AssociationSet Name="FK_Team_CompanyLocation" Association="CHK_InventoryModel.FK_Team_CompanyLocation">
+            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
+            <End Role="Team" EntitySet="Teams" />
+          </AssociationSet>
+          <EntitySet Name="ItemUseds" EntityType="CHK_InventoryModel.ItemUsed" />
+          <EntitySet Name="ItemBuys" EntityType="CHK_InventoryModel.ItemBuy" />
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -771,6 +855,7 @@
           <NavigationProperty Name="StockOuts" Relationship="CHK_InventoryModel.FK_StockOut_Location" FromRole="CompanyLocation" ToRole="StockOut" />
           <NavigationProperty Name="StockOuts1" Relationship="CHK_InventoryModel.FK_StockOut_LocationTo" FromRole="CompanyLocation" ToRole="StockOut" />
           <NavigationProperty Name="Users" Relationship="CHK_InventoryModel.FK_User_LocationId" FromRole="CompanyLocation" ToRole="User" />
+          <NavigationProperty Name="Teams" Relationship="CHK_InventoryModel.FK_Team_CompanyLocation" FromRole="CompanyLocation" ToRole="Team" />
         </EntityType>
         <EntityType Name="ErrorLog">
           <Key>
@@ -922,6 +1007,7 @@
           <NavigationProperty Name="CompanyLocation" Relationship="CHK_InventoryModel.FK_StockOut_Location" FromRole="StockOut" ToRole="CompanyLocation" />
           <NavigationProperty Name="CompanyLocation1" Relationship="CHK_InventoryModel.FK_StockOut_LocationTo" FromRole="StockOut" ToRole="CompanyLocation" />
           <NavigationProperty Name="Product" Relationship="CHK_InventoryModel.FK_StockOut_Product" FromRole="StockOut" ToRole="Product" />
+          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1154,6 +1240,76 @@
           <End Type="CHK_InventoryModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="TeamId" />
+          </Key>
+          <Property Name="TeamId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ShiftStartTime" Type="Time" Precision="7" />
+          <Property Name="ShiftEndTime" Type="Time" Precision="7" />
+          <Property Name="CompanyLocationId" Type="Int32" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="CompanyLocation" Relationship="CHK_InventoryModel.FK_Team_CompanyLocation" FromRole="Team" ToRole="CompanyLocation" />
+        </EntityType>
+        <Association Name="FK_Team_CompanyLocation">
+          <End Type="CHK_InventoryModel.CompanyLocation" Role="CompanyLocation" Multiplicity="0..1" />
+          <End Type="CHK_InventoryModel.Team" Role="Team" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CompanyLocation">
+              <PropertyRef Name="LocationId" />
+            </Principal>
+            <Dependent Role="Team">
+              <PropertyRef Name="CompanyLocationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ItemUsed">
+          <Key>
+            <PropertyRef Name="ItemUsedId" />
+          </Key>
+          <Property Name="ItemUsedId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionId" Type="Int64" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="QuantityUsed" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UseDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="ItemBuy">
+          <Key>
+            <PropertyRef Name="ItemBuyId" />
+          </Key>
+          <Property Name="ItemBuyId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionId" Type="Int64" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="QuantityBuy" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BuyDate" Type="DateTime" Precision="3" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1382,6 +1538,7 @@
           <EntitySetMapping Name="StockOuts">
             <EntityTypeMapping TypeName="CHK_InventoryModel.StockOut">
               <MappingFragment StoreEntitySet="StockOut">
+                <ScalarProperty Name="SoldUnitPrice" ColumnName="SoldUnitPrice" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
                 <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1449,6 +1606,66 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="CHK_InventoryModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="CompanyLocationId" ColumnName="CompanyLocationId" />
+                <ScalarProperty Name="ShiftEndTime" ColumnName="ShiftEndTime" />
+                <ScalarProperty Name="ShiftStartTime" ColumnName="ShiftStartTime" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemUseds">
+            <EntityTypeMapping TypeName="CHK_InventoryModel.ItemUsed">
+              <MappingFragment StoreEntitySet="ItemUsed">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UseDate" ColumnName="UseDate" />
+                <ScalarProperty Name="QuantityUsed" ColumnName="QuantityUsed" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ProductionId" ColumnName="ProductionId" />
+                <ScalarProperty Name="ItemUsedId" ColumnName="ItemUsedId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemBuys">
+            <EntityTypeMapping TypeName="CHK_InventoryModel.ItemBuy">
+              <MappingFragment StoreEntitySet="ItemBuy">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="BuyDate" ColumnName="BuyDate" />
+                <ScalarProperty Name="QuantityBuy" ColumnName="QuantityBuy" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ProductionId" ColumnName="ProductionId" />
+                <ScalarProperty Name="ItemBuyId" ColumnName="ItemBuyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

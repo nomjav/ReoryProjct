@@ -42,5 +42,8 @@ namespace Chakwal.Data.Data
         public DbSet<StockOut> StockOuts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<ItemUsed> ItemUseds { get; set; }
+        public DbSet<ItemBuy> ItemBuys { get; set; }
     }
 }

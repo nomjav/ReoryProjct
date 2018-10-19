@@ -38,6 +38,10 @@
         <AssociationConnector Association="CHK_InventoryModel.FK_User_Role" />
         <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Vendor" />
         <AssociationConnector Association="CHK_InventoryModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Team" Width="1.5" PointX="5.25" PointY="23.875" />
+        <AssociationConnector Association="CHK_InventoryModel.FK_Team_CompanyLocation" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.ItemUsed" Width="1.5" PointX="10.375" PointY="11.75" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.ItemBuy" Width="1.5" PointX="12.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -185,7 +185,9 @@
     <Compile Include="Models\CompanyModel.cs" />
     <Compile Include="Models\HomeModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ItemBuyModel.cs" />
     <Compile Include="Models\ItemModel.cs" />
+    <Compile Include="Models\ItemUsedModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ProductModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
@@ -332,6 +334,8 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Company\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Material\BuyUseMaterial.cshtml" />
+    <Content Include="Views\Material\BuyMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
