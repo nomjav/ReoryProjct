@@ -15,6 +15,7 @@ namespace ChkProject.Models
             DDLTeam = new List<DDLTeam>();
             
         }
+
         public long StockInId { get; set; }
         public int ProductId { get; set; }
         public System.DateTime DateIn { get; set; }
@@ -49,7 +50,7 @@ namespace ChkProject.Models
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal CurrentQuantity { get; set; }
+        public decimal? CurrentQuantity { get; set; }
     }
 
     public class DDLCompanyLocation

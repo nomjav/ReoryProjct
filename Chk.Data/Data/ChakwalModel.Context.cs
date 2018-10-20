@@ -11,7 +11,10 @@ namespace Chakwal.Data.Data
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+
+    using System.Linq;
     
     public partial class CHK_InventoryEntities : DbContext
     {
@@ -25,27 +28,52 @@ namespace Chakwal.Data.Data
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
-        public virtual DbSet<Company> Companies { get; set; }
-        public virtual DbSet<CompanyLocation> CompanyLocations { get; set; }
-        public virtual DbSet<ErrorLog> ErrorLogs { get; set; }
-        public virtual DbSet<Item> Items { get; set; }
-        public virtual DbSet<ItemBuy> ItemBuys { get; set; }
-        public virtual DbSet<ItemUsed> ItemUseds { get; set; }
-        public virtual DbSet<LoginHistory> LoginHistories { get; set; }
-        public virtual DbSet<Product> Products { get; set; }
-        public virtual DbSet<Production> Productions { get; set; }
-        public virtual DbSet<ProductMade> ProductMades { get; set; }
-        public virtual DbSet<Role> Roles { get; set; }
-        public virtual DbSet<StockInItem> StockInItems { get; set; }
-        public virtual DbSet<StockInProduct> StockInProducts { get; set; }
-        public virtual DbSet<StockOut> StockOuts { get; set; }
-        public virtual DbSet<Team> Teams { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Vendor> Vendors { get; set; }
+        public DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
+        public DbSet<AspNetRole> AspNetRoles { get; set; }
+        public DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+        public DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+        public DbSet<AspNetUser> AspNetUsers { get; set; }
+        public DbSet<Company> Companies { get; set; }
+        public DbSet<CompanyLocation> CompanyLocations { get; set; }
+        public DbSet<ErrorLog> ErrorLogs { get; set; }
+        public DbSet<Item> Items { get; set; }
+        public DbSet<LoginHistory> LoginHistories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<StockInItem> StockInItems { get; set; }
+        public DbSet<StockInProduct> StockInProducts { get; set; }
+        public DbSet<StockOut> StockOuts { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
+    
+        public virtual ObjectResult<SP_StockOut_Result> SP_StockOut(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_StockOut_Result>("SP_StockOut", fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<SP_StockIn_Result> SP_StockIn(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> product)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var productParameter = product.HasValue ?
+                new ObjectParameter("Product", product) :
+                new ObjectParameter("Product", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_StockIn_Result>("SP_StockIn", fromDateParameter, toDateParameter, productParameter);
+        }
     }
 }

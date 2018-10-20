@@ -1,0 +1,180 @@
+﻿@using ChkProject.Models
+@model StockOutModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">StockIn Product Report</h3>
+                </div>
+
+
+                @*<div class="panel-heading">
+                        <h3 class="panel-title">Stock-IN</h3>
+                    </div>*@
+                <div class="panel-body">
+                    <div class="row">
+
+
+                        @using (Html.BeginForm())
+                        {
+
+                            <div class="widget blue no-border-top" id="createEditPartPanel">
+                                <div class="content">
+                                    <div class="widget-title">
+                                        <h4>
+                                            <i class="icon-reorder"></i>@ViewBag.Title
+                                        </h4>
+                                    </div>
+                                    <table id="fitlerPanel">
+                                        <tbody>
+                                            <tr>
+                                                <td class="7">
+                                                    @Html.ValidationSummary(true)
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>From Date:</td>
+                                                <td>
+                                                    @Html.TextBoxFor(c => c.FromDate, new { @class = "date required", @autocomplete = "off" })
+                                                </td>
+                                                <td>To Date:</td>
+                                                <td>
+                                                    @Html.TextBoxFor(c => c.ToDate, new { @class = "date required", @autocomplete = "off" })
+                                                </td>
+
+
+                                                <td>
+                                                    <button type="submit" id="btnRenderAgentsReport" class="btn btn-primary btn-large">Preview Sheet</button>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <div class="clearfix"></div>
+
+                                    @if (Model.ReportGenerated)
+                                    {
+                                        if (Model.StockOutModelList.Any())
+                                        {
+                                            <div id="HideReportButtons">
+                                                <div style="text-align: left;width: 100%;">
+
+                                                    <br />
+                                                    <br />
+                                                </div>
+                                                <div id="ReportContainer">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+
+                                                                <th>
+                                                                    Product Name
+                                                                </th>
+                                                                <th>
+                                                                    Quantity
+                                                                </th>
+
+                                                                <th>
+                                                                    Total Pirce
+                                                                </th>
+                                                                <th>
+                                                                    Branch Name
+                                                                </th>
+
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody style="background: #fff">
+
+                                                            @foreach (var items in Model.StockOutModelList)
+                                                            {
+
+                                                                <tr>
+                                                                    <td style="text-align:left;"> @items.ProductName</td>
+                                                                    <td style="text-align:left;"> @items.Quantity</td>
+                                                                    <td style="text-align:left;"> @items.Price</td>
+                                                                    <td style="text-align:left;"> @items.CompanyName</td>
+
+
+
+                                                                </tr>
+                                                            }
+                                                            <tr>
+                                                                <td colspan="5" style="text-align:right;"><b>Grand Total @Model.StockOutModelList.Sum(x => x.Price).Value.ToString("C")</b></td>
+                                                            </tr>
+                                                        </tbody>
+
+                                                    </table>
+                                                    @*<style>
+                                                        .contractorCheckBox {
+                                                        }
+
+                                                        td {
+                                                            border: 1px solid #DDD !important;
+                                                            padding: 10px 7px;
+                                                        }
+
+                                                        #fitlerPanel, #fitlerPanel td {
+                                                            border: none !important;
+                                                        }
+
+                                                        th {
+                                                            border: 1px solid #DDD !important;
+                                                            background-color: #DDD;
+                                                            padding: 10px 7px;
+                                                        }
+
+                                                        table {
+                                                            border-collapse: collapse;
+                                                        }
+
+                                                        @@media print {
+                                                            td {
+                                                                border: 1px solid #DDD !important;
+                                                                padding: 10px 7px;
+                                                            }
+
+                                                            th {
+                                                                border: 1px solid #DDD !important;
+                                                                background-color: #DDD;
+                                                                padding: 10px 7px;
+                                                            }
+                                                        }
+                                                    </style>*@
+
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    @*<script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Scripts/jquery-ui-timepicker-addon.min.js"></script>
+    <a href="~/Scripts/jquery-1.12.4.min.map">~/Scripts/jquery-1.12.4.min.map</a>*@
+    <script>
+        var contractorIds = new Array();
+        $(document).ready(function () {
+            $(".date").datepicker();
+        });
+
+    </script>
+}

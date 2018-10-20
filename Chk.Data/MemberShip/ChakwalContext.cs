@@ -27,6 +27,7 @@ namespace Chakwal.Data.MemberShip
                     }
                 }
             }
+#pragma warning disable
             catch (Exception ex)
             {
                 //Logger.Logger.LogException(ex.Message + ex.InnerException, ex);

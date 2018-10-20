@@ -98,6 +98,7 @@ namespace ChkProject.Controllers
                     TempData["message"] = "success";
                 }
             }
+#pragma warning disable
             catch (Exception ex)
             {
                 TempData["message"] = "error";

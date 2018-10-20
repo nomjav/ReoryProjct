@@ -166,6 +166,7 @@ namespace AcademyLockSmith.Data.Helpers
                 SecurityHelper.Decrypt(text);
                 return true;
             }
+#pragma warning disable
             catch (Exception ex)
             {
                 return false;
