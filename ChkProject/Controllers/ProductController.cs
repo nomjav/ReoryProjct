@@ -8,6 +8,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Chakwal.Data.MemberShip;
+using System.IO;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Text.RegularExpressions;
+using System.Drawing.Text;
 
 namespace ChkProject.Controllers
 {
@@ -31,8 +36,8 @@ namespace ChkProject.Controllers
                 product.Description = item.Description;
                 product.CreatedBy = item.CreatedBy;
                 product.CreatedDate = item.CreatedDate;
-
-
+                product.BarCodeId = item.BarCodeId;
+                product.BarCodeImage = item.BarCodeImage;
                 pm.productList.Add(product);
             }
             return View(pm);
@@ -61,7 +66,7 @@ namespace ChkProject.Controllers
                 product.Description = item.Description;
                 product.CreatedBy = item.CreatedBy;
                 product.CreatedDate = item.CreatedDate;
-
+                product.BarCodeImage = item.BarCodeImage;
 
                 pm.productList.Add(product);
             }
@@ -84,7 +89,6 @@ namespace ChkProject.Controllers
                     pro.IsDeleted = true;
                     pro.DeletedBy = _user.Id;
                     pro.DeletedDate = DateTime.Now;
-
                 }
                 else
                 {
@@ -109,24 +113,52 @@ namespace ChkProject.Controllers
 
         [HttpPost]
         public ActionResult AddProduct(ProductModel model)
-
         {
-
-            Product p = new Product();
-            p.ProductName = model.ProductName;
-            p.UnitPrice = model.UnitPrice;
-            p.CurrentQuantity = model.CurrentQuantity.Value;
-            p.Description = model.Description;
-            p.CreatedDate = DateTime.Now;
-            var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
-            if (user != null)
+            try
             {
-                p.CreatedBy = user.Id;
+                Product p = new Product();
+                p.ProductName = model.ProductName;
+                p.UnitPrice = model.UnitPrice;
+                p.CurrentQuantity = model.CurrentQuantity;
+                p.Description = model.Description;
+                p.CreatedDate = DateTime.Now;
+                model.BarCodeId = model.ProductName;
+                p.BarCodeId = model.BarCodeId;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    p.CreatedBy = user.Id;
+                }
+                
+                var bID = RemoveSpecialCharacters(model.BarCodeId);
+                string mynewpath = Request.PhysicalApplicationPath + "Upload\\" + bID + ".jpg";
+                GenerateBarCode(model.BarCodeId, mynewpath);
+                p.BarCodeImage = "Upload\\" + bID + ".jpg";
+                _unitOfWork.ProductRepository.Insert(p);
+                _unitOfWork.Save();
+                TempData["message"] = "success";
             }
-            _unitOfWork.ProductRepository.Insert(p);
-            _unitOfWork.Save();
-            TempData["message"] = "success";
+            catch (Exception ex)
+            {
+
+            }
             return RedirectToAction("Index");
         }
+
+        public static string RemoveSpecialCharacters(string str)
+        {
+            return Regex.Replace(str, "[^a-zA-Z0-9_.]+", "", RegexOptions.Compiled);
+        }
+
+
+        public void GenerateBarCode(string data, string path)
+        {
+            BarcodeLib.Barcode b = new BarcodeLib.Barcode();
+            Image img = b.Encode(BarcodeLib.TYPE.CODE39Extended, data, Color.Black, Color.White, 290, 120);
+            img.Save(path, ImageFormat.Jpeg);
+        }
+
     }
+
+
 }

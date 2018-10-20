@@ -12,19 +12,19 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class Production
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Item()
+        public Production()
         {
-            this.StockInItems = new HashSet<StockInItem>();
+            this.ItemUseds = new HashSet<ItemUsed>();
+            this.ProductMades = new HashSet<ProductMade>();
         }
     
-        public int ItemId { get; set; }
-        public string ItemName { get; set; }
-        public string UnitPrice { get; set; }
-        public string MeasureUnit { get; set; }
-        public decimal QuantityPresent { get; set; }
+        public long ProductionId { get; set; }
+        public Nullable<System.DateTime> ProductionDate { get; set; }
+        public Nullable<int> TeamId { get; set; }
+        public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -35,6 +35,9 @@ namespace Chakwal.Data.Data
         public Nullable<System.DateTime> DeletedDate { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<StockInItem> StockInItems { get; set; }
+        public virtual ICollection<ItemUsed> ItemUseds { get; set; }
+        public virtual Team Team { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ProductMade> ProductMades { get; set; }
     }
 }

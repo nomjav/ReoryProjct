@@ -19,15 +19,24 @@ namespace ChkProject.Controllers
         {
 
             StockInProductModel _StockInProductModel = new StockInProductModel();
+            var lcl_user = _unitOfWork.LocalUserRepository.GetSingle(t => t.UserName == User.Identity.Name);
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
-            var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false);
+            var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false).OrderByDescending(x=>x.StockInId);
+            var TeamList = _unitOfWork.TeamRepository.Get(x => x.IsDeleted == false);
             foreach (var item in productslist)
             {
                 DDLProducts ddlproduct = new DDLProducts();
                 ddlproduct.ProductId = item.ProductId;
                 ddlproduct.ProductName = item.ProductName;
                 _StockInProductModel.DDLProduct.Add(ddlproduct);
+            }
+            foreach (var item in TeamList)
+            {
+                DDLTeam ddlTeam = new DDLTeam();
+                ddlTeam.TeamId = item.TeamId;
+                ddlTeam.TeamName = item.TeamName;
+                _StockInProductModel.DDLTeam.Add(ddlTeam);
             }
             foreach (var item in companylocationlist)
             {
@@ -45,12 +54,15 @@ namespace ChkProject.Controllers
                 tempStockInProduct.DateIn = item.DateIn;
                 tempStockInProduct.StockInLocation = item.StockInLocation;
                 tempStockInProduct.LocationFrom = item.LocationFrom;
+                tempStockInProduct.TeamId = item.TeamId;
                 tempStockInProduct.Quantity = item.Quantity;
                 tempStockInProduct.Description = item.Description;
                 tempStockInProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y=>y.ProductName).FirstOrDefault();
                 tempStockInProduct.LocationName = companylocationlist.Where(x => x.LocationId == item.StockInLocation).Select(y => y.LocationName).FirstOrDefault();
+                tempStockInProduct.TeamName = TeamList.Where(x => x.TeamId == item.TeamId).Select(y => y.TeamName).FirstOrDefault();
                 _StockInProductModel.StockInProductList.Add(tempStockInProduct);
             }
+            _StockInProductModel.selectedLocationid = lcl_user.LocationId;
             return View(_StockInProductModel);
         }
 
@@ -59,13 +71,13 @@ namespace ChkProject.Controllers
 
         [HttpPost]
         public ActionResult AddStockIn(StockInProductModel model)
-
         {
             try
             {
                 StockInProduct _StockInProduct = new StockInProduct();
                 _StockInProduct.StockInLocation = model.StockInLocation;
                 _StockInProduct.Quantity = model.Quantity;
+                _StockInProduct.TeamId = model.TeamId;
                 _StockInProduct.ProductId = model.ProductId;
                 _StockInProduct.Description = model.Description;
                 _StockInProduct.DateIn = model.DateIn;
@@ -145,6 +157,58 @@ namespace ChkProject.Controllers
 
 
         [HttpPost]
+        public JsonResult AddStockInWithBarcode(List<string> Info, string Team)
+        {
+            try
+            {
+                var teamID = Convert.ToInt32(Team);
+                var q = from x in Info
+                        group x by x into g
+                        let count = g.Count()
+                        orderby count descending
+                        select new { Value = g.Key, Count = count };
+                foreach (var x in q)
+                {
+                    //Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
+
+                    StockInProduct _StockInProduct = new StockInProduct();
+                    var product = _unitOfWork.ProductRepository.GetSingle(p => p.ProductName == x.Value);
+                    if (product != null)
+                    {
+
+                        _StockInProduct.Quantity = x.Count;
+                        _StockInProduct.ProductId = product.ProductId;
+                        _StockInProduct.Description = product.Description;
+                        _StockInProduct.DateIn = DateTime.Now;
+                        _StockInProduct.CreatedDate = DateTime.Now;
+                        _StockInProduct.TeamId = teamID;
+                        var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                        var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                        _StockInProduct.StockInLocation = 1;
+                        if (user != null)
+                        {
+                            _StockInProduct.CreatedBy = user.Id;
+                        }
+                        _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
+                        _unitOfWork.Save();
+                        TempData["message"] = "success";
+
+                    }
+
+                }
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+          
+
+        }
+
+        [HttpPost]
         public JsonResult UpdateStockIn(StockInProductModel model)
         {
             try
@@ -167,6 +231,7 @@ namespace ChkProject.Controllers
                     stockin.ProductId = model.ProductId;
                     stockin.DateIn = model.DateIn;
                     stockin.Quantity = model.Quantity;
+                    stockin.TeamId = model.TeamId;
                     stockin.Description = model.Description;
                     stockin.ModifiedDate = DateTime.Now;
                 }

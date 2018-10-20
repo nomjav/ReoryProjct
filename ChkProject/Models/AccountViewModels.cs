@@ -64,6 +64,12 @@ namespace ChkProject.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            DDLLocation = new List<DDLLocationData>();
+            DDLRole = new List<DDLRoleData>();
+
+        }
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -88,6 +94,8 @@ namespace ChkProject.Models
         public int RoleId { get; set; }
         [Display(Name = "Location")]
         public int LocationId { get; set; }
+        public List<DDLLocationData> DDLLocation { get; set; }
+        public List<DDLRoleData> DDLRole { get; set; }
     }
 
     public class ResetPasswordViewModel
@@ -117,5 +125,19 @@ namespace ChkProject.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+    }
+
+
+    public class DDLLocationData
+    {
+        public int LocationId { get; set; }
+        public string LocationName { get; set; }
+
+    }
+    public class DDLRoleData
+    {
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
+
     }
 }

@@ -12,12 +12,20 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ErrorLog
+    public partial class Team
     {
-        public int ErrorId { get; set; }
-        public string ErrorMessage { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public System.DateTime ErrorTime { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Team()
+        {
+            this.Productions = new HashSet<Production>();
+        }
+    
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
+        public Nullable<System.TimeSpan> ShiftStartTime { get; set; }
+        public Nullable<System.TimeSpan> ShiftEndTime { get; set; }
+        public Nullable<int> CompanyLocationId { get; set; }
+        public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -26,5 +34,9 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+    
+        public virtual CompanyLocation CompanyLocation { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Production> Productions { get; set; }
     }
 }

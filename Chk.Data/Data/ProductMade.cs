@@ -12,12 +12,13 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ErrorLog
+    public partial class ProductMade
     {
-        public int ErrorId { get; set; }
-        public string ErrorMessage { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public System.DateTime ErrorTime { get; set; }
+        public long ProductMadeId { get; set; }
+        public Nullable<long> ProductionId { get; set; }
+        public Nullable<int> ProductId { get; set; }
+        public Nullable<decimal> QuantityMade { get; set; }
+        public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -26,5 +27,8 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+    
+        public virtual Product Product { get; set; }
+        public virtual Production Production { get; set; }
     }
 }

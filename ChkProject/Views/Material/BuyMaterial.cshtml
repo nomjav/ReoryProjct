@@ -1,0 +1,217 @@
+﻿@using ChkProject.Models
+@model ItemBuyModel
+@{
+    ViewBag.Title = "BuyMaterial";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Buy Material</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        @using (Html.BeginForm("BuyMaterial", "Material", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
+                        {
+                            @Html.HiddenFor(x => Model.ItemBuyId, new { @id = "hdnitembuyid" })
+                            @Html.HiddenFor(x => Model.ItemId, new { @id = "hdnitemid" })
+                            <div class="form-group required">
+                                <label class="control-label col-sm-2">Select Material:</label>
+                                <div class='col-sm-6'>
+                                    <div class="form-group">
+                                        <select id="ddlitem" class="form-control" onchange="ddlitemchange()">
+                                            <option>--Select--</option>
+                                            @foreach (var item in Model.DDLItems)
+                                            {
+
+                                                <option value="@item.ItemId">@item.ItemName</option>
+                                            }
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="QuantityBuy">Quantity Buy:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="QuantityBuy" placeholder="Enter Quantity" name="QuantityBuy" value="0">
+                                </div>
+                            </div>
+                            <div class="form-group required">
+                                <label class="control-label col-sm-2">Buy Date:</label>
+                                <div class='col-sm-6'>
+                                    <div class="form-group" style="width:72%">
+                                        <div class='input-group date' id='buyDate'>
+                                            <input required type='text' class="form-control" name="BuyDate" id='@Model.BuyDate' />
+                                            <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-6">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" name="remember"> Active</label>
+                                        </div>
+                                    </div>
+                                </div>*@
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-6">
+                                    <button type="submit" class="btn btn-primary" id="btn_Add">Save</button>
+                                    <button type="button" class="btn btn-primary" id="btn_Update" style="display:none;" onclick="UpdateBuyItem()">Update</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="panel-heading">
+                    <h3 class="panel-title">Buy Materials</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <table id="BuyMaterialTable">
+                            <thead>
+                                <tr>
+
+                                    <th>Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Measure Unit</th>
+                                    <th>Action</th>
+                                    <th style="display:none;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.ListItemBuy != null && Model.ListItemBuy.Count > 0)
+                                {
+                                    foreach (var item in Model.ListItemBuy)
+                                    {
+                                        <tr>
+                                            <td id="Itemname_@item.ItemBuyId">@item.ItemName</td>
+                                            <td id="quantity_@item.ItemBuyId">@item.QuantityBuy</td>
+                                            <td id="buydate_@item.ItemBuyId">@item.BuyDate</td>
+                                            <td id="Measureunit_@item.ItemBuyId">@item.MeasureUnit</td>
+                                            @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
+                                                <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
+                                            <td>
+                                                <a style="cursor:pointer;" id="edit_@item.ItemBuyId" onclick="EditItemBuy(@item.ItemBuyId)"><i class="glyphicon glyphicon-edit text-primary"></i></a> &nbsp;&nbsp;&nbsp;
+                                                <a style="cursor:pointer;" id="delete_@item.ItemBuyId" onclick="DeleteItemBuy(@item.ItemBuyId)"><i class="glyphicon glyphicon-remove text-danger"></i></a>
+                                            </td>
+                                            <td id="ItemId_@item.ItemBuyId">@item.ItemId</td>
+                                        </tr>
+                                    }
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END MAIN CONTENT -->
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            $('#buyDate').datetimepicker();
+        });
+        $(document).ready(function () {
+            $('#BuyMaterialTable').DataTable();
+
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Material Added');
+            }
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Material updated');
+            }
+            $("#buyDate").data("DateTimePicker").date(new Date());
+        });
+
+
+
+        function ddlitemchange()
+        {
+
+            $("#hdnitemid").val($("#ddlitem").val())
+
+
+
+        }
+        function EditItemBuy(id)
+        {
+            debugger;
+            $("#ddlitem").val($("#ItemId_" + id).text());
+            $('#buyDate').data("DateTimePicker").date(new Date($("#buydate_" + id).text()));
+            $("#QuantityBuy").val($("#quantity_" + id).text());
+
+           $("#btn_Add").hide();
+           $("#btn_Update").show();
+           $("#hdnitembuyid").val(id);
+
+
+        }
+
+        function UpdateBuyItem(check)
+        {
+            debugger;
+            var item = new Object();
+            item.ItemId = $("#ddlitem").val();
+            item.ItemBuyId = $("#hdnitembuyid").val();
+            item.BuyDate = $("#buyDate").datetimepicker('date');
+            item.QuantityBuy = $("#QuantityBuy").val();
+            if (check == "Delete")
+            {
+                item.IsDeleted = true;
+                item.ItemId = $("#hdnitemid").val();
+            }
+
+            $.ajax({
+                url: "@Url.Action("UpdateBuyMaterial", "Material")",
+                type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify({ model: item }),
+            success: function (data) {
+                if (data)
+                {
+                    location.reload();
+                    //alert("Data Update Successfully!");
+                }
+            }
+        });
+
+
+
+        }
+        function DeleteItemBuy(id)
+        {
+            debugger;
+            $("#hdnitembuyid").val(id);
+            $("#hdnitemid").val($("#ItemId_" + id).text());
+            UpdateBuyItem("Delete");
+
+
+
+        }
+
+
+
+    </script>
+}
+
+
+
+
+
+
+
+

@@ -12,12 +12,14 @@ namespace Chakwal.Data.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class ErrorLog
+    public partial class ItemBuy
     {
-        public int ErrorId { get; set; }
-        public string ErrorMessage { get; set; }
-        public Nullable<int> UserId { get; set; }
-        public System.DateTime ErrorTime { get; set; }
+        public long ItemBuyId { get; set; }
+        public Nullable<long> ProductionId { get; set; }
+        public Nullable<int> ItemId { get; set; }
+        public Nullable<decimal> QuantityBuy { get; set; }
+        public Nullable<System.DateTime> BuyDate { get; set; }
+        public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }

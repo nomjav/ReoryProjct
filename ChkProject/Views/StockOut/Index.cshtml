@@ -15,12 +15,19 @@
                     <h3 class="panel-title">StockOut Product</h3>
                 </div>
                 <div class="panel-body">
+
+                    <div>
+                        <button class="btn btn-success" id="btn_Start">Start Selling</button>
+                        <button style="display:none;" class="btn btn-danger" id="btn_Stop">Stop Selling</button>
+                    </div> <br />
+
                     <div class="row">
                       @using (Html.BeginForm("AddStockOut", "StockOut", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
                       {
                         @Html.HiddenFor(x => Model.StockOutId, new { @id = "hdnstockoutid" })
                         @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
                         @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
+                        @Html.HiddenFor(x => Model.selectedLocationid, new { @id = "hdnselectedlocationid" })
                         @Html.HiddenFor(x => Model.StockOutLocation, new { @id = "hdnstockoutlocation" })
 
                             <div class="form-group required">
@@ -35,7 +42,7 @@
                                                 <option value="@item.ProductId">@item.ProductName</option>
                                             }
                                         </select>
-
+                                        <input id="barCodeData" type="text" class="form-control" />
                                     </div>
                                 </div>
 
@@ -72,7 +79,19 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Quantity" id="lbl_Quantity">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" />
+                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" onblur="cal_pricing()"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="SoldUnitPrice" id="lbl_SoldUnitPrice">Sold Unit Price:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="SoldUnitPrice" value="0" name="SoldUnitPrice" style="margin-left:-15px;" onblur="cal_pricing()"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="totalprice" id="lbl_totalprice">Total Price:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="totalprice" value="0" name="totalprice" style="margin-left:-15px;" onblur="cal_pricingfromtotal()" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,6 +129,7 @@
                                 <th>ProductName</th>
                                 <th>Quantity</th>
                                 <th>Date</th>
+                                <th>Sold Unit Price</th>
                                 <th>Company</th>
                                 <th>Description</th>
                                 <th>Action</th>
@@ -126,6 +146,7 @@
                                         <td id="Productname_@item.StockOutId">@item.ProductName</td>
                                         <td id="quantity_@item.StockOutId">@item.Quantity</td>
                                         <td id="date_@item.StockOutId">@item.DateOut</td>
+                                        <td id="soldprice_@item.StockOutId">@item.SoldUnitPrice</td>
                                         <td id="location_@item.StockOutId">@item.LocationName</td>
                                         <td id="Description_@item.StockOutId">@item.Description</td>
                                         @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
@@ -155,7 +176,9 @@
 <!-- END MAIN CONTENT -->
 
 @section scripts{
+<script src="~/Scripts/jquery.scannerdetection.js"></script>
     <script type="text/javascript">
+        var count = 0;
         var listProducts =[];
 
             $(function () {
@@ -164,7 +187,64 @@
 
 
             $(document).ready(function () {
+
+                var films = [];
+                $('#btn_Start').click(function () {
+                    $('#btn_Start').hide();
+                    $('#btn_Stop').show();
+                    $('#barCodeData').focus();
+                })
+                $('#btn_Stop').click(function () {
+                    debugger;
+                    $('#btn_Stop').hide();
+                    $('#btn_Start').show();
+                    $('#barCodeData').focus();
+                    //var team = $("#hdnteamid").val();
+                    $.ajax({
+                        url: "@Url.Action("AddStockOutWithBarcode", "StockOut")",
+                        type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({ Info: films }),
+                    success: function (data) {
+                        debugger;
+                        if (data) {
+                            films = [];
+                            //toastr.success("Data Updated Successfully!");
+                            //$('#tblstockin').DataTable().ajax.reload();
+                            location.reload();
+                            //$('#tblstockin').dataTable().api().ajax.reload();
+                        }
+                    }
+                });
+
+                })
+
+                $('#barCodeData').scannerDetection(function () {
+                
+                });
+            
+                $('#barCodeData').bind('scannerDetectionComplete', function (e, data) {
+                    debugger;
+
+                
+                    films.push(data.string);
+                    count = count + 1;
+
+                    $("#barCodeData").val("");
+                    $('#barCodeData').focus();
+
+                    //if (count == 5) {
+                    //    count = 0;
+                    
+                    //    //var stockin = new Object();
+                    //    //stockin.Description = $("#barCodeData").val();
+                    
+                    //}
+                })
+
                 $('#tbl_stockout').DataTable();
+                $("#ddl_company").val($("#hdnselectedlocationid").val());
 
                 if ('@TempData["message"]' == "success") {
                     toastr.success('Success! Product stocked in');
@@ -173,7 +253,7 @@
                     toastr.success('Success! Product updated');
                 }
 
-
+                $("#date_out").data("DateTimePicker").date(new Date());
                  listProducts = @Html.Raw(Json.Encode(@Model.DDLProduct));
 
 
@@ -192,6 +272,8 @@
             {
                 debugger;
                 $("#hdnproductid").val($("#ddlproduct").val());
+                var fil_pro =   listProducts.filter(x=>x.ProductId ==  $("#hdnproductid").val())
+                $("#SoldUnitPrice").val(fil_pro[0].UnitPrice); 
             }
 
 
@@ -202,7 +284,7 @@
                 $("#ddl_company").val($("#LocationId_" + id).text());
                 $("#Quantity").val($("#quantity_" + id).text());
                 $("#Description").val($("#Description_" + id).text());
-                //$("#date_out").val($("#date_" + id).text());
+                $("#SoldUnitPrice").val($("#soldprice_" + id).text());
                 $('#date_out').data("DateTimePicker").date(new Date($("#date_" + id).text()));
                 $("#btn_Add").hide();
                 $("#btn_Update").show();
@@ -210,6 +292,7 @@
                 $("#hdnproductid").val($("#ddlproduct").val());
                 $("#hdnstockoutlocation").val($("#ddl_company").val());
                 $("#hdnstockoutid").val(id);
+                cal_pricing();
            
 
 
@@ -224,6 +307,7 @@
                 stockout.StockOutLocation = $("#hdnstockoutlocation").val();
                 stockout.DateOut = $("#date_out").datetimepicker('date');
                 stockout.Quantity = $("#Quantity").val();
+                stockout.SoldUnitPrice = $("#SoldUnitPrice").val();
                 stockout.Description = $("#Description").val();
                 if (check == "Delete") {
                     stockout.IsDeleted = true;
@@ -253,6 +337,41 @@
             }
 
 
+            function cal_pricing()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());  
+                var quantity = parseFloat( $("#Quantity").val()); 
+                var total = parseFloat($("#totalprice").val());
+                if(Sold > 0 && quantity >0)
+                {
+                    total = Sold * quantity;
+                    $("#totalprice").val(total)
+                }
+                else{
+                    $("#totalprice").val(0)
+                }
+               
+
+
+
+            
+               
+            }
+            function cal_pricingfromtotal()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());  
+                var quantity = parseFloat( $("#Quantity").val()); 
+                var total = parseFloat($("#totalprice").val());
+                if(total > 0 && quantity >0)
+                {
+                    Sold =  total/quantity
+                    $("#SoldUnitPrice").val(Sold)
+                }
+                else{
+                    var fil_pro =   listProducts.filter(x=>x.ProductId ==  $("#hdnproductid").val())
+                    $("#SoldUnitPrice").val(fil_pro[0].UnitPrice); 
+                }
+            }
 
 
 

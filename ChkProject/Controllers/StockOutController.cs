@@ -19,6 +19,9 @@ namespace ChkProject.Controllers
         {
 
             StockOutModel _StockOutModel = new StockOutModel();
+           // var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+            var lcl_user = _unitOfWork.LocalUserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
             var StockOutList = _unitOfWork.StockOutRepository.Get(x => x.IsDeleted == false);
@@ -48,17 +51,69 @@ namespace ChkProject.Controllers
                 tempStockOutProduct.DateOut = item.DateOut;
                 tempStockOutProduct.StockOutLocation = item.StockOutLocation;
                 tempStockOutProduct.LocationTo = item.LocationTo;
+                tempStockOutProduct.SoldUnitPrice = item.SoldUnitPrice;
                 tempStockOutProduct.Quantity = item.Quantity;
                 tempStockOutProduct.Description = item.Description;
                 tempStockOutProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y => y.ProductName).FirstOrDefault();
                 tempStockOutProduct.LocationName = companylocationlist.Where(x => x.LocationId == item.StockOutLocation).Select(y => y.LocationName).FirstOrDefault();
+              
                 _StockOutModel.StockOutList.Add(tempStockOutProduct);
             }
+            _StockOutModel.selectedLocationid = lcl_user.LocationId;
             return View(_StockOutModel);
         }
 
 
+        [HttpPost]
+        public JsonResult AddStockOutWithBarcode(List<string> Info)
+        {
+            try
+            {
+                var q = from x in Info
+                        group x by x into g
+                        let count = g.Count()
+                        orderby count descending
+                        select new { Value = g.Key, Count = count };
+                foreach (var x in q)
+                {
+                    //Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
 
+                    StockOut _StockOutProduct = new StockOut();
+                    var product = _unitOfWork.ProductRepository.GetSingle(p => p.ProductName == x.Value);
+                    if (product != null)
+                    {
+
+                        _StockOutProduct.Quantity = x.Count;
+                        _StockOutProduct.ProductId = product.ProductId;
+                        _StockOutProduct.Description = product.Description;
+                        _StockOutProduct.DateOut = DateTime.Now;
+                        _StockOutProduct.CreatedDate = DateTime.Now;
+                        _StockOutProduct.SoldUnitPrice = product.UnitPrice;
+                        var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                        var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                        _StockOutProduct.StockOutLocation = 1;
+                        if (user != null)
+                        {
+                            _StockOutProduct.CreatedBy = user.Id;
+                        }
+                        _unitOfWork.StockOutRepository.Insert(_StockOutProduct);
+                        _unitOfWork.Save();
+                        TempData["message"] = "success";
+
+                    }
+
+                }
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
 
 
@@ -70,6 +125,7 @@ namespace ChkProject.Controllers
             StockOut _StockOut = new StockOut();
             _StockOut.StockOutLocation = model.StockOutLocation;
             _StockOut.Quantity = model.Quantity;
+            _StockOut.SoldUnitPrice = model.SoldUnitPrice;
             _StockOut.ProductId = model.ProductId;
             _StockOut.Description = model.Description;
             _StockOut.DateOut = model.DateOut;
@@ -166,6 +222,7 @@ namespace ChkProject.Controllers
                     stockout.ProductId = model.ProductId;
                     stockout.DateOut = model.DateOut;
                     stockout.Quantity = model.Quantity;
+                    stockout.SoldUnitPrice = model.SoldUnitPrice;
                     stockout.Description = model.Description;
                     stockout.ModifiedDate = DateTime.Now;
                 }

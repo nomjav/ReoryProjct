@@ -25,6 +25,8 @@ namespace ChkProject.Models
         public string DeletedBy { get; set; }
         public DateTime DeletedDate { get; set; }
         public bool Update { get; set; }
+        public string BarCodeId { get; set; }
+        public string BarCodeImage { get; set; }
         public List<ProductModel> productList { get; set; }
     }
 }

@@ -114,10 +114,22 @@
     <Compile Include="Data\Item.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\ItemBuy.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ItemUsed.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\LoginHistory.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Product.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Production.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\ProductMade.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Role.cs">
@@ -136,6 +148,9 @@
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\StockOut.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\Team.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\User.cs">
@@ -167,13 +182,11 @@
     <Compile Include="Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="Data\ChakwalModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChakwalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Data\ChakwalModel.edmx.diagram">
       <DependentUpon>ChakwalModel.edmx</DependentUpon>
     </None>
@@ -224,10 +237,16 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Data\ChakwalModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ChakwalModel.Context.cs</LastGenOutput>
       <DependentUpon>ChakwalModel.edmx</DependentUpon>
+      <LastGenOutput>ChakwalModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Data\ChakwalModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -288,12 +307,6 @@
     <Content Include="Scripts\jquery-ui-sliderAccess.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.js" />
     <Content Include="Scripts\jquery-ui-timepicker-addon.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

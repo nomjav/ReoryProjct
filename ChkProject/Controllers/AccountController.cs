@@ -141,7 +141,25 @@ namespace ChkProject.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel();
+            var locationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
+            var roleList = _unitOfWork.RoleRepository.Get(x => x.IsDeleted == false);
+            foreach (var item in locationlist)
+            {
+                DDLLocationData ddllocation = new DDLLocationData();
+                ddllocation.LocationId = item.LocationId;
+                ddllocation.LocationName = item.LocationName;
+
+                model.DDLLocation.Add(ddllocation);
+            }
+            foreach (var item in roleList)
+            {
+                DDLRoleData ddlrole = new DDLRoleData();
+                ddlrole.RoleId = item.RoleId;
+                ddlrole.RoleName = item.RoleType;
+                model.DDLRole.Add(ddlrole);
+            }
+            return View(model);
         }
 
         //
@@ -151,33 +169,42 @@ namespace ChkProject.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+           var comp = _unitOfWork.CompanyLocationRepository.Get(x => x.LocationId == model.LocationId);
+            var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                Chakwal.Data.Data.User u = new Chakwal.Data.Data.User();
-                u.CompanyId = model.CompanyId;
-                u.LocationId = model.LocationId;
-                u.FirstName = model.FirstName;
-                u.UserName = model.Email;
-                u.LastName = model.LastName;
-                u.CreatedDate = DateTime.Now;
-                u.CreatedBy = User.Identity.GetUserId();
-                u.Email = model.Email;
-                u.Password = model.Password;
-                u.RoleId = model.RoleId;
-                u.IsActive = true;
-                u.IsDeleted = false;
+                if (comp != null)
+                {
+
+
+                  
+                    Chakwal.Data.Data.User u = new Chakwal.Data.Data.User();
+                    u.CompanyId = model.CompanyId;
+                    u.LocationId = model.LocationId;
+                    u.FirstName = model.FirstName;
+                    u.UserName = model.Email;
+                    u.LastName = model.LastName;
+                    u.CreatedDate = DateTime.Now;
+                    u.CreatedBy = User.Identity.GetUserId();
+                    u.Email = model.Email;
+                    u.Password = model.Password;
+                    u.RoleId = model.RoleId;
+                    u.IsActive = true;
+                    u.IsDeleted = false;
+                    try
+                    {
+                        _unitOfWork.LocalUserRepository.Insert(u);
+                        _unitOfWork.Save();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw;
+                    }
+                }
+
                 
-                try
-                {
-                    _unitOfWork.LocalUserRepository.Insert(u);
-                    _unitOfWork.Save();
-                }
-#pragma warning disable
-                catch (Exception ex)
-                {
-                    throw;
-                }
+              
+           
                 var result = await UserManager.CreateAsync(user, model.Password);
                 //if (result.Succeeded)
                 //{

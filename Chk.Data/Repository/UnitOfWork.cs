@@ -23,6 +23,9 @@ namespace Chakwal.Data.Repository
         private GenericRepository<Role> _RoleRepository;
         private GenericRepository<StockInProduct> _StockInProductRepository;
         private GenericRepository<StockOut> _StockOutRepository;
+        private GenericRepository<ItemUsed> _ItemUsedRepository;
+        private GenericRepository<ItemBuy> _ItemBuyRepository;
+        private GenericRepository<Team> _TeamRepository;
         private GenericRepository<LoginHistory> _LoginHistoryRepository;
         private GenericRepository<ErrorLog> _ErrorLogRepository;
 
@@ -183,6 +186,43 @@ namespace Chakwal.Data.Repository
                     this._LoginHistoryRepository = new GenericRepository<LoginHistory>(context);
                 }
                 return _LoginHistoryRepository;
+            }
+
+        }
+        
+               public GenericRepository<ItemUsed> ItemUsedRepository
+        {
+            get
+            {
+                if (this._ItemUsedRepository == null)
+                {
+                    this._ItemUsedRepository = new GenericRepository<ItemUsed>(context);
+                }
+                return _ItemUsedRepository;
+            }
+
+        }
+        public GenericRepository<ItemBuy> ItemBuyRepository
+        {
+            get
+            {
+                if (this._ItemBuyRepository == null)
+                {
+                    this._ItemBuyRepository = new GenericRepository<ItemBuy>(context);
+                }
+                return _ItemBuyRepository;
+            }
+
+        }
+        public GenericRepository<Team> TeamRepository
+        {
+            get
+            {
+                if (this._TeamRepository == null)
+                {
+                    this._TeamRepository = new GenericRepository<Team>(context);
+                }
+                return _TeamRepository;
             }
 
         }
