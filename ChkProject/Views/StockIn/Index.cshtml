@@ -25,6 +25,7 @@
                             @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
                             @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
                             @Html.HiddenFor(x => Model.TeamId, new { @id = "hdnteamid" })
+                            @Html.HiddenFor(x => Model.selectedLocationid, new { @id = "hdnselectedlocationid" })
                             @Html.HiddenFor(x => Model.StockInLocation, new { @id = "hdnstockinlocation" })
                             @*@Html.HiddenFor(x => Model.DateIn, new { @id = "hdnDatein" })*@
                             <div class="form-group required">
@@ -127,8 +128,10 @@
                                     <th>Quantity</th>
                                     <th>Date</th>
                                     <th>Company</th>
+                                    <th>TeamName</th>
                                     <th>Description</th>
                                     <th>Action</th>
+                                    <th style="display:none;"></th>
                                     <th style="display:none;"></th>
                                     <th style="display:none;"></th>
                                 </tr>
@@ -143,6 +146,7 @@
                                             <td id="quantity_@item.StockInId">@item.Quantity</td>
                                             <td id="date_@item.StockInId">@item.DateIn</td>
                                             <td id="location_@item.StockInId">@item.LocationName</td>
+                                            <td id="teamname_@item.StockInId">@item.TeamName</td>
                                             <td id="Description_@item.StockInId">@item.Description</td>
                                             @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
                                                 <button id="delete_@item.ProductId" onclick="DeleteProduct(@item.ProductId)">Delete</button></td>*@
@@ -152,6 +156,7 @@
                                             </td>
                                             <td id="ProductId_@item.StockInId" style="display:none;">@item.ProductId</td>
                                             <td id="LocationId_@item.StockInId" style="display:none;">@item.StockInLocation</td>
+                                            <td id="TeamId_@item.StockInId" style="display:none;">@item.TeamId</td>
                                         </tr>
                                     }
                                 }
@@ -210,13 +215,15 @@
             else if ('@TempData["message"]' == "updated") {
                 toastr.success('Success! Product updated');
             }
-
+            debugger;
             $("#hdnproductid").val($("#ddlproduct").val());
             $("#hdnstockinlocation").val($("#ddl_company").val());
-            $('#date_in').on('dp.change', function (e) {
-                debugger;
-                $("#hdnDatein").val($('#datein').val());
-            })
+            $("#ddl_company").val($("#hdnselectedlocationid").val());
+            //$('#date_in').on('dp.change', function (e) {
+            //    debugger;
+            //    $("#hdnDatein").val($('#datein').val());
+            //})
+          
 
             $('#barCodeData').focus();
 
@@ -244,11 +251,7 @@
             })
 
         });
-        $(function () {
-
-            $('#date_in').datetimepicker();
-            //   $("#hdnDatein").val($('#datein').val());
-        });
+      
 
 
 
@@ -280,7 +283,9 @@
             $("#ddl_company").val($("#LocationId_" + id).text());
             $("#Quantity").val($("#quantity_" + id).text());
             $("#Description").val($("#Description_" + id).text());
-            //$("#date_in").text($("#date_" + id).text());
+            var teamid = $("#TeamId_" + id).text();
+            $("#team_" + teamid).click();
+            //$("#date_in").text($("#TeamId_" + id).text());
             $('#date_in').data("DateTimePicker").date(new Date($("#date_" + id).text()));
             $("#btn_Add").hide();
             $("#btn_Update").show();
@@ -299,6 +304,7 @@
             stockin.StockInLocation = $("#hdnstockinlocation").val();
             stockin.DateIn = $('#date_in').datetimepicker('date');
             stockin.Quantity = $("#Quantity").val();
+            stockin.TeamId = $("#hdnteamid").val();
             stockin.Description = $("#Description").val();
             if (check == "Delete") {
                 stockin.IsDeleted = true;

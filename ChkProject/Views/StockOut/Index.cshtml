@@ -27,6 +27,7 @@
                         @Html.HiddenFor(x => Model.StockOutId, new { @id = "hdnstockoutid" })
                         @Html.HiddenFor(x => Model.IsDeleted, new { @id = "hdnisdeleted" })
                         @Html.HiddenFor(x => Model.ProductId, new { @id = "hdnproductid" })
+                        @Html.HiddenFor(x => Model.selectedLocationid, new { @id = "hdnselectedlocationid" })
                         @Html.HiddenFor(x => Model.StockOutLocation, new { @id = "hdnstockoutlocation" })
 
                             <div class="form-group required">
@@ -243,6 +244,7 @@
                 })
 
                 $('#tbl_stockout').DataTable();
+                $("#ddl_company").val($("#hdnselectedlocationid").val());
 
                 if ('@TempData["message"]' == "success") {
                     toastr.success('Success! Product stocked in');
@@ -251,7 +253,7 @@
                     toastr.success('Success! Product updated');
                 }
 
-
+                $("#date_out").data("DateTimePicker").date(new Date());
                  listProducts = @Html.Raw(Json.Encode(@Model.DDLProduct));
 
 

@@ -19,6 +19,9 @@ namespace ChkProject.Controllers
         {
 
             StockOutModel _StockOutModel = new StockOutModel();
+           // var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+            var lcl_user = _unitOfWork.LocalUserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
             var StockOutList = _unitOfWork.StockOutRepository.Get(x => x.IsDeleted == false);
@@ -53,8 +56,10 @@ namespace ChkProject.Controllers
                 tempStockOutProduct.Description = item.Description;
                 tempStockOutProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y => y.ProductName).FirstOrDefault();
                 tempStockOutProduct.LocationName = companylocationlist.Where(x => x.LocationId == item.StockOutLocation).Select(y => y.LocationName).FirstOrDefault();
+              
                 _StockOutModel.StockOutList.Add(tempStockOutProduct);
             }
+            _StockOutModel.selectedLocationid = lcl_user.LocationId;
             return View(_StockOutModel);
         }
 

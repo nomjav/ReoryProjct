@@ -33,7 +33,7 @@ namespace ChkProject.Models
         public List<DDLProducts> DDLProduct { get; set; }
         public List<DDLCompanyLocation> DDLCompanyLocation { get; set; }
         public List<StockOutModel> StockOutList { get; set; }
-
+        public Nullable<int> selectedLocationid { get; set; }
         public string ProductName { get; set; }
         public string LocationName { get; set; }
     }

@@ -15,6 +15,8 @@
                     <div class="row">
                         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                         {
+                            @Html.HiddenFor(x => Model.LocationId, new { @id = "hdnlocationid" })
+                            @Html.HiddenFor(x => Model.RoleId, new { @id = "hdnroleid" })
                             @Html.AntiForgeryToken()
                             <h4>Create a new account.</h4>
                             <hr />
@@ -54,24 +56,32 @@
                                         @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                                     </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    @Html.LabelFor(m => m.CompanyId, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.CompanyId, new { @class = "form-control" })
+                                <div class="form-group required col-md-6">
+                                    <label class="control-label col-md-6"style="text-align:left">Location :</label>
+                                    <div class='col-md-12'>
+                                            <select id="ddl_location" class="form-control" onchange="ddllocationchange()">
+                                                <option>--Select--</option>
+                                                @foreach (var item in Model.DDLLocation)
+                                                {
+
+                                                    <option value="@item.LocationId">@item.LocationName</option>
+                                                }
+                                            </select>
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <div class="form-group col-md-6">
-                                    @Html.LabelFor(m => m.RoleId, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.RoleId, new { @class = "form-control" })
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    @Html.LabelFor(m => m.LocationId, new { @class = "col-md-2 control-label" })
-                                    <div class="col-md-12">
-                                        @Html.TextBoxFor(m => m.LocationId, new { @class = "form-control" })
+                                <div class="form-group required col-md-6">
+                                    <label class="control-label col-md-6" style="text-align:left">Role :</label>
+                                    <div class='col-md-12'>
+                                            <select id="ddl_role" class="form-control"  onchange="ddlrolechange()">
+                                                <option>--Select--</option>
+                                                @foreach (var item in Model.DDLRole)
+                                                {
+
+                                                    <option value="@item.RoleId">@item.RoleName</option>
+                                                }
+                                            </select>
                                     </div>
                                 </div>
                             </div>
@@ -92,4 +102,17 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+<script type="text/javascript">
+    function ddlrolechange()
+    {
+
+        $("#hdnroleid").val($("#ddl_role").val());
+    }
+
+    function ddllocationchange()
+    {
+        $("#hdnlocationid").val($("#ddl_location").val());
+
+    }
+    </script>
 }
