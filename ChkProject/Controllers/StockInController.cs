@@ -155,31 +155,32 @@ namespace ChkProject.Controllers
                         select new { Value = g.Key, Count = count };
                 foreach (var x in q)
                 {
-                    Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
-                }
+                    //Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
 
-                StockInProduct _StockInProduct = new StockInProduct();
-                //var product = _unitOfWork.ProductRepository.GetSingle(x => x.ProductName == model.Description);
-                //if (product != null)
-                //{
-                    
-                //    _StockInProduct.Quantity = 1;
-                //    _StockInProduct.ProductId = product.ProductId;
-                //    _StockInProduct.Description = product.Description;
-                //    _StockInProduct.DateIn = product.CreatedDate;
-                //    _StockInProduct.CreatedDate = DateTime.Now;
-                //    var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
-                //    var localUSer = _unitOfWork.LocalUserRepository.GetSingle(x => x.UserName == User.Identity.Name);
-                //    _StockInProduct.StockInLocation = 1;
-                //    if (user != null)
-                //    {
-                //        _StockInProduct.CreatedBy = user.Id;
-                //    }
-                //    _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
-                //    _unitOfWork.Save();
-                //    TempData["message"] = "success";
-                    
-                //}
+                    StockInProduct _StockInProduct = new StockInProduct();
+                    var product = _unitOfWork.ProductRepository.GetSingle(p => p.ProductName == x.Value);
+                    if (product != null)
+                    {
+
+                        _StockInProduct.Quantity = x.Count;
+                        _StockInProduct.ProductId = product.ProductId;
+                        _StockInProduct.Description = product.Description;
+                        _StockInProduct.DateIn = product.CreatedDate;
+                        _StockInProduct.CreatedDate = DateTime.Now;
+                        var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                        var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                        _StockInProduct.StockInLocation = 1;
+                        if (user != null)
+                        {
+                            _StockInProduct.CreatedBy = user.Id;
+                        }
+                        _unitOfWork.StockInProductRepository.Insert(_StockInProduct);
+                        _unitOfWork.Save();
+                        TempData["message"] = "success";
+
+                    }
+
+                }
                 return Json(true, JsonRequestBehavior.AllowGet);
 
             }
