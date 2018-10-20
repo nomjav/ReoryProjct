@@ -22,12 +22,20 @@ namespace ChkProject.Controllers
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
             var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false).OrderByDescending(x=>x.StockInId);
+            var TeamList = _unitOfWork.TeamRepository.Get(x => x.IsDeleted == false);
             foreach (var item in productslist)
             {
                 DDLProducts ddlproduct = new DDLProducts();
                 ddlproduct.ProductId = item.ProductId;
                 ddlproduct.ProductName = item.ProductName;
                 _StockInProductModel.DDLProduct.Add(ddlproduct);
+            }
+            foreach (var item in TeamList)
+            {
+                DDLTeam ddlTeam = new DDLTeam();
+                ddlTeam.TeamId = item.TeamId;
+                ddlTeam.TeamName = item.TeamName;
+                _StockInProductModel.DDLTeam.Add(ddlTeam);
             }
             foreach (var item in companylocationlist)
             {

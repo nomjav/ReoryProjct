@@ -176,35 +176,33 @@
     <Compile Include="Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="Data\ChakwalModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChakwalModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="Data\ChakwalModel.edmx.diagram">
       <DependentUpon>ChakwalModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="Data\ChakwalModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ChakwalModel.Context.cs</LastGenOutput>
       <DependentUpon>ChakwalModel.edmx</DependentUpon>
+      <LastGenOutput>ChakwalModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Data\ChakwalModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ChakwalModel.edmx</DependentUpon>
       <LastGenOutput>ChakwalModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

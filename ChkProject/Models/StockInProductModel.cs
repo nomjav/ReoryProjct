@@ -12,6 +12,8 @@ namespace ChkProject.Models
             StockInProductList = new List<StockInProductModel>();
             DDLProduct = new List<DDLProducts>();
             DDLCompanyLocation = new List<DDLCompanyLocation>();
+            DDLTeam = new List<DDLTeam>();
+            
         }
         public long StockInId { get; set; }
         public int ProductId { get; set; }
@@ -20,6 +22,7 @@ namespace ChkProject.Models
         public Nullable<int> LocationFrom { get; set; }
         public decimal Quantity { get; set; }
         public string Description { get; set; }
+        public Nullable<int> TeamId { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }
@@ -30,6 +33,7 @@ namespace ChkProject.Models
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public List<DDLProducts> DDLProduct { get; set; }
         public List<DDLCompanyLocation> DDLCompanyLocation { get; set; }
+        public List<DDLTeam> DDLTeam { get; set; }
         public List<StockInProductModel> StockInProductList { get; set; }
 
         public string ProductName { get; set; }
@@ -50,6 +54,11 @@ namespace ChkProject.Models
     {
         public int CompanyLocationId { get; set; }
         public string LocationName { get; set; }
+    }
+    public class DDLTeam
+    {
+        public int TeamId { get; set; }
+        public string TeamName { get; set; }
     }
 
 

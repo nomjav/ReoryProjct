@@ -198,6 +198,7 @@
     <Compile Include="Models\StockInItemModel.cs" />
     <Compile Include="Models\StockInProductModel.cs" />
     <Compile Include="Models\StockOutModel.cs" />
+    <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\VendorModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -72,7 +72,19 @@
                             <div class="form-group">
                                 <label class="control-label col-sm-2" for="Quantity" id="lbl_Quantity">Quantity:</label>
                                 <div class="col-sm-6">
-                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" />
+                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" style="margin-left:-15px;" onblur="cal_pricing()"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="SoldUnitPrice" id="lbl_SoldUnitPrice">Sold Unit Price:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="SoldUnitPrice" value="0" name="SoldUnitPrice" style="margin-left:-15px;" onblur="cal_pricing()"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="totalprice" id="lbl_totalprice">Total Price:</label>
+                                <div class="col-sm-6">
+                                    <input type="number" class="form-control" id="totalprice" value="0" name="totalprice" style="margin-left:-15px;" onblur="cal_pricingfromtotal()" />
                                 </div>
                             </div>
                             <div class="form-group">
@@ -110,6 +122,7 @@
                                 <th>ProductName</th>
                                 <th>Quantity</th>
                                 <th>Date</th>
+                                <th>Sold Unit Price</th>
                                 <th>Company</th>
                                 <th>Description</th>
                                 <th>Action</th>
@@ -126,6 +139,7 @@
                                         <td id="Productname_@item.StockOutId">@item.ProductName</td>
                                         <td id="quantity_@item.StockOutId">@item.Quantity</td>
                                         <td id="date_@item.StockOutId">@item.DateOut</td>
+                                        <td id="soldprice_@item.StockOutId">@item.SoldUnitPrice</td>
                                         <td id="location_@item.StockOutId">@item.LocationName</td>
                                         <td id="Description_@item.StockOutId">@item.Description</td>
                                         @*<td><button id="edit_@item.ProductId" onclick="EditProduct(@item.ProductId)">Edit</button>
@@ -192,6 +206,8 @@
             {
                 debugger;
                 $("#hdnproductid").val($("#ddlproduct").val());
+                var fil_pro =   listProducts.filter(x=>x.ProductId ==  $("#hdnproductid").val())
+                $("#SoldUnitPrice").val(fil_pro[0].UnitPrice); 
             }
 
 
@@ -202,7 +218,7 @@
                 $("#ddl_company").val($("#LocationId_" + id).text());
                 $("#Quantity").val($("#quantity_" + id).text());
                 $("#Description").val($("#Description_" + id).text());
-                //$("#date_out").val($("#date_" + id).text());
+                $("#SoldUnitPrice").val($("#soldprice_" + id).text());
                 $('#date_out').data("DateTimePicker").date(new Date($("#date_" + id).text()));
                 $("#btn_Add").hide();
                 $("#btn_Update").show();
@@ -210,6 +226,7 @@
                 $("#hdnproductid").val($("#ddlproduct").val());
                 $("#hdnstockoutlocation").val($("#ddl_company").val());
                 $("#hdnstockoutid").val(id);
+                cal_pricing();
            
 
 
@@ -224,6 +241,7 @@
                 stockout.StockOutLocation = $("#hdnstockoutlocation").val();
                 stockout.DateOut = $("#date_out").datetimepicker('date');
                 stockout.Quantity = $("#Quantity").val();
+                stockout.SoldUnitPrice = $("#SoldUnitPrice").val();
                 stockout.Description = $("#Description").val();
                 if (check == "Delete") {
                     stockout.IsDeleted = true;
@@ -253,6 +271,41 @@
             }
 
 
+            function cal_pricing()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());  
+                var quantity = parseFloat( $("#Quantity").val()); 
+                var total = parseFloat($("#totalprice").val());
+                if(Sold > 0 && quantity >0)
+                {
+                    total = Sold * quantity;
+                    $("#totalprice").val(total)
+                }
+                else{
+                    $("#totalprice").val(0)
+                }
+               
+
+
+
+            
+               
+            }
+            function cal_pricingfromtotal()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());  
+                var quantity = parseFloat( $("#Quantity").val()); 
+                var total = parseFloat($("#totalprice").val());
+                if(total > 0 && quantity >0)
+                {
+                    Sold =  total/quantity
+                    $("#SoldUnitPrice").val(Sold)
+                }
+                else{
+                    var fil_pro =   listProducts.filter(x=>x.ProductId ==  $("#hdnproductid").val())
+                    $("#SoldUnitPrice").val(fil_pro[0].UnitPrice); 
+                }
+            }
 
 
 
