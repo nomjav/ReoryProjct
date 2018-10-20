@@ -48,6 +48,7 @@ namespace ChkProject.Controllers
                 tempStockOutProduct.DateOut = item.DateOut;
                 tempStockOutProduct.StockOutLocation = item.StockOutLocation;
                 tempStockOutProduct.LocationTo = item.LocationTo;
+                tempStockOutProduct.SoldUnitPrice = item.SoldUnitPrice;
                 tempStockOutProduct.Quantity = item.Quantity;
                 tempStockOutProduct.Description = item.Description;
                 tempStockOutProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y => y.ProductName).FirstOrDefault();
@@ -70,6 +71,7 @@ namespace ChkProject.Controllers
             StockOut _StockOut = new StockOut();
             _StockOut.StockOutLocation = model.StockOutLocation;
             _StockOut.Quantity = model.Quantity;
+            _StockOut.SoldUnitPrice = model.SoldUnitPrice;
             _StockOut.ProductId = model.ProductId;
             _StockOut.Description = model.Description;
             _StockOut.DateOut = model.DateOut;
@@ -166,6 +168,7 @@ namespace ChkProject.Controllers
                     stockout.ProductId = model.ProductId;
                     stockout.DateOut = model.DateOut;
                     stockout.Quantity = model.Quantity;
+                    stockout.SoldUnitPrice = model.SoldUnitPrice;
                     stockout.Description = model.Description;
                     stockout.ModifiedDate = DateTime.Now;
                 }
