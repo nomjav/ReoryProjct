@@ -19,6 +19,7 @@ namespace ChkProject.Controllers
         {
 
             StockInProductModel _StockInProductModel = new StockInProductModel();
+            var lcl_user = _unitOfWork.LocalUserRepository.GetSingle(t => t.UserName == User.Identity.Name);
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
             var StockInProductList = _unitOfWork.StockInProductRepository.Get(x => x.IsDeleted == false).OrderByDescending(x=>x.StockInId);
@@ -53,12 +54,15 @@ namespace ChkProject.Controllers
                 tempStockInProduct.DateIn = item.DateIn;
                 tempStockInProduct.StockInLocation = item.StockInLocation;
                 tempStockInProduct.LocationFrom = item.LocationFrom;
+                tempStockInProduct.TeamId = item.TeamId;
                 tempStockInProduct.Quantity = item.Quantity;
                 tempStockInProduct.Description = item.Description;
                 tempStockInProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y=>y.ProductName).FirstOrDefault();
                 tempStockInProduct.LocationName = companylocationlist.Where(x => x.LocationId == item.StockInLocation).Select(y => y.LocationName).FirstOrDefault();
+                tempStockInProduct.TeamName = TeamList.Where(x => x.TeamId == item.TeamId).Select(y => y.TeamName).FirstOrDefault();
                 _StockInProductModel.StockInProductList.Add(tempStockInProduct);
             }
+            _StockInProductModel.selectedLocationid = lcl_user.LocationId;
             return View(_StockInProductModel);
         }
 
@@ -73,6 +77,7 @@ namespace ChkProject.Controllers
                 StockInProduct _StockInProduct = new StockInProduct();
                 _StockInProduct.StockInLocation = model.StockInLocation;
                 _StockInProduct.Quantity = model.Quantity;
+                _StockInProduct.TeamId = model.TeamId;
                 _StockInProduct.ProductId = model.ProductId;
                 _StockInProduct.Description = model.Description;
                 _StockInProduct.DateIn = model.DateIn;
@@ -223,6 +228,7 @@ namespace ChkProject.Controllers
                     stockin.ProductId = model.ProductId;
                     stockin.DateIn = model.DateIn;
                     stockin.Quantity = model.Quantity;
+                    stockin.TeamId = model.TeamId;
                     stockin.Description = model.Description;
                     stockin.ModifiedDate = DateTime.Now;
                 }

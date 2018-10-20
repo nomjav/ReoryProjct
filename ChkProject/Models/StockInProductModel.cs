@@ -38,6 +38,8 @@ namespace ChkProject.Models
 
         public string ProductName { get; set; }
         public string LocationName { get; set; }
+        public string TeamName { get; set; }
+        public Nullable<int> selectedLocationid { get; set; }
 
     }
 
