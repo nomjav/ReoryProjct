@@ -59,7 +59,56 @@ namespace ChkProject.Controllers
         }
 
 
+        [HttpPost]
+        public JsonResult AddStockOutWithBarcode(List<string> Info)
+        {
+            try
+            {
+                var q = from x in Info
+                        group x by x into g
+                        let count = g.Count()
+                        orderby count descending
+                        select new { Value = g.Key, Count = count };
+                foreach (var x in q)
+                {
+                    //Console.WriteLine("Value: " + x.Value + " Count: " + x.Count);
 
+                    StockOut _StockOutProduct = new StockOut();
+                    var product = _unitOfWork.ProductRepository.GetSingle(p => p.ProductName == x.Value);
+                    if (product != null)
+                    {
+
+                        _StockOutProduct.Quantity = x.Count;
+                        _StockOutProduct.ProductId = product.ProductId;
+                        _StockOutProduct.Description = product.Description;
+                        _StockOutProduct.DateOut = DateTime.Now;
+                        _StockOutProduct.CreatedDate = DateTime.Now;
+                        _StockOutProduct.SoldUnitPrice = product.UnitPrice;
+                        var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                        var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                        _StockOutProduct.StockOutLocation = 1;
+                        if (user != null)
+                        {
+                            _StockOutProduct.CreatedBy = user.Id;
+                        }
+                        _unitOfWork.StockOutRepository.Insert(_StockOutProduct);
+                        _unitOfWork.Save();
+                        TempData["message"] = "success";
+
+                    }
+
+                }
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+            }
+            catch (Exception ex)
+            {
+                TempData["message"] = "error";
+                return Json(false, JsonRequestBehavior.AllowGet);
+            }
+
+
+        }
 
 
 

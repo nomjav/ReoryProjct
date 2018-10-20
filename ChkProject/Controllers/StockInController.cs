@@ -151,11 +151,11 @@ namespace ChkProject.Controllers
 
 
         [HttpPost]
-        public JsonResult AddStockInWithBarcode(List<string> Info)
+        public JsonResult AddStockInWithBarcode(List<string> Info, string Team)
         {
             try
             {
-
+                var teamID = Convert.ToInt32(Team);
                 var q = from x in Info
                         group x by x into g
                         let count = g.Count()
@@ -173,8 +173,9 @@ namespace ChkProject.Controllers
                         _StockInProduct.Quantity = x.Count;
                         _StockInProduct.ProductId = product.ProductId;
                         _StockInProduct.Description = product.Description;
-                        _StockInProduct.DateIn = product.CreatedDate;
+                        _StockInProduct.DateIn = DateTime.Now;
                         _StockInProduct.CreatedDate = DateTime.Now;
+                        _StockInProduct.TeamId = teamID;
                         var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                         var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
                         _StockInProduct.StockInLocation = 1;

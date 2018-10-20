@@ -14,7 +14,10 @@
                     <h3 class="panel-title">StockIn Product</h3>
                 </div>
                 <div class="panel-body">
-
+                    <div>
+                        <button class="btn btn-success" id="btn_Start">Start Production</button>
+                        <button style="display:none;" class="btn btn-danger" id="btn_Stop">Stop Production</button>
+                    </div> <br />
                     <div class="row">
                         @using (Html.BeginForm("AddStockIn", "StockIn", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
                         {
@@ -32,7 +35,7 @@
 
                                         <button type="button" class="btn btn-default teambtn" id="team_@item.TeamId" onclick="setteam(@item.TeamId)"> @item.TeamName</button>
                                     }
-
+                                    
                                 </div>
                                 </div>
                                 <div class="form-group required">
@@ -166,8 +169,39 @@
 <script src="~/Scripts/jquery.scannerdetection.js"></script>
     <script type="text/javascript">
         var count = 0;
+
         $(document).ready(function () {
-            
+            var films = [];
+            $('#btn_Start').click(function () {
+                $('#btn_Start').hide();
+                $('#btn_Stop').show();
+                $('#barCodeData').focus();
+            })
+            $('#btn_Stop').click(function () {
+                $('#btn_Stop').hide();
+                $('#btn_Start').show();
+                $('#barCodeData').focus();
+                var team = $("#hdnteamid").val();
+                $.ajax({
+                    url: "@Url.Action("AddStockInWithBarcode", "StockIn")",
+                    type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ Info: films, Team : team }),
+                success: function (data) {
+                    debugger;
+                    if (data) {
+                        films = [];
+                        //toastr.success("Data Updated Successfully!");
+                        //$('#tblstockin').DataTable().ajax.reload();
+                        location.reload();
+                        //$('#tblstockin').dataTable().api().ajax.reload();
+                    }
+                }
+            });
+
+            })
+
             $('#tblstockin').DataTable();
             var table = $('#tblstockin').DataTable();
             if ('@TempData["message"]' == "success") {
@@ -189,7 +223,7 @@
             $('#barCodeData').scannerDetection(function () {
                 
             });
-            var films = [];
+            
             $('#barCodeData').bind('scannerDetectionComplete', function (e, data) {
                 debugger;
 
@@ -200,29 +234,13 @@
                 $("#barCodeData").val("");
                 $('#barCodeData').focus();
 
-                if (count == 5) {
-                    count = 0;
+                //if (count == 5) {
+                //    count = 0;
                     
-                    var stockin = new Object();
-                    stockin.Description = $("#barCodeData").val();
-                    $.ajax({
-                        url: "@Url.Action("AddStockInWithBarcode", "StockIn")",
-                        type: "POST",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify({ Info: films }),
-                        success: function (data) {
-                            debugger;
-                            if (data) {
-                                films = [];
-                                //toastr.success("Data Updated Successfully!");
-                                //$('#tblstockin').DataTable().ajax.reload();
-                                location.reload();
-                                //$('#tblstockin').dataTable().api().ajax.reload();
-                            }
-                        }
-                    });
-                }
+                //    //var stockin = new Object();
+                //    //stockin.Description = $("#barCodeData").val();
+                    
+                //}
             })
 
         });
@@ -316,7 +334,7 @@
             $(".teambtn").css("color","grey");
             $(".teambtn").css("background","white");
             $("#team_"+id).css("background","chartreuse");
-          
+            $('#barCodeData').focus();
         }
     </script>
 }

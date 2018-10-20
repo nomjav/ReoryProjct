@@ -15,6 +15,12 @@
                     <h3 class="panel-title">StockOut Product</h3>
                 </div>
                 <div class="panel-body">
+
+                    <div>
+                        <button class="btn btn-success" id="btn_Start">Start Selling</button>
+                        <button style="display:none;" class="btn btn-danger" id="btn_Stop">Stop Selling</button>
+                    </div> <br />
+
                     <div class="row">
                       @using (Html.BeginForm("AddStockOut", "StockOut", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", autocomplete = "off", style = "margin: 0px;" }))
                       {
@@ -35,7 +41,7 @@
                                                 <option value="@item.ProductId">@item.ProductName</option>
                                             }
                                         </select>
-
+                                        <input id="barCodeData" type="text" class="form-control" />
                                     </div>
                                 </div>
 
@@ -169,7 +175,9 @@
 <!-- END MAIN CONTENT -->
 
 @section scripts{
+<script src="~/Scripts/jquery.scannerdetection.js"></script>
     <script type="text/javascript">
+        var count = 0;
         var listProducts =[];
 
             $(function () {
@@ -178,6 +186,62 @@
 
 
             $(document).ready(function () {
+
+                var films = [];
+                $('#btn_Start').click(function () {
+                    $('#btn_Start').hide();
+                    $('#btn_Stop').show();
+                    $('#barCodeData').focus();
+                })
+                $('#btn_Stop').click(function () {
+                    debugger;
+                    $('#btn_Stop').hide();
+                    $('#btn_Start').show();
+                    $('#barCodeData').focus();
+                    //var team = $("#hdnteamid").val();
+                    $.ajax({
+                        url: "@Url.Action("AddStockOutWithBarcode", "StockOut")",
+                        type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify({ Info: films }),
+                    success: function (data) {
+                        debugger;
+                        if (data) {
+                            films = [];
+                            //toastr.success("Data Updated Successfully!");
+                            //$('#tblstockin').DataTable().ajax.reload();
+                            location.reload();
+                            //$('#tblstockin').dataTable().api().ajax.reload();
+                        }
+                    }
+                });
+
+                })
+
+                $('#barCodeData').scannerDetection(function () {
+                
+                });
+            
+                $('#barCodeData').bind('scannerDetectionComplete', function (e, data) {
+                    debugger;
+
+                
+                    films.push(data.string);
+                    count = count + 1;
+
+                    $("#barCodeData").val("");
+                    $('#barCodeData').focus();
+
+                    //if (count == 5) {
+                    //    count = 0;
+                    
+                    //    //var stockin = new Object();
+                    //    //stockin.Description = $("#barCodeData").val();
+                    
+                    //}
+                })
+
                 $('#tbl_stockout').DataTable();
 
                 if ('@TempData["message"]' == "success") {
