@@ -46,6 +46,7 @@ namespace AcademyLockSmith.Data.Helpers
                     }
                 }
             }
+#pragma warning disable
             catch (Exception e)
             {
                 //Logger.Logger.LogException(e.Message, e);

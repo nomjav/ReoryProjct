@@ -19,7 +19,7 @@ namespace Chakwal.Data.Data
         public System.DateTime DateOut { get; set; }
         public int StockOutLocation { get; set; }
         public Nullable<int> LocationTo { get; set; }
-        public decimal Quantity { get; set; }
+        public decimal? Quantity { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
@@ -29,6 +29,7 @@ namespace Chakwal.Data.Data
         public string ModifiedBy { get; set; }
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
+        public Nullable<decimal> SoldUnitPrice { get; set; }
     
         public virtual CompanyLocation CompanyLocation { get; set; }
         public virtual CompanyLocation CompanyLocation1 { get; set; }

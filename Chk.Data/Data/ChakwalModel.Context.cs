@@ -11,7 +11,10 @@ namespace Chakwal.Data.Data
 {
     using System;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
+
+    using System.Linq;
     
     public partial class CHK_InventoryEntities : DbContext
     {
@@ -42,5 +45,35 @@ namespace Chakwal.Data.Data
         public DbSet<StockOut> StockOuts { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+    
+        public virtual ObjectResult<SP_StockOut_Result> SP_StockOut(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_StockOut_Result>("SP_StockOut", fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<SP_StockIn_Result> SP_StockIn(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> product)
+        {
+            var fromDateParameter = fromDate.HasValue ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(System.DateTime));
+    
+            var toDateParameter = toDate.HasValue ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(System.DateTime));
+    
+            var productParameter = product.HasValue ?
+                new ObjectParameter("Product", product) :
+                new ObjectParameter("Product", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SP_StockIn_Result>("SP_StockIn", fromDateParameter, toDateParameter, productParameter);
+        }
     }
 }

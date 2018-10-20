@@ -115,7 +115,7 @@ namespace ChkProject.Controllers
             Product p = new Product();
             p.ProductName = model.ProductName;
             p.UnitPrice = model.UnitPrice;
-            p.CurrentQuantity = model.CurrentQuantity;
+            p.CurrentQuantity = model.CurrentQuantity.Value;
             p.Description = model.Description;
             p.CreatedDate = DateTime.Now;
             var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);

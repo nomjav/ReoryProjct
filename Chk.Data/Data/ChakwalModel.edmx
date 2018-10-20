@@ -231,6 +231,7 @@
           <Property Name="StockOutLocation" Type="int" Nullable="false" />
           <Property Name="LocationTo" Type="int" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="SoldUnitPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -492,6 +493,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="SP_StockIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+          <Parameter Name="Product" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SP_StockOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="FromDate" Type="date" Mode="In" />
+          <Parameter Name="ToDate" Type="date" Mode="In" />
+        </Function>
         <EntityContainer Name="CHK_InventoryModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -666,6 +676,15 @@
             <End Role="AspNetRole" EntitySet="AspNetRoles" />
             <End Role="AspNetUser" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <FunctionImport Name="SP_StockOut" ReturnType="Collection(CHK_InventoryModel.SP_StockOut_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
+          <FunctionImport Name="SP_StockIn" ReturnType="Collection(CHK_InventoryModel.SP_StockIn_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Product" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
@@ -922,6 +941,7 @@
           <NavigationProperty Name="CompanyLocation" Relationship="CHK_InventoryModel.FK_StockOut_Location" FromRole="StockOut" ToRole="CompanyLocation" />
           <NavigationProperty Name="CompanyLocation1" Relationship="CHK_InventoryModel.FK_StockOut_LocationTo" FromRole="StockOut" ToRole="CompanyLocation" />
           <NavigationProperty Name="Product" Relationship="CHK_InventoryModel.FK_StockOut_Product" FromRole="StockOut" ToRole="Product" />
+          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1154,6 +1174,17 @@
           <End Type="CHK_InventoryModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
           <End Type="CHK_InventoryModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
         </Association>
+        <ComplexType Name="SP_StockOut_Result">
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="500" />
+        </ComplexType>
+        <ComplexType Name="SP_StockIn_Result">
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1382,6 +1413,7 @@
           <EntitySetMapping Name="StockOuts">
             <EntityTypeMapping TypeName="CHK_InventoryModel.StockOut">
               <MappingFragment StoreEntitySet="StockOut">
+                <ScalarProperty Name="SoldUnitPrice" ColumnName="SoldUnitPrice" />
                 <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
                 <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
                 <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
@@ -1449,6 +1481,25 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_StockOut" FunctionName="CHK_InventoryModel.Store.SP_StockOut">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CHK_InventoryModel.SP_StockOut_Result">
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="BranchName" ColumnName="BranchName" />
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SP_StockIn" FunctionName="CHK_InventoryModel.Store.SP_StockIn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CHK_InventoryModel.SP_StockIn_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

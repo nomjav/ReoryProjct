@@ -173,7 +173,8 @@ namespace ChkProject.Controllers
                     _unitOfWork.LocalUserRepository.Insert(u);
                     _unitOfWork.Save();
                 }
-                catch(Exception ex)
+#pragma warning disable
+                catch (Exception ex)
                 {
                     throw;
                 }

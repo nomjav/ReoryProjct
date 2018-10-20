@@ -25,6 +25,32 @@ namespace Chakwal.Data.Repository
         private GenericRepository<StockOut> _StockOutRepository;
         private GenericRepository<LoginHistory> _LoginHistoryRepository;
         private GenericRepository<ErrorLog> _ErrorLogRepository;
+
+        private GenericRepository<SP_StockIn_Result> _stockInReport;
+        private GenericRepository<SP_StockOut_Result> _stockoutReport;
+
+        public GenericRepository<SP_StockOut_Result> SP_StockOutRepository
+        {
+            get
+            {
+                if (this._stockoutReport == null)
+                {
+                    this._stockoutReport = new GenericRepository<SP_StockOut_Result>(context);
+                }
+                return _stockoutReport;
+            }
+        }
+        public GenericRepository<SP_StockIn_Result> SP_StockInRepository
+        {
+            get
+            {
+                if (this._stockInReport == null)
+                {
+                    this._stockInReport = new GenericRepository<SP_StockIn_Result>(context);
+                }
+                return _stockInReport;
+            }
+        }
         public GenericRepository<AspNetUser> UserRepository
         {
             get
