@@ -84,6 +84,9 @@
     <Compile Include="Data\AspNetUserLogin.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Bill.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ChakwalModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

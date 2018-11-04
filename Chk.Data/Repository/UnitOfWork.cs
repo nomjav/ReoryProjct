@@ -31,6 +31,7 @@ namespace Chakwal.Data.Repository
 
         private GenericRepository<SP_StockIn_Result> _stockInReport;
         private GenericRepository<SP_StockOut_Result> _stockoutReport;
+        private GenericRepository<Bill> _BillRepository;
 
         public GenericRepository<SP_StockOut_Result> SP_StockOutRepository
         {
@@ -236,6 +237,18 @@ namespace Chakwal.Data.Repository
                     this._ErrorLogRepository = new GenericRepository<ErrorLog>(context);
                 }
                 return _ErrorLogRepository;
+            }
+
+        }
+        public GenericRepository<Bill> BillRepository
+        {
+            get
+            {
+                if (this._BillRepository == null)
+                {
+                    this._BillRepository = new GenericRepository<Bill>(context);
+                }
+                return _BillRepository;
             }
 
         }

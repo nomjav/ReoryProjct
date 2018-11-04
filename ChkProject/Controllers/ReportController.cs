@@ -115,6 +115,9 @@ namespace ChkProject.Controllers
                     models.Quantity = product.Quantity.Value;
                     models.CompanyName = product.BranchName;
                     models.Price = product.TotalPrice.Value;
+
+
+
                     ListModel.Add(models);
                 }
                 model.ReportGenerated = true;

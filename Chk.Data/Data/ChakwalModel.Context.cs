@@ -49,6 +49,7 @@ namespace Chakwal.Data.Data
         public virtual DbSet<Team> Teams { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<Bill> Bills { get; set; }
     
         public virtual ObjectResult<SP_StockIn_Result> SP_StockIn(Nullable<System.DateTime> fromDate, Nullable<System.DateTime> toDate, Nullable<int> product)
         {

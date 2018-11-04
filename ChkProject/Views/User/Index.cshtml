@@ -7,7 +7,7 @@
 @*commit Test*@
 <div class="main">
     <!-- MAIN CONTENT -->
-    <div class="main-content">
+    <div class="main-content" style="width: 115%;">
         <div class="container-fluid">
             <div class="panel panel-headline">
                 <div class="panel-heading">
@@ -68,91 +68,6 @@
             $('#UserTable').DataTable();
            // var update = true;
         });
-
-        @*function EditItem(id)
-        {
-            debugger;
-            $("#ItemName").val($("#Itemname_" + id).text());
-            $("#UnitPrice").val($("#Price_" + id).text());
-            $("#QuantityPresent").val($("#quantity_" + id).text());
-            //$("#MeasureUnit option[text=" + $("#Measureunit_" + id).text() + "]").attr("selected", "selected");
-            //   $("#MeasureUnit").text($("#Measureunit_" + id).text());
-            $("#MeasureUnit").find("option:contains(" + $("#Measureunit_" + id).text() + ")").each(function () {
-                if ($(this).text() == $("#Measureunit_" + id).text()) {
-                    $(this).attr("selected", "selected");
-                }
-            });
-            // $("#Description").val(); $("#Status_" + id).val();
-           $("#btn_Add").hide();
-           $("#btn_Update").show();
-         //  $("#hdnupdate").val(true);
-           $("#hdnitemid").val(id);
-
-
-        }
-
-        function UpdateItem(check)
-        {
-            debugger;
-            var item = new Object();
-            item.ItemId = $("#hdnitemid").val();
-            item.ItemName = $("#ItemName").val();
-            item.UnitPrice = $("#UnitPrice").val();
-            item.QuantityPresent = $("#QuantityPresent").val();
-           // item.Description = $("#Description").val();
-            if (check == "Delete")
-            {
-                item.IsDeleted = true;
-            }
-
-            $.ajax({
-                url: "@Url.Action("UpdateMaterial", "Material")",
-                type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify({ model: item }),
-            success: function (data) {
-                if (data)
-                {
-                    alert("Data Update Successfully!");
-                }
-            }
-        });
-
-
-
-        }
-        function DeleteItem(id)
-        {
-            debugger;
-            $("#hdnitemid").val(id);
-            UpdateItem("Delete");
-
-
-
-        }
-
-
-        function checkunique()
-        {
-            debugger;
-
-
-            $.ajax({
-                url: "@Url.Action("CheckDuplication", "Material")",
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json",
-                data: JSON.stringify({ItemName: $("#ItemName").val() }),
-                success: function (data) {
-                    if (data)
-                    {
-                        $("#ItemName").val('');
-                    }
-                }
-            });
-
-        }*@
 
     </script>
 }

@@ -66,6 +66,26 @@
           <Property Name="AccessFailedCount" Type="int" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuyerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="BillDate" Type="datetime" />
+          <Property Name="Billnumber" Type="nvarchar" MaxLength="50" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="IsDeleted" Type="bit" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="CreatedBy" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ModifiedDate" Type="datetime" />
+          <Property Name="ModifiedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedBy" Type="nvarchar" MaxLength="128" />
+          <Property Name="DeletedDate" Type="datetime" />
+        </EntityType>
         <EntityType Name="Company">
           <Key>
             <PropertyRef Name="CompanyId" />
@@ -664,6 +684,7 @@
           <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Bill" EntityType="Self.Bill" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CompanyLocation" EntityType="Self.CompanyLocation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ErrorLog" EntityType="Self.ErrorLog" Schema="dbo" store:Type="Tables" />
@@ -1543,6 +1564,7 @@
             <Parameter Name="FromDate" Mode="In" Type="DateTime" />
             <Parameter Name="ToDate" Mode="In" Type="DateTime" />
           </FunctionImport>
+          <EntitySet Name="Bills" EntityType="CHK_InventoryModel.Bill" />
         </EntityContainer>
         <ComplexType Name="SP_StockIn_Result">
           <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
@@ -1555,6 +1577,26 @@
           <Property Type="String" Name="BranchName" Nullable="false" MaxLength="100" />
           <Property Type="String" Name="ProductName" Nullable="false" MaxLength="500" />
         </ComplexType>
+        <EntityType Name="Bill">
+          <Key>
+            <PropertyRef Name="BillId" />
+          </Key>
+          <Property Name="BillId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BuyerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="BillDate" Type="DateTime" Precision="3" />
+          <Property Name="Billnumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Price" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" />
+          <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DeletedDate" Type="DateTime" Precision="3" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1970,6 +2012,27 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="Bills">
+            <EntityTypeMapping TypeName="CHK_InventoryModel.Bill">
+              <MappingFragment StoreEntitySet="Bill">
+                <ScalarProperty Name="DeletedDate" ColumnName="DeletedDate" />
+                <ScalarProperty Name="DeletedBy" ColumnName="DeletedBy" />
+                <ScalarProperty Name="ModifiedBy" ColumnName="ModifiedBy" />
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Billnumber" ColumnName="Billnumber" />
+                <ScalarProperty Name="BillDate" ColumnName="BillDate" />
+                <ScalarProperty Name="BuyerName" ColumnName="BuyerName" />
+                <ScalarProperty Name="BillId" ColumnName="BillId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
