@@ -23,7 +23,7 @@ namespace ChkProject.Models
         public string DeletedBy { get; set; }
         public Nullable<System.DateTime> DeletedDate { get; set; }
         public StockOutModel StockoutDetail { get; set; }
-        public string BillType { get; set; }
+        public string CreditDebit { get; set; }
 
 
     }

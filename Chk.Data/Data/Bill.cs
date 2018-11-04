@@ -21,6 +21,7 @@ namespace Chakwal.Data.Data
         public string Description { get; set; }
         public Nullable<decimal> Quantity { get; set; }
         public Nullable<decimal> Price { get; set; }
+        public string CreditDebit { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
         public System.DateTime CreatedDate { get; set; }

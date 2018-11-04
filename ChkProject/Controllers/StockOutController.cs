@@ -133,8 +133,9 @@ namespace ChkProject.Controllers
         [HttpPost]
         public JsonResult SaveBill(List<BillModel> BillItems)
         {
-            var bill_item = BillItems.Where(x => x.BillType == "BillItem").ToList();
-            var credit_debitlist = BillItems.Where(x => x.BillType == "Credit_Debit").ToList();
+            var bill_item = BillItems.Where(x => x.CreditDebit == "BillItem").ToList();
+            var credit_debitlist = BillItems.Where(x => x.CreditDebit != "BillItem").ToList();
+
 
             foreach (var item in bill_item)
             {
@@ -146,6 +147,28 @@ namespace ChkProject.Controllers
                 _Bill.BillDate = DateTime.Now;
                 _Bill.Billnumber = item.Billnumber;
                 _Bill.BuyerName = item.BuyerName;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    _Bill.CreatedBy = user.Id;
+                }
+                _unitOfWork.BillRepository.Insert(_Bill);
+                _unitOfWork.Save();
+                TempData["message"] = "success";
+
+            }
+            foreach (var item in credit_debitlist)
+            {
+                Bill _Bill = new Bill();
+                _Bill.Description = item.Description;
+                _Bill.Quantity = 0;
+                _Bill.Price = item.Price;
+                _Bill.CreatedDate = DateTime.Now;
+                _Bill.BillDate = DateTime.Now;
+                _Bill.Billnumber = item.Billnumber;
+                _Bill.BuyerName = item.BuyerName;
+                _Bill.CreditDebit = item.CreditDebit;
                 var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                 var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
                 if (user != null)

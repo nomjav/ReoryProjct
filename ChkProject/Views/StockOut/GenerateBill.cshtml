@@ -206,7 +206,7 @@
                 billobj.Description = item.ProductName;
                 billobj.Quantity= item.Quantity;
                 billobj.Price =  item.Quantity * item.SoldUnitPrice;
-                billobj.BillType =  "BillItem";
+                billobj.CreditDebit =  "BillItem";
                 billobj.Billnumber =  $("#hdnbillnumber").val();
                 billobj.BuyerName =   $("#buyername").val();
                 listbillitem.push(billobj);
@@ -274,7 +274,7 @@
              var quantity=   $("#Quantity").val();
              var price=  $("#Price").val();
 
-             var _html = '<tr id="new_' + tempnum + '"><td>' + billdesc + '</td><td>' + quantity + '</td><td>' + price + '</td> <td><span class="glyphicon glyphicon-remove" onclick="remove_new('+tempnum+');"></span></td></tr>';
+             var _html = '<tr id="new_' + tempnum + '"><td>' + billdesc + '</td><td>' + quantity + '</td><td>' + price + '</td> <td class="prnthide"><span class="glyphicon glyphicon-remove" onclick="remove_new('+tempnum+');"></span></td></tr>';
 
              $("#tbodybill").append(_html);
              var billobj = new Object();
@@ -282,7 +282,7 @@
              billobj.Description = billdesc;
              billobj.Quantity = quantity;
              billobj.Price = price;
-             billobj.BillType =  "BillItem";
+             billobj.CreditDebit =  "BillItem";
              billobj.Billnumber =  $("#hdnbillnumber").val();
              billobj.BuyerName =   $("#buyername").val();
 
@@ -342,17 +342,17 @@
                 billobj.Description = name;
                 billobj.Quantity = parseInt($('input[name=creditDebit]:checked').val());
                 billobj.Price = amount;
-                billobj.BillType =  "Credit_Debit";
+               
                 billobj.Billnumber =  $("#hdnbillnumber").val();
                 billobj.BuyerName =   $("#buyername").val();
                 if(billobj.Quantity == 1)
                 {
-                    credit_debit = "Debit";
+                    billobj.CreditDebit  = "Debit";
                 }
                 else{
-                    credit_debit = "Credit";
+                    billobj.CreditDebit = "Credit";
                 }
-                var _html = '<tr id="new_' + tempnum + '"><td>' + name + '</td><td>' + credit_debit + '</td><td>' + amount + '</td> <td><span class="glyphicon glyphicon-remove" onclick="remove_new(' + tempnum + ');"></span></td></tr>';
+                var _html = '<tr id="new_' + tempnum + '"><td>' + name + '</td><td>' + billobj.CreditDebit + '</td><td>' + amount + '</td> <td class="prnthide"><span class="glyphicon glyphicon-remove" onclick="remove_new(' + tempnum + ');"></span></td></tr>';
 
                 $("#tbodybill").append(_html);
                 listbillitem.push(billobj);
