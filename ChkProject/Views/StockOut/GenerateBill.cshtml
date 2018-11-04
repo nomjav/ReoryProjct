@@ -1,0 +1,411 @@
+﻿@using ChkProject.Models
+@model BillModel
+@{
+    ViewBag.Title = "GenerateBill";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main">
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+        <div class="container-fluid">
+            <div class="panel panel-headline">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Bill / Stock Out</h3>
+                </div>
+                @Html.HiddenFor(x => Model.Billnumber, new { @id = "hdnbillnumber" })
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group required">
+                            <label class="control-label col-sm-2">Date:</label>
+                            <div class='col-md-6'>
+                                <div class="form-group" style="width:72%">
+                                    <div class='input-group date' id='date_out'>
+                                        <input required type='text' class="form-control" name="DateOut" id='@Model.StockoutDetail.DateOut' />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="Description" id="lbl_billdesc">Description:</label>
+                        <div class='col-md-6'>
+                            <div class="form-group" style="width:72%">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="Description" name="Description" />
+                                    @*<span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="Quantity" id="lbl_Quantity">Quantity:</label>
+                        <div class='col-md-6'>
+                            <div class="form-group" style="width:72%">
+
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="Quantity" value="0" name="Quantity" />
+                                    @*<span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="Price" id="lbl_Price">Price:</label>
+                        <div class='col-sm-6'>
+                            <div class="form-group" style="width:72%">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="Price" value="0" name="Price" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div>
+                            <button class="btn btn-success" id="addbillitem" onclick="additembill()" style="margin-left: 14px !important;">Add In Bill</button>
+                          
+
+                        </div> 
+                    </div>
+                    <br />
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="crdtdebitname" id="lbl_name">Name:</label>
+                        <div class='col-sm-6'>
+                            <div class="form-group" style="width:72%">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="crdtdebitname"  name="crdtdebitname" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="crdtdebit" id="lbl_crddebit">Credit/Debit:</label>
+                        <div class='col-sm-6'>
+                            <div class="form-group" style="width:72%">
+                                <div class="input-group">
+                                    <input type="radio" class="form-control" checked id="crdt" name="creditDebit" value="0" />Credit 
+                                    
+                                </div>
+                                <div class="input-group">
+                                    <input type="radio" class="form-control" id="debit" name="creditDebit" value="1" />Debit
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="control-label col-sm-2" for="Amount" id="lbl_amount">Amount:</label>
+                        <div class='col-sm-6'>
+                            <div class="form-group" style="width:72%">
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="Amount" value="0" name="Amount" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <button class="btn btn-success" id="addcreditdebit" onclick="creditdebit()" style="margin-left: 14px !important;">Add Credit/Debit</button>
+                    </div>
+                   
+                    <br />
+
+                    @* </div> *@
+
+                    <div class="row" id="billtbl">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Bill Number : @Model.Billnumber</th>
+                                    <th>Cash Memo</th>
+                                    <th>Date : @DateTime.Now</th>
+                                    <th class="prnthide">Action</th>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        Buyer Name  <input type="text" id="buyername" style="background-color: transparent; border-style: solid; border-width: 0px 0px 1px 0px;">
+                                    </td>
+                                    <td class="prnthide"></td>
+                                </tr>
+                            </thead>
+                            <tbody id="tbodybill">
+                                <tr>
+                                    <td>Desciption</td>
+                                    <td>Quantity</td>
+                                    <td>Amount</td>
+                                    <td class="prnthide"></td>
+                                </tr>
+                                @foreach (var item in Model.StockoutDetail.StockOutList)
+                                {
+                                    var total = item.Quantity * item.SoldUnitPrice.Value;
+                                    <tr id="tr_@item.StockOutId">
+                                        <td>@item.ProductName</td>
+                                        <td>@item.Quantity</td>
+                                        <td>RS @total.ToString("N2")</td>
+                                        <td class="prnthide"><span class="glyphicon glyphicon-remove" onclick="remove(@item.StockOutId);"></span></td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3">
+                                    Signature  <input type="text" id="signature" style="background-color: transparent; border-style: solid; border-width: 0px 0px 1px 0px;">
+                                    </td>
+                                    <td class="prnthide"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+
+                    <div class="row">
+                        <div>
+                            <button class="btn btn-success" id="btn_savebill" onclick="savePrintBill()" style="margin-left: 14px !important;">SAVE & PRINT Bill</button>
+                            <button class="btn btn-success" id="btn_printbill" onclick="PrintBill()" style="margin-left: 14px !important;">Only PRINT Bill</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!-- END MAIN CONTENT -->
+
+@section scripts{
+   
+    <script type="text/javascript">
+        var count = 0;
+        var listbillitem = [];
+        var liststockout = [];
+        liststockout = @Html.Raw(Json.Encode(@Model.StockoutDetail.StockOutList));
+    
+        $(document).ready(function () {
+        
+            if ('@TempData["message"]' == "success") {
+                toastr.success('Success! Bill Added');
+            }
+            else if ('@TempData["message"]' == "updated") {
+                toastr.success('Success! Bill updated');
+            }
+
+            $.each(liststockout, function (index, item) {
+                debugger;
+                var billobj = new Object();
+                billobj.id = "tr_"+item.StockOutId;
+                billobj.Description = item.ProductName;
+                billobj.Quantity= item.Quantity;
+                billobj.Price =  item.Quantity * item.SoldUnitPrice;
+                billobj.BillType =  "BillItem";
+                billobj.Billnumber =  $("#hdnbillnumber").val();
+                billobj.BuyerName =   $("#buyername").val();
+                listbillitem.push(billobj);
+            });
+        });
+       
+
+            
+
+            $(function () {
+                $('#date_out').datetimepicker();
+            });
+
+
+            $(document).ready(function () {
+
+                $("#date_out").data("DateTimePicker").date(new Date());
+
+
+
+            });
+
+            function cal_pricing()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());
+                var quantity = parseFloat( $("#Quantity").val());
+                var total = parseFloat($("#totalprice").val());
+                if(Sold > 0 && quantity >0)
+                {
+                    total = Sold * quantity;
+                    $("#totalprice").val(total)
+                }
+                else{
+                    $("#totalprice").val(0)
+                }
+
+            }
+            function cal_pricingfromtotal()
+            {
+                var Sold = parseFloat($("#SoldUnitPrice").val());
+                var quantity = parseFloat( $("#Quantity").val());
+                var total = parseFloat($("#totalprice").val());
+                if(total > 0 && quantity >0)
+                {
+                    Sold =  total/quantity
+                    $("#SoldUnitPrice").val(Sold)
+                }
+                else{
+                    var fil_pro =   listProducts.filter(x=>x.ProductId ==  $("#hdnproductid").val())
+                    $("#SoldUnitPrice").val(fil_pro[0].UnitPrice);
+                }
+            }
+
+            function reloadtable()
+            {
+
+            }
+
+            var tempnum = 0;
+            function additembill()
+            {
+
+                debugger;
+                var billdesc = $("#Description").val();
+             var quantity=   $("#Quantity").val();
+             var price=  $("#Price").val();
+
+             var _html = '<tr id="new_' + tempnum + '"><td>' + billdesc + '</td><td>' + quantity + '</td><td>' + price + '</td> <td><span class="glyphicon glyphicon-remove" onclick="remove_new('+tempnum+');"></span></td></tr>';
+
+             $("#tbodybill").append(_html);
+             var billobj = new Object();
+             billobj.id = "new_" + tempnum;
+             billobj.Description = billdesc;
+             billobj.Quantity = quantity;
+             billobj.Price = price;
+             billobj.BillType =  "BillItem";
+             billobj.Billnumber =  $("#hdnbillnumber").val();
+             billobj.BuyerName =   $("#buyername").val();
+
+             listbillitem.push(billobj);
+             tempnum = parseInt(tempnum) + 1;
+
+
+
+
+
+
+
+            }
+
+        // Delete Changes
+            function remove(id)
+            {
+                debugger;
+                $("#tr_"+id).html('');
+                var _id = "tr_" + id;
+                var listitem = Getbillitem(_id);
+                listbillitem = listbillitem.filter(item => item !== listitem);
+
+
+            }
+            function remove_new(id)
+            {
+                debugger;
+                $("#new_" + id).html('');
+                var _id = "new_" + id;
+                var listitem = Getbillitem(_id);
+                listbillitem = listbillitem.filter(item => item !== listitem);
+
+            }
+
+            function Getbillitem(id) {
+                var dataItem = null;
+                $.each(listbillitem, function (index, item) {
+                    if (item.id == id) {
+                        dataItem = item;
+                        return false;
+                    }
+                });
+                return dataItem;
+            }
+
+            function creditdebit()
+            {
+
+                debugger;
+                var name = $("#crdtdebitname").val();
+                var credit_debit = ""
+                var amount = $("#Amount").val();
+              
+                var billobj = new Object();
+                billobj.id = "new_" + tempnum;
+                billobj.Description = name;
+                billobj.Quantity = parseInt($('input[name=creditDebit]:checked').val());
+                billobj.Price = amount;
+                billobj.BillType =  "Credit_Debit";
+                billobj.Billnumber =  $("#hdnbillnumber").val();
+                billobj.BuyerName =   $("#buyername").val();
+                if(billobj.Quantity == 1)
+                {
+                    credit_debit = "Debit";
+                }
+                else{
+                    credit_debit = "Credit";
+                }
+                var _html = '<tr id="new_' + tempnum + '"><td>' + name + '</td><td>' + credit_debit + '</td><td>' + amount + '</td> <td><span class="glyphicon glyphicon-remove" onclick="remove_new(' + tempnum + ');"></span></td></tr>';
+
+                $("#tbodybill").append(_html);
+                listbillitem.push(billobj);
+                tempnum = parseInt(tempnum) + 1;
+
+            }
+
+
+
+            function savePrintBill() {
+                $.ajax({
+                    url: "@Url.Action("SaveBill", "StockOut")",
+                    type: "POST",
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify({ BillItems: listbillitem }),
+                success: function (data) {
+                    debugger;
+                    if (data) {
+                        $(".prnthide").hide();
+                        var mywindow = window.open('', 'Bill', 'height=400,width=600');
+                        mywindow.document.write('<html><head><title>Bill</title>');
+                        mywindow.document.write('</head><body >');
+                        mywindow.document.write($('#billtbl').html());
+                        mywindow.document.write('</body></html>');
+                        mywindow.document.close(); // necessary for IE >= 10
+                        mywindow.focus(); // necessary for IE >= 10
+                        mywindow.print();
+                        mywindow.close();
+
+                        return true;
+                    }
+                }
+            });
+               
+            }
+            function PrintBill()
+            {
+                $(".prnthide").hide();
+                var mywindow = window.open('', 'Bill', 'height=400,width=600');
+                mywindow.document.write('<html><head><title>Bill</title>');
+                mywindow.document.write('</head><body >');
+                mywindow.document.write($('#billtbl').html());
+                mywindow.document.write('</body></html>');
+                mywindow.document.close(); // necessary for IE >= 10
+                mywindow.focus(); // necessary for IE >= 10
+                mywindow.print();
+                mywindow.close();
+
+                return true;
+            }
+
+
+    </script>
+}
+

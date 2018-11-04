@@ -63,7 +63,103 @@ namespace ChkProject.Controllers
             return View(_StockOutModel);
         }
 
+        public String GenerateUniqueId()
+        {
 
+            long billnumber = 1000000;
+            var curr_billnum = _unitOfWork.BillRepository.Get().LastOrDefault();
+            if (curr_billnum != null)
+            {
+                billnumber = Convert.ToInt64(curr_billnum.Billnumber) + 1;
+            }
+
+            return billnumber.ToString();
+        }
+
+
+        public ActionResult GenerateBill()
+        {
+            BillModel _BillModel = new BillModel();
+            StockOutModel _StockOutModel = new StockOutModel();
+            // var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+            var lcl_user = _unitOfWork.LocalUserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+
+            var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
+            var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
+            var StockOutList = _unitOfWork.StockOutRepository.Get(x => x.IsDeleted == false);
+
+            foreach (var item in productslist)
+            {
+                DDLProducts ddlproduct = new DDLProducts();
+                ddlproduct.ProductId = item.ProductId;
+                ddlproduct.ProductName = item.ProductName;
+                ddlproduct.UnitPrice = item.UnitPrice;
+                ddlproduct.CurrentQuantity = item.CurrentQuantity;
+
+                _StockOutModel.DDLProduct.Add(ddlproduct);
+            }
+            foreach (var item in companylocationlist)
+            {
+                DDLCompanyLocation ddlcompanylocation = new DDLCompanyLocation();
+                ddlcompanylocation.CompanyLocationId = item.LocationId;
+                ddlcompanylocation.LocationName = item.LocationName;
+                _StockOutModel.DDLCompanyLocation.Add(ddlcompanylocation);
+            }
+            foreach (var item in StockOutList)
+            {
+                StockOutModel tempStockOutProduct = new StockOutModel();
+                tempStockOutProduct.StockOutId = item.StockOutId;
+                tempStockOutProduct.ProductId = item.ProductId;
+                tempStockOutProduct.DateOut = item.DateOut;
+                tempStockOutProduct.StockOutLocation = item.StockOutLocation;
+                tempStockOutProduct.LocationTo = item.LocationTo;
+                tempStockOutProduct.SoldUnitPrice = item.SoldUnitPrice;
+                tempStockOutProduct.Quantity = item.Quantity;
+                tempStockOutProduct.Description = item.Description;
+                tempStockOutProduct.ProductName = productslist.Where(x => x.ProductId == item.ProductId).Select(y => y.ProductName).FirstOrDefault();
+                tempStockOutProduct.LocationName = companylocationlist.Where(x => x.LocationId == item.StockOutLocation).Select(y => y.LocationName).FirstOrDefault();
+
+                _StockOutModel.StockOutList.Add(tempStockOutProduct);
+            }
+            _StockOutModel.selectedLocationid = lcl_user.LocationId;
+
+            _BillModel.Billnumber= GenerateUniqueId();
+            _BillModel.StockoutDetail = _StockOutModel;
+            return View("GenerateBill", _BillModel);
+        }
+
+
+
+        [HttpPost]
+        public JsonResult SaveBill(List<BillModel> BillItems)
+        {
+            var bill_item = BillItems.Where(x => x.BillType == "BillItem").ToList();
+            var credit_debitlist = BillItems.Where(x => x.BillType == "Credit_Debit").ToList();
+
+            foreach (var item in bill_item)
+            {
+                Bill _Bill = new Bill();
+                _Bill.Description = item.Description;
+                _Bill.Quantity = item.Quantity;
+                _Bill.Price = item.Price;
+                _Bill.CreatedDate = DateTime.Now;
+                _Bill.BillDate = DateTime.Now;
+                _Bill.Billnumber = item.Billnumber;
+                _Bill.BuyerName = item.BuyerName;
+                var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
+                var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
+                if (user != null)
+                {
+                    _Bill.CreatedBy = user.Id;
+                }
+                _unitOfWork.BillRepository.Insert(_Bill);
+                _unitOfWork.Save();
+                TempData["message"] = "success";
+
+            }
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public JsonResult AddStockOutWithBarcode(List<string> Info)
         {

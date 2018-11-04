@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="1f21849c6f32457181f5c157271ff1b2" Name="Diagram1">
+      <Diagram DiagramId="946c0bc5818245d1b6d1593788c3f459" Name="Diagram1">
         <EntityTypeShape EntityType="CHK_InventoryModel.C__MigrationHistory" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="CHK_InventoryModel.AspNetRole" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
         <EntityTypeShape EntityType="CHK_InventoryModel.AspNetUserClaim" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
@@ -48,6 +48,7 @@
         <AssociationConnector Association="CHK_InventoryModel.FK_User_Role" ManuallyRouted="false" />
         <AssociationConnector Association="CHK_InventoryModel.FK_StockInItem_Vendor" ManuallyRouted="false" />
         <AssociationConnector Association="CHK_InventoryModel.AspNetUserRoles" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CHK_InventoryModel.Bill" Width="1.5" PointX="10.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

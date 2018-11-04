@@ -84,6 +84,9 @@
     <Compile Include="Data\AspNetUserLogin.cs">
       <DependentUpon>ChakwalModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\Bill.cs">
+      <DependentUpon>ChakwalModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Data\ChakwalModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -182,7 +185,9 @@
     <Compile Include="Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="Data\ChakwalModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ChakwalModel.Designer.cs</LastGenOutput>

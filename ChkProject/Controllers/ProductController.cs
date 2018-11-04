@@ -94,7 +94,7 @@ namespace ChkProject.Controllers
                 {
                     pro.ProductName = model.ProductName;
                     pro.UnitPrice = model.UnitPrice;
-                    pro.CurrentQuantity = model.CurrentQuantity;
+                    pro.CurrentQuantity = model.CurrentQuantity.Value;
                     pro.Description = model.Description;
                     pro.ModifiedDate = DateTime.Now;
                 }
@@ -119,7 +119,7 @@ namespace ChkProject.Controllers
                 Product p = new Product();
                 p.ProductName = model.ProductName;
                 p.UnitPrice = model.UnitPrice;
-                p.CurrentQuantity = model.CurrentQuantity;
+                p.CurrentQuantity = model.CurrentQuantity.Value;
                 p.Description = model.Description;
                 p.CreatedDate = DateTime.Now;
                 model.BarCodeId = model.ProductName;
