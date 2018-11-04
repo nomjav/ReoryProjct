@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Chakwal.Data.MemberShip;
+using System.Data.Entity;
 
 namespace ChkProject.Controllers
 {
@@ -79,6 +80,7 @@ namespace ChkProject.Controllers
 
         public ActionResult GenerateBill()
         {
+          
             BillModel _BillModel = new BillModel();
             StockOutModel _StockOutModel = new StockOutModel();
             // var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
@@ -86,7 +88,7 @@ namespace ChkProject.Controllers
 
             var productslist = _unitOfWork.ProductRepository.Get(x => x.IsDeleted == false);
             var companylocationlist = _unitOfWork.CompanyLocationRepository.Get(x => x.IsDeleted == false);
-            var StockOutList = _unitOfWork.StockOutRepository.Get(x => x.IsDeleted == false);
+            var StockOutList = _unitOfWork.StockOutRepository.Get(x => x.IsDeleted == false && DbFunctions.TruncateTime(x.DateOut) == DbFunctions.TruncateTime(DateTime.Now));
 
             foreach (var item in productslist)
             {

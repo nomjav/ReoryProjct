@@ -15,6 +15,7 @@
                 @Html.HiddenFor(x => Model.Billnumber, new { @id = "hdnbillnumber" })
                 <div class="panel-body">
                     <div class="row">
+                        
                         <div class="form-group required">
                             <label class="control-label col-sm-2">Date:</label>
                             <div class='col-md-6'>
@@ -217,7 +218,21 @@
             
 
             $(function () {
-                $('#date_out').datetimepicker();
+                $('#date_out').datetimepicker().on('dp.change', function (e) {
+                    debugger;
+                    var request = { date : e.date }
+                    $.ajax({
+                        url: "@Url.Action("GenerateBill1", "StockOut")",
+                        type: "POST",
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(request),
+                    success: function (data) {
+                        
+                    }
+                });
+               
+                });
             });
 
 
@@ -228,6 +243,10 @@
 
 
             });
+            
+            $('#date_out').on('dp.change', function(e){ 
+                console.log(e.date); 
+            })
 
             function cal_pricing()
             {
