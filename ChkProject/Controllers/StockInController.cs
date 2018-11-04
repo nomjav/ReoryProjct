@@ -67,8 +67,6 @@ namespace ChkProject.Controllers
         }
 
 
-
-
         [HttpPost]
         public ActionResult AddStockIn(StockInProductModel model)
         {
@@ -82,6 +80,7 @@ namespace ChkProject.Controllers
                 _StockInProduct.Description = model.Description;
                 _StockInProduct.DateIn = model.DateIn;
                 _StockInProduct.CreatedDate = DateTime.Now;
+                _StockInProduct.StockInLocation = _unitOfWork.CompanyLocationRepository.Get().FirstOrDefault().LocationId;
                 var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                 if (user != null)
                 {
@@ -184,7 +183,7 @@ namespace ChkProject.Controllers
                         _StockInProduct.TeamId = teamID;
                         var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
                         var localUSer = _unitOfWork.LocalUserRepository.GetSingle(lc => lc.UserName == User.Identity.Name);
-                        _StockInProduct.StockInLocation = 1;
+                        _StockInProduct.StockInLocation = _unitOfWork.CompanyLocationRepository.Get().FirstOrDefault().LocationId; ;
                         if (user != null)
                         {
                             _StockInProduct.CreatedBy = user.Id;
@@ -233,6 +232,7 @@ namespace ChkProject.Controllers
                     stockin.Quantity = model.Quantity;
                     stockin.TeamId = model.TeamId;
                     stockin.Description = model.Description;
+                    stockin.StockInLocation = _unitOfWork.CompanyLocationRepository.Get().FirstOrDefault().LocationId;
                     stockin.ModifiedDate = DateTime.Now;
                 }
                 _unitOfWork.StockInProductRepository.Update(stockin);

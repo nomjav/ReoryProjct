@@ -151,6 +151,10 @@ namespace ChkProject.Controllers
                     _unitOfWork.Save();
                     TempData["message"] = "success";
                 }
+                else
+                {
+                    TempData["message"] = "error";
+                }
 
 
 

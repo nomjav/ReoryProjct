@@ -104,7 +104,7 @@ namespace ChkProject.Controllers
             {
                 var sDate = model.FromDate;
                 var eDate = model.ToDate;
-                var products = _unitOfWork.SP_StockOutRepository.context.SP_StockOut(sDate.Value, eDate.Value).ToList();
+                var products = _unitOfWork.SP_StockOutRepository.context.SP_StockOut(sDate, eDate).ToList();
 
                 List<StockOutModel> ListModel = new List<StockOutModel>();
                 foreach (var product in products)
@@ -112,16 +112,13 @@ namespace ChkProject.Controllers
                     StockOutModel models = new StockOutModel();
 
                     models.ProductName = product.ProductName;
-                    models.Quantity = product.Quantity;
+                    models.Quantity = product.Quantity.Value;
                     models.CompanyName = product.BranchName;
-                    models.Price = product.TotalPrice;
-
-
-
+                    models.Price = product.TotalPrice.Value;
                     ListModel.Add(models);
                 }
                 model.ReportGenerated = true;
-                model.StockOutModelList = ListModel;
+                model.StockOutList = ListModel;
 
                 return View(model);
             }

@@ -65,9 +65,9 @@
                                             <tr>
                                                 @*<td><a href="#">763648</a></td>*@
                                                 <td>@item.ItemName</td>
-                                                <td>@item.UnitPrice</td>
+                                                <td>@item.MeasureUnit</td>
                                                 <td>@item.CreatedDate.ToShortDateString()</td>
-                                                <td><span class="label label-success">@item.QuantityPresent</span></td>
+                                                <td><span class="label label-success">@item.QuantityBuy</span></td>
                                             </tr>
                                         }
                                     }
@@ -79,7 +79,7 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 7 Days</span></div>
-                                <div class="col-md-6 text-right"><a href="/Material/Index" class="btn btn-primary">View All Purchases</a></div>
+                                <div class="col-md-6 text-right"><a href="/Material/BuyMaterialIndex" class="btn btn-primary">View All Purchases</a></div>
                             </div>
                             
                         </div>
@@ -105,7 +105,7 @@
             </div>
            
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <!-- TASKS -->
                     <div class="panel">
                         <div class="panel-heading">
@@ -117,7 +117,30 @@
                         </div>
                         <div class="panel-body">
                             <ul class="list-unstyled task-list">
-                                <li>
+                                @if (Model.itemNames != null)
+                                {
+                                for (int i = 0; i < Model.itemNames.Count; i++)
+                                {
+                                    <li>
+                                        <p> @Model.itemNames[i] <span class="label-percent">@Model.itemUsed[i]% Used</span></p>
+                                        <div class="progress progress-xs">
+                                            @if (Model.itemUsed[i] > 80)
+                                            {
+                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="@Model.itemUsed[i]" aria-valuemin="0" aria-valuemax="100" style="width:@Model.itemUsed[i]%">
+                                                <span class="sr-only">23% Complete</span>
+                                            </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="@Model.itemUsed[i]" aria-valuemin="0" aria-valuemax="100" style="width:@Model.itemUsed[i]%">
+                                                    <span class="sr-only">23% Complete</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </li>
+                                }
+                                }
+                                @*<li>
                                     <p>Updating Users Settings <span class="label-percent">23%</span></p>
                                     <div class="progress progress-xs">
                                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="23" aria-valuemin="0" aria-valuemax="100" style="width:23%">
@@ -156,13 +179,13 @@
                                             <span class="sr-only">10% Complete</span>
                                         </div>
                                     </div>
-                                </li>
+                                </li>*@
                             </ul>
                         </div>
                     </div>
                     <!-- END TASKS -->
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <!-- VISIT CHART -->
                     <div class="panel">
                         <div class="panel-heading">
@@ -178,7 +201,7 @@
                     </div>
                     <!-- END VISIT CHART -->
                 </div>
-                <div class="col-md-4">
+                @*<div class="col-md-4">
                     <!-- REALTIME CHART -->
                     <div class="panel">
                         <div class="panel-heading">
@@ -203,7 +226,7 @@
                         </div>
                     </div>
                     <!-- END REALTIME CHART -->
-                </div>
+                </div>*@
             </div>
         </div>
     </div>
@@ -218,7 +241,7 @@
             var data, options;
             var array = @Html.Raw(Json.Encode(ViewBag.chart1));
             var arrayLabel = @Html.Raw(Json.Encode(ViewBag.chart1Label));
-            
+
             // headline charts
             data = {
                 labels: arrayLabel, //['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -241,17 +264,20 @@
             };
 
             new Chartist.Line('#headline-chart', data, options);
-
-
+            var stockin = @Html.Raw(Json.Encode(ViewBag.StockIn));
+            var stockout = @Html.Raw(Json.Encode(ViewBag.StockOut));
+            var months = @Html.Raw(Json.Encode(ViewBag.Months));
+            var weeklyData = @Html.Raw(Json.Encode(ViewBag.weeklyData));
+            var weeklyDates = @Html.Raw(Json.Encode(ViewBag.weeklyDates));
             // visits trend charts
             data = {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: months,//['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 series: [{
                     name: 'series-real',
-                    data: [200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+                    data: stockin,//[200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
                 }, {
                     name: 'series-projection',
-                    data: [240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
+                    data: stockout,//[240, 350, 360, 380, 400, 450, 480, 523, 555, 600, 700, 800],
                 }]
             };
 
@@ -288,9 +314,9 @@
 
             // visits chart
             data = {
-                labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                labels: weeklyDates,//['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
                 series: [
-                    [6384, 6342, 5437, 2764, 3958, 5068, 7654]
+                    weeklyData//[6384, 6342, 5437, 2764, 3958, 5068, 7654]
                 ]
             };
 

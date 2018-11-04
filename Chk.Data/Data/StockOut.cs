@@ -20,7 +20,7 @@ namespace Chakwal.Data.Data
         public int StockOutLocation { get; set; }
         public Nullable<int> LocationTo { get; set; }
         public decimal Quantity { get; set; }
-        public Nullable<decimal> SoldUnitPrice { get; set; }
+        public decimal SoldUnitPrice { get; set; }
         public string Description { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }

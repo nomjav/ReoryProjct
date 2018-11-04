@@ -11,7 +11,9 @@ namespace ChkProject.Models
         public int totalSales { get; set; }
         public decimal? monthlyIncome { get; set; }
         public decimal? totalIncome { get; set; }
-        public List<Item> Materials { get; set; }
+        public List<ItemBuyModel> Materials { get; set; }
+        public List<string> itemNames { get; set; }
+        public List<decimal> itemUsed { get; set; }
     }
 
 

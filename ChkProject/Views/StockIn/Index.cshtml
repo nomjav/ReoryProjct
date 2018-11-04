@@ -174,7 +174,9 @@
 <script src="~/Scripts/jquery.scannerdetection.js"></script>
     <script type="text/javascript">
         var count = 0;
-
+        $(function () {
+            $('#date_in').datetimepicker();
+        });
         $(document).ready(function () {
             var films = [];
             $('#btn_Start').click(function () {

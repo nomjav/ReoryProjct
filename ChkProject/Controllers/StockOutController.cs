@@ -123,13 +123,14 @@ namespace ChkProject.Controllers
         {
 
             StockOut _StockOut = new StockOut();
-            _StockOut.StockOutLocation = model.StockOutLocation;
+            //_StockOut.StockOutLocation = model.StockOutLocation;
             _StockOut.Quantity = model.Quantity;
-            _StockOut.SoldUnitPrice = model.SoldUnitPrice;
+            _StockOut.SoldUnitPrice = model.SoldUnitPrice.HasValue? model.SoldUnitPrice.Value : 0;
             _StockOut.ProductId = model.ProductId;
             _StockOut.Description = model.Description;
             _StockOut.DateOut = model.DateOut;
             _StockOut.CreatedDate = DateTime.Now;
+            _StockOut.StockOutLocation = _unitOfWork.CompanyLocationRepository.Get().FirstOrDefault().LocationId;
             var user = _unitOfWork.UserRepository.GetSingle(t => t.UserName == User.Identity.Name);
             if (user != null)
             {
@@ -222,7 +223,7 @@ namespace ChkProject.Controllers
                     stockout.ProductId = model.ProductId;
                     stockout.DateOut = model.DateOut;
                     stockout.Quantity = model.Quantity;
-                    stockout.SoldUnitPrice = model.SoldUnitPrice;
+                    stockout.SoldUnitPrice = model.SoldUnitPrice.HasValue ? model.SoldUnitPrice.Value : 0;
                     stockout.Description = model.Description;
                     stockout.ModifiedDate = DateTime.Now;
                 }
@@ -239,14 +240,6 @@ namespace ChkProject.Controllers
             }
 
         }
-
-
-
-
-
-
-
-
 
     }
 }

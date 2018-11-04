@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="CHK_InventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="CHK_InventoryModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -307,7 +307,7 @@
           <Property Name="StockOutLocation" Type="int" Nullable="false" />
           <Property Name="LocationTo" Type="int" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="SoldUnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="SoldUnitPrice" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="IsDeleted" Type="bit" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
@@ -770,103 +770,10 @@
             <End Role="User" EntitySet="User" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="CHK_InventoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="CHK_InventoryEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__MigrationHistory" EntityType="CHK_InventoryModel.C__MigrationHistory" />
-          <EntitySet Name="AspNetRoles" EntityType="CHK_InventoryModel.AspNetRole" />
-          <EntitySet Name="AspNetUserClaims" EntityType="CHK_InventoryModel.AspNetUserClaim" />
-          <EntitySet Name="AspNetUserLogins" EntityType="CHK_InventoryModel.AspNetUserLogin" />
-          <EntitySet Name="AspNetUsers" EntityType="CHK_InventoryModel.AspNetUser" />
-          <EntitySet Name="Companies" EntityType="CHK_InventoryModel.Company" />
-          <EntitySet Name="CompanyLocations" EntityType="CHK_InventoryModel.CompanyLocation" />
-          <EntitySet Name="ErrorLogs" EntityType="CHK_InventoryModel.ErrorLog" />
-          <EntitySet Name="Items" EntityType="CHK_InventoryModel.Item" />
-          <EntitySet Name="LoginHistories" EntityType="CHK_InventoryModel.LoginHistory" />
-          <EntitySet Name="Products" EntityType="CHK_InventoryModel.Product" />
-          <EntitySet Name="Roles" EntityType="CHK_InventoryModel.Role" />
-          <EntitySet Name="StockInItems" EntityType="CHK_InventoryModel.StockInItem" />
-          <EntitySet Name="StockInProducts" EntityType="CHK_InventoryModel.StockInProduct" />
-          <EntitySet Name="StockOuts" EntityType="CHK_InventoryModel.StockOut" />
-          <EntitySet Name="Users" EntityType="CHK_InventoryModel.User" />
-          <EntitySet Name="Vendors" EntityType="CHK_InventoryModel.Vendor" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="CHK_InventoryModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="CHK_InventoryModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_CompanyLocation_Company" Association="CHK_InventoryModel.FK_CompanyLocation_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Company" Association="CHK_InventoryModel.FK_User_Company">
-            <End Role="Company" EntitySet="Companies" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockIn_Location" Association="CHK_InventoryModel.FK_StockIn_Location">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="StockInProduct" EntitySet="StockInProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockIn_LocationFrom" Association="CHK_InventoryModel.FK_StockIn_LocationFrom">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="StockInProduct" EntitySet="StockInProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockInItem_Location" Association="CHK_InventoryModel.FK_StockInItem_Location">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="StockInItem" EntitySet="StockInItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockOut_Location" Association="CHK_InventoryModel.FK_StockOut_Location">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="StockOut" EntitySet="StockOuts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockOut_LocationTo" Association="CHK_InventoryModel.FK_StockOut_LocationTo">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="StockOut" EntitySet="StockOuts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_LocationId" Association="CHK_InventoryModel.FK_User_LocationId">
-            <End Role="CompanyLocation" EntitySet="CompanyLocations" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockInItem_Item" Association="CHK_InventoryModel.FK_StockInItem_Item">
-            <End Role="Item" EntitySet="Items" />
-            <End Role="StockInItem" EntitySet="StockInItems" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockIn_Product" Association="CHK_InventoryModel.FK_StockIn_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StockInProduct" EntitySet="StockInProducts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockOut_Product" Association="CHK_InventoryModel.FK_StockOut_Product">
-            <End Role="Product" EntitySet="Products" />
-            <End Role="StockOut" EntitySet="StockOuts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_User_Role" Association="CHK_InventoryModel.FK_User_Role">
-            <End Role="Role" EntitySet="Roles" />
-            <End Role="User" EntitySet="Users" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockInItem_Vendor" Association="CHK_InventoryModel.FK_StockInItem_Vendor">
-            <End Role="Vendor" EntitySet="Vendors" />
-            <End Role="StockInItem" EntitySet="StockInItems" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="CHK_InventoryModel.AspNetUserRoles">
-            <End Role="AspNetRole" EntitySet="AspNetRoles" />
-            <End Role="AspNetUser" EntitySet="AspNetUsers" />
-          </AssociationSet>
-          <FunctionImport Name="SP_StockOut" ReturnType="Collection(CHK_InventoryModel.SP_StockOut_Result)">
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-          </FunctionImport>
-          <FunctionImport Name="SP_StockIn" ReturnType="Collection(CHK_InventoryModel.SP_StockIn_Result)">
-            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
-            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
-            <Parameter Name="Product" Mode="In" Type="Int32" />
-          </FunctionImport>
-        </EntityContainer>
         <EntityType Name="C__MigrationHistory">
           <Key>
             <PropertyRef Name="MigrationId" />
@@ -1194,7 +1101,7 @@
           <Property Name="StockOutLocation" Type="Int32" Nullable="false" />
           <Property Name="LocationTo" Type="Int32" />
           <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
@@ -1226,10 +1133,8 @@
           <Property Name="ModifiedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DeletedBy" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DeletedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="CompanyLocation" Relationship="CHK_InventoryModel.FK_StockOut_Location" FromRole="StockOut" ToRole="CompanyLocation" />
-          <NavigationProperty Name="CompanyLocation1" Relationship="CHK_InventoryModel.FK_StockOut_LocationTo" FromRole="StockOut" ToRole="CompanyLocation" />
-          <NavigationProperty Name="Product" Relationship="CHK_InventoryModel.FK_StockOut_Product" FromRole="StockOut" ToRole="Product" />
-          <Property Name="SoldUnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <NavigationProperty Name="CompanyLocation" Relationship="Self.FK_Team_CompanyLocation" FromRole="Team" ToRole="CompanyLocation" />
+          <NavigationProperty Name="Productions" Relationship="Self.FK_Production_Team" FromRole="Team" ToRole="Production" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -1522,18 +1427,6 @@
           <End Role="AspNetRoles" Type="Self.AspNetRole" Multiplicity="*" />
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="*" />
         </Association>
-        <ComplexType Name="SP_StockOut_Result">
-          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
-          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="38" Scale="4" />
-          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="100" />
-          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="500" />
-        </ComplexType>
-        <ComplexType Name="SP_StockIn_Result">
-          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
-          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
-          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
-        </ComplexType>
-        </Schema>
         <EntityContainer Name="CHK_InventoryEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRole" />
@@ -1641,7 +1534,27 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <FunctionImport Name="SP_StockIn" ReturnType="Collection(CHK_InventoryModel.SP_StockIn_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+            <Parameter Name="Product" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SP_StockOut" ReturnType="Collection(CHK_InventoryModel.SP_StockOut_Result)">
+            <Parameter Name="FromDate" Mode="In" Type="DateTime" />
+            <Parameter Name="ToDate" Mode="In" Type="DateTime" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="SP_StockIn_Result">
+          <Property Type="String" Name="ProductName" Nullable="true" MaxLength="500" />
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="String" Name="CompanyName" Nullable="true" MaxLength="100" />
+        </ComplexType>
+        <ComplexType Name="SP_StockOut_Result">
+          <Property Type="Decimal" Name="Quantity" Nullable="true" Precision="38" Scale="2" />
+          <Property Type="Decimal" Name="TotalPrice" Nullable="true" Precision="38" Scale="4" />
+          <Property Type="String" Name="BranchName" Nullable="false" MaxLength="100" />
+          <Property Type="String" Name="ProductName" Nullable="false" MaxLength="500" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2038,6 +1951,15 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="SP_StockIn" FunctionName="CHK_InventoryModel.Store.SP_StockIn">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="CHK_InventoryModel.SP_StockIn_Result">
+                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="SP_StockOut" FunctionName="CHK_InventoryModel.Store.SP_StockOut">
             <ResultMapping>
               <ComplexTypeMapping TypeName="CHK_InventoryModel.SP_StockOut_Result">
@@ -2045,15 +1967,6 @@
                 <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
                 <ScalarProperty Name="BranchName" ColumnName="BranchName" />
                 <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="SP_StockIn" FunctionName="CHK_InventoryModel.Store.SP_StockIn">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="CHK_InventoryModel.SP_StockIn_Result">
-                <ScalarProperty Name="ProductName" ColumnName="ProductName" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

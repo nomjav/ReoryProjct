@@ -134,6 +134,9 @@
             else if ('@TempData["message"]' == "updated") {
                 toastr.success('Success! Material updated');
             }
+            else if ('@TempData["message"]' == "error") {
+                toastr.warning('Error! This material is finished. Kindly buy more.');
+            }
             // var update = true;
            // $('#useDate').data("DateTimePicker").date();
             $("#useDate").data("DateTimePicker").date(new Date());
@@ -155,7 +158,7 @@
             $("#ddlitem").val($("#ItemId_" + id).text());
             $('#useDate').data("DateTimePicker").date(new Date($("#usedate_" + id).text()));
             $("#QuantityUsed").val($("#quantity_" + id).text());
-           
+
            $("#btn_Add").hide();
            $("#btn_Update").show();
            $("#hdnitemusedid").val(id);

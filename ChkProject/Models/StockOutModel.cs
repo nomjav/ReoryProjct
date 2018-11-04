@@ -14,6 +14,8 @@ namespace ChkProject.Models
             DDLProduct = new List<DDLProducts>();
             DDLCompanyLocation = new List<DDLCompanyLocation>();
         }
+        public DateTime FromDate { get; set; }
+        public DateTime ToDate { get; set; }
         public long StockOutId { get; set; }
         public int ProductId { get; set; }
         public System.DateTime DateOut { get; set; }
@@ -36,6 +38,9 @@ namespace ChkProject.Models
         public Nullable<int> selectedLocationid { get; set; }
         public string ProductName { get; set; }
         public string LocationName { get; set; }
+        public string CompanyName { get; set; }
+        public decimal Price { get; set; }
+        public bool ReportGenerated { get; set; }
     }
 
 
